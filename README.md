@@ -1,2 +1,8 @@
 # TIL
-공부기록
+:books: Today I learned 
+
+>
+>
+> 
+>
+> 내가 이해한 만큼만 작성
