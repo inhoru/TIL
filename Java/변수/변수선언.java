@@ -1,5 +1,5 @@
 
-public class Variable변수선언 {
+public class 변수선언 {
 
 	public static void main(String[] args) {
 		
