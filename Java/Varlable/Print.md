@@ -4,7 +4,7 @@
 2.
 3.
 
-< br/>
+<br/>
 
 # 1. 출력 메소드
 
@@ -69,9 +69,34 @@ public class PrintTest {
 	- %.2f : 소수점 아래 2자리까지만 표시
 
 ```java
+public class PrintTest {
+
+	public static void main(String[] args) {
+		System.out.printf("나의 이름은 %s이고, 나이는 %d이다", name, age);
+		// 문자패턴
+		// %s : 문자열
+		// %d : 숫자
+		// %f : 실수
+		// %c : 문자
+		System.out.println();
+		System.out.printf("이름 %5s 나이 %-3d 키%.1f 성별%2c", "김아무", 19, 180.5, '남');
+		// %.1f소수점 한자리까지만 출력해라 라는뜻 .2->두자리까지표시해라
+		// -는 왼쪽정렬
+  }
+}
+//출력결과
+//나의 이름은 김아무이고, 나이는 19이다
+//이름   김아무 나이 19  키180.5 성별 남
+```
+<br/>
+
+# 2. escape 문자
+- 문자열을 표시할때 escape문을 이용하면 문자열안에서만 개행처리, tap(일정간격 띄어쓰기), 역슬래쉬, "", ', 표시가능
+
+![escape문](https://mblogthumb-phinf.pstatic.net/MjAxNzA0MDRfMzkg/MDAxNDkxMjczNzg3MzY1.tRnt4bBYsqA0A0m5MSAzcmRTH5h0sWbVEPD327XNYzEg.6U0oj7-gpH8td7p2PfEWtVDXFCi9vTy5-ylPWtRO-Rsg.PNG.dd1587/%EC%B4%9D%EC%A0%95%EB%A6%AC%ED%91%9C.png?type=w800)
 
 
-	
+
 
 
 
