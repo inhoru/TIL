@@ -63,7 +63,7 @@ double pi = 3.3145334235342432;
 
 			
 	<code><strong>**논리형**</strong></code>
-	- true, false데이터를 저장하는 저장공간이다
+	- true, false데이터를 저장하는 저장공간이다.
 	- 명칭 : boolean
 
 	<code><strong>**정수형**</strong></code>
