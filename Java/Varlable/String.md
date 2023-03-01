@@ -90,6 +90,10 @@ public class StringTest {
 # length()
 - String변수에 저장된 <code><strong>문자열의 길이</code></strong>를 알려주는 기능(메소드)
 
+> "문자열".length();
+> 
+> "문자열 변수명.length();
+
 	
 	
 	
