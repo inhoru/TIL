@@ -82,8 +82,8 @@ public class StringTest {
 
 # 2. String  유용한 기능
 
-- ** length()**
-- ** charAT()**
+- **length()**
+- **charAT()**
 
   
   
