@@ -65,17 +65,16 @@ Scanner sc = new Scanner(System.in);
 		System.out.print("키 : ");
 		double height = sc.nextDouble();//실수형 입력
 		System.out.println("입력키 : " + height);
-    
-    ```
-    
-    4. char 타입
-    
-    ```java
+```
+
+4. char 타입
+ 
+```java
     //성적등급, 성별
 		System.out.print("성별(M/F) : ");
 		char gender = sc.next().charAt(0);
 		System.out.println("입력한 성별 : " + gender);
-    ````
+````
     
 
 
