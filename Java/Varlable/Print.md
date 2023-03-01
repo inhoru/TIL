@@ -31,7 +31,7 @@ public class PrintTest {
 ```
 
 **System.out.println()**
-- print문과 동일하게 출력은 해주지만 출력 후 자동으로 출력창에 <code><strong>줄바꿈을</code></strong>해주는 메소드
+- print문과 동일하게 출력은 해주지만 출력 후 자동으로 출력창에 <code><strong>줄바꿈</code></strong>해주는 메소드
 
   - ex) System.out.println("안녕하세요");
   - ex) System.out.println(123);
@@ -52,6 +52,14 @@ public class PrintTest {
 //점심은 맛잇게 먹엇나요
 //점심 먹고 졸며안돼요!!
 ```
+**System.out.printf()
+- 정해져 있는 형식에 맞춰서 그형식에 맞는 값(변수)을 줄바꿈하지 않고 출력
+- 지시자를 통해 변수의 값을 여러 가지 형식으로 변환 가능
+
+	- %d : 정수형
+
+
+
 
   
 
