@@ -104,7 +104,7 @@ public class PrintTest {
 		System.out.println(msg);
 		msg = "나는 자바 선생님입니다. \n 나는 코딩을 \t좋아한다.";
 		System.out.println(msg);
-		String path ="c:\\Users\\gdj"; //  문자열에 역슬래쉬를 표현하고싶으면 역슬래쉬를 두번사용한다.
+		String path ="c:\\Users\\gdj"; //  문자열에 역슬래쉬를 표현하고싶으면 역슬래쉬를 두번사용한다
 		System.out.println(path);
 	}
 }
