@@ -1,7 +1,7 @@
 # 🔖 목차
 
 1.[문자열 자료형 이용하기]{1#-문자열-자료형-이용하기) </br>
-2.
+2.[String  유용한 기능]{2#-String-유용한-기능} </br>
 3.
 
 <br/>
@@ -93,9 +93,48 @@ public class StringTest {
 	- "문자열".length();
 	- 문자열 변수명.length();
 
+```java
+ public class StringTest {
+	public static void main(String[] args) {
+		
+		String address = "장충동 53-1";
+		System.out.println("김아무".length());
+		System.out.println(address.length());   //띄어쓰기도 하나의문자다 모두포함한다.
+		int count = address.length();
+		System.out.println(count);
+	}
+}
+//출력결과
+//3
+//8
+//8
+```
+</br>
 
-	
-	
+# charAT()
+- 문자열 변수에 저장된 문자열 특정문자 만 가져오는기능
+
+```java
+ public class StringTest {
+	public static void main(String[] args) {
+		String myName = 김아무
+		System.out.println("이다영".charAt(0));  //"이다영".charAt(0)->"이"를출력한다.
+		System.out.println(myName.charAt(1));  //"myName".charAt(1)->"아"를출력한다.
+		
+		char ch = "이다영".charAt(2);  //영 을 출력
+		System.out.println(ch);
+		
+		//주의 없는 번호를 대입하면 에러가 발생함.
+		//ch="윤지환".charAt(3);
+		//System.out.println(ch);  //3은없기에 에러발생
+	}
+}
+//출력결과
+//이
+//아
+//영
+```
+
 	
 	
 	
