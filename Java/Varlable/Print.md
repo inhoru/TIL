@@ -91,7 +91,8 @@ public class PrintTest {
 <br/>
 
 # 2. escape 문자
-- 문자열을 표시할때 escape문을 이용하면 문자열안에서만 개행처리, tap(일정간격 띄어쓰기), 역슬래쉬, "", ', 표시가능
+- 문자열을 표시할때 escape문을 이용하면 문자열안에서만 
+- 개행처리, tap(일정간격 띄어쓰기), 역슬래쉬, "", ', 표시가능
 
 ![escape문](https://user-images.githubusercontent.com/126074577/222139608-b1b6e604-fcc5-45a1-8fea-20dc6232a6cb.jpg)
 
