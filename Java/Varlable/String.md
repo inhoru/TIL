@@ -85,5 +85,15 @@ public class StringTest {
 - **length()**
 - **charAT()**
 
+</br>
+
+# length()
+	- String변수에 저장된 <code><strong>문자열의 길이</code></strong>를 알려주는 기능(메소드)
+	
+	
+	- "문자열".length()
+	
+	
+
   
   
