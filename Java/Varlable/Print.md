@@ -93,7 +93,8 @@ public class PrintTest {
 # 2. escape 문자
 - 문자열을 표시할때 escape문을 이용하면 문자열안에서만 개행처리, tap(일정간격 띄어쓰기), 역슬래쉬, "", ', 표시가능
 
-![escape문](https://mblogthumb-phinf.pstatic.net/MjAxNzA0MDRfMzkg/MDAxNDkxMjczNzg3MzY1.tRnt4bBYsqA0A0m5MSAzcmRTH5h0sWbVEPD327XNYzEg.6U0oj7-gpH8td7p2PfEWtVDXFCi9vTy5-ylPWtRO-Rsg.PNG.dd1587/%EC%B4%9D%EC%A0%95%EB%A6%AC%ED%91%9C.png?type=w800)
+![escape문](![총정리표](https://user-images.githubusercontent.com/126074577/222139608-b1b6e604-fcc5-45a1-8fea-20dc6232a6cb.jpg)
+
 
 
 
