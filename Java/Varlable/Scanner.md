@@ -21,7 +21,7 @@
 
 **Scanner 사용해보기**
 
-1. import 작성
+1. <code><strong>import</code></strong> 작성
 
 ```java
 package com.bs.varlable;
@@ -30,7 +30,7 @@ import java.util.Scanner;     // java.utll.Scanner 작성해줘야한다.
 
 public class ScannerTest 
 ```
-2. Scanner 생성
+2. <code><strong>Scanner</code><Strong> 생성
 
 ```java
 package com.bs.varlable;
@@ -41,7 +41,7 @@ public class ScannerTest
 
 Scanner sc = new Scanner(System.in);
 ```
-3. Scanner 가 제공하는 기능을 이용해서 데이터 받기
+3. <code><strong>Scanner</code></strong> 가 제공하는 기능을 이용해서 데이터 받기
 
   - 자료형에 따라 기능제공
   - 정수형 : nextInt()
@@ -67,7 +67,8 @@ Scanner sc = new Scanner(System.in);
 		System.out.println("입력키 : " + height);
 ```
 
-4. char 타입
+	
+4. <code><strong>char</code></strong> 타입
  
 ```java
     //성적등급, 성별
