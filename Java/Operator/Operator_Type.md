@@ -83,7 +83,7 @@ System.out.println(total);
   ## 산술연산자를 활용해보자.
 
 ```java
-    int su=2;
+int su=2;
 int su2=10;
 //더하기, 빼기
 System.out.println("+연산 :" +(su+su2));
