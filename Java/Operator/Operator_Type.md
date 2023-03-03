@@ -127,6 +127,74 @@ Scanner sc = new Scanner(System.in);
 
 # 3. 비교연산자
 
+- 비교 연산자는 두 피연산자를 비교하는 데 사용되는 연산자다.
+- 주로 조건문과 반복문의 조건식의 사용된다.
+- 연산결과는 오직 <code><strong>true</code></strong>와<code><strong>false</code></strong> 둘 중의 하나이다.
+
+<br/>
+
+**동등비교**
+```java
+int num=13;
+int num2=19;
+int num3=13;
+System.out.println(num==num2);
+System.out.println(num==num3);
+//불일치 여부 확인 연산자
+//!=연산자 활용
+System.out.println(num!=num2);//num2 는num하고 다르지? 물어보는것
+System.out.println(num!=num3);//num3 는num하고 다르지? 물어보는것
+
+//출력결과
+//false
+//true
+//true
+//false
+```
+<br/>
+
+**실수형 비교**
+```java
+double dnum = 180.5;
+double dnum1 = 190.5;
+double dnum2 = 180.5;
+int num=13;
+
+System.out.println(dnum==dnum1);
+System.out.println(dnum==dnum2);
+System.out.println(dnum!=dnum1);
+dnum=13;//int값은 double값에자동형변환으로들어갈수있다.
+System.out.println(dnum==num);//int 와 double여도 값만 같으면 동등비교가능
+//출력결과
+//false
+//true
+//true
+//true
+```
+<br/>
+
+**문자 동등비교**
+char ch ='A';
+char ch1 ='a';
+char ch2 = 'A';
+System.out.println("A==a :" +(ch==ch1));
+System.out.println("A==a :" +(ch==ch2));
+System.out.println("A!=a :" +(ch!=ch1));
+int chInt =65;
+//System.out.println((int)ch);//이렇게 강제변환해도 되지만 자동형변환이되기때문에 굳이 할필요가없다.
+System.out.println(ch==chInt);//자동형변환으로 char타입은 인트로변경 유니코드동일
+//출력결과
+//A==a :false
+//A==a :true
+//A!=a :true
+//true
+```
+
+<br/>
+
+
+
+
 
 
 
