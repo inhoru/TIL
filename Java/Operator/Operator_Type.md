@@ -195,6 +195,8 @@ System.out.println(ch==chInt);//자동형변환으로 char타입은 인트로변
 **문자열 동등비교**
 - String(클래스) 동등비교할때 == 연산을 사용할 수 없다.!
 - String이 제공하는 equals()기능을 이용해서 동등비교를 한다.
+
+
 ```java
 String name="김아무";
 String name2= "김아무2";
@@ -210,6 +212,7 @@ System.out.println("nam2==name4 :" + (name2==name4));//0x01과0x02이 저장된 
 //nam2==name4 :false
 ```
 **스캐너를 이용한 문자열 동등비교**
+
 ```java	
 //문자열의 동등비교는 equals를써야한다. 
 Scanner sc=new Scanner(System.in);
