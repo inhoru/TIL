@@ -42,5 +42,25 @@ int b =1 + 2; //변수 a에 1+2를 하여 3이 대입된다.
 
  ![복합대입 연산자](https://user-images.githubusercontent.com/126074577/222756816-2bf390a7-dbd3-4b5a-8bc5-cb9219281dfc.png)
  
+ <br/>
+ 
+ 
+## 용돈기입장을 만들어보자.
+
+```java
+int total = 3000000;
+total-=1000;
+System.out.println(total);
+total+=10000;
+System.out.println(total);
+//출력결과
+//299000
+//309000
+```
+<br/>
+
+**복합 대입 연산자는 우리가 값을 연산해서 누적시켜야할 때 사용하는 연산자다.**
+
+ 
  
 
