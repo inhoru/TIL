@@ -174,6 +174,7 @@ System.out.println(dnum==num);//int 와 double여도 값만 같으면 동등비�
 <br/>
 
 **문자 동등비교**
+```java
 char ch ='A';
 char ch1 ='a';
 char ch2 = 'A';
