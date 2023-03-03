@@ -84,18 +84,18 @@ System.out.println(total);
 
 ```java
     int su=2;
-		int su2=10;
-		//더하기, 빼기
-		System.out.println("+연산 :" +(su+su2));
-		System.out.println("-연산 :" +(su-su2));
-		//곱하기, 나누기
-		System.out.println("*연산 :" +su*su2);
-		System.out.println("/연산 :" +su/(double)su2);
-    //출력결과
-    // +연산 :12
-    // -연산 :-8
-    // *연산 :20
-    // /연산 : 0.2
+int su2=10;
+//더하기, 빼기
+System.out.println("+연산 :" +(su+su2));
+System.out.println("-연산 :" +(su-su2));
+//곱하기, 나누기
+System.out.println("*연산 :" +su*su2);
+System.out.println("/연산 :" +su/(double)su2);
+//출력결과
+// +연산 :12
+// -연산 :-8
+// *연산 :20
+// /연산 : 0.2
 ```
 
 **스캐너를 이용한 계산기 만들기**
