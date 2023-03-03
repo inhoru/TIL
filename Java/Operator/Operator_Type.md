@@ -207,7 +207,8 @@ String name3= "김아무";
 String name4= new String("김아무2");//0x02에 저장이 된다. 
 System.out.println("name==name2 :" +(name==name2));
 System.out.println("name==name3 :" + (name==name3));//같은 상자(0x01)에 있는것들 끼리 동등비교를 ==비교가능하다.
-System.out.println("nam2==name4 :" + (name2==name4));//0x01과0x02이 저장된 상자가 다르기때문에 ==사용하더라고 다르다고나온다.그래서이런경우equals사용한다.
+System.out.println("nam2==name4 :" + (name2==name4));//0x01과0x02이 저장된 상자가 다르기때문에 ==사용하더라고 다르다고나온다.
+//그래서이런경우equals사용한다.
 //출력결과
 //name==name2 :false
 //name==name3 :true
@@ -239,7 +240,7 @@ System.out.println(!"김아무".equals(inputName));
 
 **대소비교**
 - 숫자값만 가능하다.
-- <, >, <=, >=
+- **<, >, <=, >=**
 
 ```java
 num = 200;
@@ -254,7 +255,9 @@ System.out.println(num>=num3);
 //true
 ```
 <br/>
+
 **문자타입 대소비교**
+
 - char타입은 가능하다
 - String 문자열은 불가능하다.
 
