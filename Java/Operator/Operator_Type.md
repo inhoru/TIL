@@ -121,8 +121,9 @@ Scanner sc = new Scanner(System.in);
 		//곱한값 : 180
 		//나눈값 :1.25
 ```
+
+<br/>
 		
-< br/>
 
 # 3. 비교연산자
 
