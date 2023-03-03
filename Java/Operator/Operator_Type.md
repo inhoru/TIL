@@ -40,7 +40,7 @@ int b =1 + 2; //변수 a에 1+2를 하여 3이 대입된다.
   - 대입 연산자에 다른연산자를 섞었기 때문에 복합이라는 말이 붙게 되는 것이다.
   - 형태는 =기호 앞에 다른 연산자를 붙여서 쓴다.
 
- ![복합대입 연산자](https://user-images.githubusercontent.com/126074577/222756190-6d9ccab5-4322-4fa0-a83f-6f7cc2a1d668.png)
+ ![복합대입 연산자](https://user-images.githubusercontent.com/126074577/222756816-2bf390a7-dbd3-4b5a-8bc5-cb9219281dfc.png)
  
  
 
