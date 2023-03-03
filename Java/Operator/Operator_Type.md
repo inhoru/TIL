@@ -120,7 +120,7 @@ Scanner sc = new Scanner(System.in);
 		//뺀값 : 3
 		//곱한값 : 180
 		//나눈값 :1.25
-		```
+```
 		
 < br/>
 
