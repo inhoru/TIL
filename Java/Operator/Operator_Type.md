@@ -98,7 +98,35 @@ System.out.println(total);
     // /연산 : 0.2
 ```
 
-<br/>
+**스캐너를 이용한 계산기 만들기**
+```java
+Scanner sc = new Scanner(System.in);
+		System.out.print("num : ");
+		int suu1 = sc.nextInt();
+		System.out.println("입력받은수 :" +  suu1);
+		
+		System.out.print("num : ");
+		int suu2 = sc.nextInt();
+		System.out.println("입력받은수 :" + suu2);
+		
+		System.out.println("더한값 :" + (suu1+suu2));
+		System.out.println("뺀값 :" + (suu1-suu2));
+		System.out.println("곱한값 :" + suu1*suu2);
+		System.out.println("나눈값 :" + suu1/(double)suu2);//소수점 자리를 나타내기위해 둘중하나를 더블로 강제타입변환
+		//출력결과
+		//입력받은수 : 15
+		//입력받은수 : 12
+		//더한값 : 27
+		//뺀값 : 3
+		//곱한값 : 180
+		//나눈값 :1.25
+		```
+		
+< br/>
+
+# 3. 비교연산자
+
+
 
 
   
