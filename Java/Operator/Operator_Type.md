@@ -195,7 +195,7 @@ System.out.println(ch==chInt);//자동형변환으로 char타입은 인트로변
 **문자열 동등비교**
 
 - String(클래스) 동등비교할때 == 연산을 사용할 수 없다!
-- String이 제공하는 equals()기능을 이용해서 동등비교를 한다.
+- String이 제공하는 <code><strong>equals()</code></strong>기능을 이용해서 동등비교를 한다.
 
 
 
