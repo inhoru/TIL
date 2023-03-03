@@ -192,8 +192,76 @@ System.out.println(ch==chInt);//자동형변환으로 char타입은 인트로변
 ```
 
 <br/>
+**문자열 동등비교**
+- String(클래스) 동등비교할때 == 연산을 사용할 수 없다.!
+- String이 제공하는 equals()기능을 이용해서 동등비교를 한다.
+```java
+String name="김아무";
+String name2= "김아무2";
+String name3= "김아무";
+//새로만든String는 0x01에저장된다.
+String name4= new String("김아무2");//0x02에 저장이 된다. 
+System.out.println("name==name2 :" +(name==name2));
+System.out.println("name==name3 :" + (name==name3));//같은 상자(0x01)에 있는것들 끼리 동등비교를 ==비교가능하다.
+System.out.println("nam2==name4 :" + (name2==name4));//0x01과0x02이 저장된 상자가 다르기때문에 ==사용하더라고 다르다고나온다.그래서이런경우equals사용한다.
+//출력결과
+//name==name2 :false
+//name==name3 :true
+//nam2==name4 :false
+```
+**스캐너를 이용한 문자열 동등비교**
+```java	
+//문자열의 동등비교는 equals를써야한다. 
+Scanner sc=new Scanner(System.in);
+System.out.print("이름 : ");
+String inputName=sc.nextLine();
+System.out.println(inputName=="김아무"); //이렇게 ==사용하면 false가나온다.
+System.out.println(inputName.equals("김아무"));
+System.out.println("김아무".equals(inputName));
+//불일치비교
+System.out.println(!"김아무".equals(inputName));
+//출력결과
+//이름 : 김아무
+//false
+//true
+//true
+//false
+```
 
+<br/>
 
+**대소비교**
+- 숫자값만 가능하다.
+- <, >, <=, >=
+
+```java
+num = 200;
+num2 = 300;
+num3 = 200;
+System.out.println(num<num2);
+System.out.println(num>num3);
+System.out.println(num>=num3);
+//출력결과
+//true
+//false
+//true
+```
+<br/>
+**문자타입 대소비교**
+- char타입은 가능하다
+- String 문자열은 불가능하다.
+
+```java
+char ch4='Z';
+char ch5='E';
+System.out.println("Z>E :" + (ch4>ch5));
+//대문자(65~90), 소문자(97~122)를 확인할 수있음.
+System.out.println("A<Z : " + ('A'<'Z')); //아스키코드 비교
+//출력결과
+//Z>E :true
+//A<Z : true
+```
+<br/>
 
 
 
