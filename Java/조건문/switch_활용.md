@@ -47,22 +47,22 @@ switch(값) {
 
 ## switch문의 에시
 ```java
-		System.out.println("=== 점심메뉴 ====");
-		System.out.println("1. 윤쉐프");
-		System.out.println("2. 중국집");
-		System.out.println("3. 삼계탕");
-		System.out.println("4. 육개장");
-		System.out.print("선택 : ");
-		int choice=sc.nextInt();
-		switch(choice) {
-			case 1 :
-					String name="김아무";
-					System.out.println(name+"구내식당 중 가장 맛있대요!");
-					break;
-			case 2 : System.out.println("B건물 중국집이 먹을만해요!");break;
-			case 3 : System.out.println("C건물 삼계탕이 먹을만해요!");break;
-			case 4 : System.out.println("A육개장이 먹을만 해요!");break;
-			default : System.out.println("메뉴는 1~4번까지만 있습니다.");break;
+System.out.println("=== 점심메뉴 ====");
+System.out.println("1. 윤쉐프");
+System.out.println("2. 중국집");
+System.out.println("3. 삼계탕");
+System.out.println("4. 육개장");
+System.out.print("선택 : ");
+int choice=sc.nextInt();
+switch(choice) {
+	case 1 :
+	String name="김아무";
+	System.out.println(name+"구내식당 중 가장 맛있대요!");
+	break;
+	case 2 : System.out.println("B건물 중국집이 먹을만해요!");break;
+	case 3 : System.out.println("C건물 삼계탕이 먹을만해요!");break;
+	case 4 : System.out.println("A육개장이 먹을만 해요!");break;
+	default : System.out.println("메뉴는 1~4번까지만 있습니다.");break;
 		}
 }
 ```
