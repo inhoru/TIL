@@ -19,3 +19,5 @@
 ## [Java](https://github.com/inhoru/TIL/tree/main/Java)
 - [Varlable](https://github.com/inhoru/TIL/tree/main/Java/Varlable)
 - [Operator](https://github.com/inhoru/TIL/tree/main/Java/Operator)
+- [조건문](https://github.com/inhoru/TIL/tree/main/Java/%EC%A1%B0%EA%B1%B4%EB%AC%B8)
+- [반복문](https://github.com/inhoru/TIL/tree/main/Java/%EB%B0%98%EB%B3%B5%EB%AC%B8)
