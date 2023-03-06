@@ -38,11 +38,11 @@ switch(값) {
 ```
 
 - if 문과의 차이점이라고 한다면
-- if문은 if, else if, else가 크게는 전부 한세트지만
-- 각각의 조건식과 구현부를 모두 지니고 있으면서 각각의 영역을 가지고 있다.
+	- if문은 if, else if, else가 크게는 전부 한세트지만
+	- 각각의 조건식과 구현부를 모두 지니고 있으면서 각각의 영역을 가지고 있다.
 - 조건식에는 int, String, char 자료형만 가능하다.
-- 하지만 switch문은 switch라는 큰영역안에 각각의
-- case, default라는 작은영역을 지니고 있는것이다.
+	- 하지만 switch문은 switch라는 큰영역안에 각각의
+	- case, default라는 작은영역을 지니고 있는것이다.
 
 
 ## switch문의 에시
