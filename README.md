@@ -24,3 +24,4 @@
 - [배열](https://github.com/inhoru/TIL/tree/main/Java/%EB%B0%B0%EC%97%B4)
 - [객체](https://github.com/inhoru/TIL/tree/main/Java/%EA%B0%9D%EC%B2%B4)
 - [API](https://github.com/inhoru/TIL/tree/main/Java/API)
+- [예외처리](https://github.com/inhoru/TIL/blob/main/Java/%EC%98%88%EC%99%B8%20%EC%B2%98%EB%A6%AC.md)
