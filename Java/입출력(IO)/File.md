@@ -64,7 +64,7 @@ try {
 
   - <code>mkdir()</code>,<code>mkdirs()</code> 두가지를 사용 할수가있다.
 
-- mkdir() :  한개의 폴더만 생성이 가능하다.
+- <code>mkdir()</code> :  한개의 폴더만 생성이 가능하다.
 
-- mkdirs() : 하위폴더까지 여러개의 폴더를 생성할수가 있다.
+- <code>mkdirs()</code> : 하위폴더까지 여러개의 폴더를 생성할수가 있다.
 
