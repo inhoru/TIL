@@ -70,7 +70,7 @@ try {
 
 <br/>
 
-- **mkdir()** 
+## mkdir()
 
 
 ```java
@@ -96,8 +96,7 @@ System.out.println(result);
 - a폴더가 없으니깐 만들어지지않고 false가 나온다.
 
 <br/>
-
-- **mkdirs()**
+## mkdirs()
 - 이메소드를 사용한다면 하위폴더까지 한번에 폴더를생성할수가있다.
 
 ```java
