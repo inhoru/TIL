@@ -68,3 +68,98 @@ try {
 
 - **mkdirs()** : 하위폴더까지 여러개의 폴더를 생성할수가 있다.
 
+<br/>
+
+- **mkdir()** 
+
+
+```java
+
+ File dir =  new File ("./myfolder");
+ boolean result1 = dir.mkdir();
+//폴더  myfolder가 만들어진다. 
+```
+
+- 주의할점 
+- 이 메소드는 여러개를 만들고싶어도 불가능하다.
+
+```java
+File dirs = new File("./myfolder/a/b");
+boolean result = dirs.mkdir();
+System.out.println(result);
+//출력결과
+//false
+```
+
+- 여러개를 만들고싶어도 불가능하다.
+- 위를 예시를 들자면 myfolder 폴더안에  a폴더안에 b폴더를 만들라는 뜻이다.
+- a폴더가 없으니깐 만들어지지않고 false가 나온다.
+
+<br/>
+
+- **mkdirs()**
+- 이메소드를 사용한다면 하위폴더까지 한번에 폴더를생성할수가있다.
+
+```java
+File dirs = new File("../myfolder/a/b/c");
+boolean result = dirs.mkdirs();
+System.out.println(result);
+//출력결과
+//true
+```
+
+- 이렇게 폴더를 생성할 수있는 두가지방법을 알아봣는데
+- 궁금한점이 하나있다
+- 폴더명을적을때 **./**와 **../** 이둘의차이점을뭘까?
+
+	-  간단하게 말하겟다.
+	-  (./) 는현재경로를 표현한다.예를들면 c:/test/ 가있다면 ./test를 쓴다면 test에 만들어진다.
+	-  (../) 는상위경로를 표현한다 예를들면 c:/test/ 가있다면 ../test를 쓴다면 c에 만들어진다.
+
+<br/>
+
+
+## file 삭제하기
+- File클래스에서 제공하는 delete()메소드를 이용한다.
+- 이메소드를 이용하면  폴더와 파일을 삭제할수가있다.
+
+
+<br/>
+
+- **파일삭제**
+
+```java
+
+ File delFile = new File("myfolder/mytest.txt");
+delFile.delete();
+```
+
+- 이런식으로 myfolder폴더안에있는 mytest.txt 파일이 삭제간된다.
+- 경로를먼저 적은후에 삭제할파일을 적으면 파일삭제가 된다.
+
+<br/>
+
+- **폴더삭제**
+
+- 파일을 삭제할수 있다면 폴더도 삭제할수있다.
+- 먼저 예시부터 보여주겟다.
+
+```java
+File delDir = new File("myfolder/a/b");
+delDir.delete();
+```
+
+- 이런식으로 myfolder폴더안에 a폴더안에 b폴더가 삭제되었다.
+- 여기서 궁금증이 하나 생긴다. 저렇게 경로설정하고 delete를 햇는데 myfolder가 삭제되지않을까?
+- 그래서 **myfolder만 적어두고 실행해봣지만 삭제되지않앗다.**
+
+	- 여기서 알수있는건 상위폴더를 한번에 삭제하진못한다는거
+	- 하위폴더부터 하나씩 삭제가 가능하다는것이다.
+	- 기억해두자
+
+
+<br/>
+
+
+
+ 
