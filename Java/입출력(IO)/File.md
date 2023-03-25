@@ -162,6 +162,8 @@ makeFile(path,fileName);
 
 ## 파일삭제
 
+- <code>delete()</code> 메소드를사용해서 삭제할수있다.
+
 ```java
 
  File delFile = new File("myfolder/mytest.txt");
@@ -176,7 +178,7 @@ delFile.delete();
 ## 폴더삭제
 
 - 파일을 삭제할수 있다면 폴더도 삭제할수있다.
-- 먼저 예시부터 보여주겟다.
+- 똑같이 <code>delete()</code> 메소드를사용해서 삭제할수있다.
 
 ```java
 File delDir = new File("myfolder/a/b");
@@ -214,6 +216,8 @@ System.out.println("파일명 : "+ info.getName());
 
 ## 부모파일 확인하기
 
+- <code>getParent()</code> 사용한다.
+
 
 ```java
 File info = new File("myfolder/a/abc.txt");
@@ -225,7 +229,7 @@ System.out.println("부모전체 파일명 : "+ info.getParent());
 
 <br/>
 
-- **부모파일을 File로 가져올수있다.**
+- **부모파일을 File로 가져올수있다.** 
 
 ```java
 File info = new File("myfolder/a/abc.txt");
@@ -238,6 +242,8 @@ System.out.println("부모파일명 : "+ parent.getName());
 
 
 ## 경로가져오기
+
+- <code>getPath()</code> 사용한다.
 
 ```
 File info = new File"myfolder/a/abc.txt"));
@@ -252,8 +258,8 @@ System.out.println("경로가져오기 : "+ info.getPath());
 <br/>
 
 ## 불러온파일이 폴더인지, 파일인지?
-- 폴더확인 메소드 : isDirectory
-- 파일확인 메소드 : isFile());
+- 폴더확인 메소드 : <code>isDirectory</code>
+- 파일확인 메소드 : <code>isFile());</code>
 
 ```java
 File info = new File("myfolder/a/abc.txt");
@@ -274,6 +280,16 @@ System.out.println("파일이니 ? "+parent.isFile());
 
 ## 각종 정보 확인
 - 파일크기, 숨긴파일여부, 수정한날짜, 절대경로 등 확인할수가있다.
+
+	- 파일크기 : <code>length()</code>
+	- 숨김파일여부 : <code>isHidden()</code>
+	- 수정한날짜 : <code>lastModified()</code>
+	- 절대경로 : <code>getAbsolutePath()</code>
+	- 읽을권환확인 : <code>canRead()</code>
+	- 실행가능한지확인 : <code>canExecute()</code>
+	- 파일수정가능한지 : <code>canWrite()</code>
+
+<br/>
 
 
 
