@@ -336,9 +336,125 @@ C:\Java\workspace\home\student\myfolder\a\abc.txt
  <br/>
  
  
-# 6. 전체파일목록 가져오기
+# 6. 전체파일 가져오기
 
-- 우리는 
+## 폴더에있는 전체파일목록 가져오기
+
+- <code>list()</code> 를사요하면 전체 리스트를 볼수가있다.
+
+
+```java
+File f = new File("c:/Windows/System32");
+// 폴더에 있는 전체파일목록을 가져오기
+// 문자열로 파일명을 가져오기
+String[] files = f.list();
+```
+
+- 이렇게 전부다 가져올수있다. 저기에는 4000몇개가 들어있다.
+- 그렇다면 여기서 응용할수있는게 하나있다 우린API를배웟다.
+- API를이용해서 특정파일만을 불러올수도있다.
+- 예시를잠깐 보자
+
+```java
+File f = new File("c:/Windows/System32");
+
+String[] files = f.list();
+System.out.println(files.length);
+for(String fileName : files) {
+	if(fileName.substring(fileName.indexOf(".")+1).equals("exe")){
+				
+		System.out.println(fileName);
+	}
+}	
+```
+- 이렇게 확장자가 "exe" 것만 골라낼수가있다.
+
+
+<br/>
+
+## File클래스 가져오기
+
+- 전체파일중에 그파일이 어떤건지 확인할수있게
+- 클래스를 가져올수가있다.
+- 가져온다면 위에서배웟던 것들로 실행가능한파일인지? 수정할수있는파일인지? 파일크기가몇인지? 확인할수가있다.
+
+- <code>listFiles()</code> 를사용한다.
+
+```java
+File f = new File("c:/Windows/System32");
+File[] filesObj= f.listFiles();
+```
+- 이런식으로 가져올수가있다.
+- 여기서 분기처리도가능하다
+- 예를 들어 수정이불가능한파일이 몇개인지 확인할방법 만들어보자
+
+```java
+File f = new File("c:/Windows/System32");
+File[] filesObj= f.listFiles();
+int count = 0;
+for(File temp : filesObj) {
+	if(!temp.canWrite()) {
+		count++;
+	}
+}
+System.out.println("수정이불가능한파일 : "+ count);
+//출력결과
+//수정이불가능한파일 : 11
+```
+
+- 위에서배운 <code>canWrite</code>를 이용해서 수정이불가능한파일이 몇개인지알수가있다.
+
+<br/>
+
+## 익명클래스 이용
+
+- **new java.io.FileFilter()**
+- 이걸 사용하면된다
+- 그러면 안에 메소드가하나가 들어가있다.
+
+```java
+@Override
+public boolean accept(File pathname) {
+	return false;
+}
+```
+- 요거 하나만 구현해주면 메소드가  true가나오는것들만 집계해서 파일로보내준다.
+- 그럼 여기서 읽기전용만 찾아보자
+
+```java
+File f = new File("c:/Windows/System32");
+
+filesObj = f.listFiles(new java.io.FileFilter(){
+
+@Override
+public boolean accept(File pathname) {
+	return !pathname.canWrite();
+}
+});
+for(File temp : filesObj) {
+		System.out.println(temp);
+	}
+	files = f.list(new FilenameFilter() {
+}
+```
+- 이런식으로 내가원하는걸 필터링해서 파일을 가져올수가있다.
+- 여기서 한가지 번뜩이는게 있을텐데
+- 위에는 익명클래스를 사용했지만 람다식표현을 사용한다면 코드를 줄일수가있다!
+
+```java
+
+File f = new File("c:/Windows/System32");
+File[] filesObj= f.listFiles();
+filesObj = f.listFiles((name)->!name.canWrite());
+		
+for(File temp : filesObj) {
+	System.out.println(temp);
+}
+}
+```
+- 이렇게 람다식표현을 이용한다면 코드를줄일수가있다.
+
+
 
 
 
