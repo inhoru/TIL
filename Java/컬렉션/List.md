@@ -241,7 +241,10 @@ animals.remove(new Animal("음메에",30.5,3,"양"));
 # 2. ArrayList의 데이터들을 관리할 수 있는 메소드
 - List를 관리하기 수월하게만드는 메소드들을 소개하겠다.
 
-## 1. 특정 객체가 리스트에 포함되어있는지 확인하는 메소드
+<br/>
+
+
+## 특정 객체가 리스트에 포함되어있는지 확인하는 메소드
 - <code>contains(Object) : boolean</code>
 - **boolena 값이기때문에 맞다면 true 틀리다면 false 를 반환한다.**
 
@@ -253,6 +256,61 @@ boolean result=animals.contains(new Animal("야옹이", 4.2,6,"고양이"));
 System.out.println(result);
 //출력결과
 //true
+```
+
+## 동일한 객체를 찾아서 그 인덱스를 반환해주는 메소드
+- <code>indexOf(Object)</code> : 앞에서부터 동일한객체를 찾으면 그객체를 반환 아니면 -1을 반환한다.
+- <code>lastIndeOf(Object)</code> : 뒤에서부터 동일한객체를 찾으면 그객체를 반환 아니면 -1을 반환한다.
+
+```java
+ArrayList animals=new ArrayList();
+animals.add(new Animal("야옹이", 4.2,5,"고양이"));
+
+boolean result=animals.contains(new Animal("야옹이1", 4.2,6,"고양이"));
+System.out.println(result);
+//출력결과
+//false
+```
+<br/>
+
+## ArrayList로 저장된 데이터를 배열로 변화해주는 메소드
+- List에 저장된데이터를 배열로 변경이가능하다.
+- 그반대로 List에서 배열로 변경이가능하다.
+
+	- Arrays클래스의 <code>asList()</code>메소드를 이용하면 변경할수있음
+
+```java
+//List로변경
+Object[] objArr=animals.toArray();
+for(Object o : objArr)
+	System.out.println(o);
+System.out.println(objArr[0]);
+
+// 배열로변경
+List animals2=Arrays.asList(objArr);
+for(Object o:animals2) {
+	System.out.println(o);
+}
+
+```
+## ArrayList에 저장된 데이터를 한번에 전체삭제
+- 어렵지않다 <code>clear()</code>메소드를 사용하면된다.
+
+```java
+animals.clear();
+```
+
+## List 선언과 동시에 초기화
+- List도 배열과 마찬가지로 생성과 동시에 초기화가 가능하다.
+- <code>List.of()</code> 메소드를 이용한다.
+
+	- 한가지 주의할점은
+	- List.of로 생성한 list는 불변의 리스트
+	- 아무리값을 추가해도 추가되지않는다
+	- final이라고 생각하자
+```java
+
+<br/>
 
 
 
