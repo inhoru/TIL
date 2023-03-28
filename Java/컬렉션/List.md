@@ -73,3 +73,101 @@ System.out.println(list.get(4));
 
 
 <br>
+
+## 전체 데이터 접근(순회)
+- List는 배열과 비슷한점이많다.
+- 배열은 전체조회를 반복문으로 이용을한다.
+- 방법은 여러가지가있다.
+
+  - <code>for문</code>
+  - <code>forEach</code>
+  - <code>iterator()</code> 메소드
+
+
+- 한가지다른점은 List자료형의 길이는 <code>Size()</code>메소드를 이용한다.
+
+
+
+```java
+for(int i=0;i<list.size();i++) {
+		System.out.println(list.get(i));
+	}
+```
+
+<br/>
+
+# 2. List 사용
+- List를 사용해서 저장된 내용에대한 분기처리도가능하다.
+- 예를 들어 음식의 이름 가격 종류 를 List에 저장햇다고하다.
+
+  - 전체 음식의 타입, 이름, 가격만 출력
+  - 전체 음식중 5000원 이하인 음식만 타입 이름 가격 출력
+
+- 이렇게 사용자가원하는 대로 분기처리해서 사용이가능하다.
+<br/>
+
+## 전체 음식의 타입, 이름, 가격만 출력
+
+```java
+ArrayList foods=new ArrayList();
+		
+foods.add(new Food("돈까스",10000,"일식",new Date()));
+foods.add(new Food("초밥",2000,"일식",new Date()));
+foods.add(new Food("컵라면",1400,"한식",new Date()));
+foods.add(new Food("샐러드",12000,"건강식",new Date()));
+
+for(int i=0;i<foods.size();i++) {
+			Food f1=(Food)foods.get(i);
+			System.out.println(f1.getType()+" "
+			+f1.getName()+" "+f1.getPrice());
+		}
+//출력결과
+//일식 돈까스 10000
+//일식 초밥 2000
+//한식 컵라면 1400
+//건강식 샐러드 12000
+
+```
+
+- 위에 코드에서 한까지 의문인점이 있을거다
+- <code>Food f=(Food)foods.get(1);</code> 이부분은 왜 Food로 형변환을 한걸까?
+
+  - 이유는 간단하다 <code>Object</code>로 받기때문이다
+  - **우리는 Food클래스에 getName()가 필요하기때문에 food클래스에접근하려면 형변환을 할수밖에없다.**
+  - 그래서 형변환후 Food에접근해서 get()을 가져온거다.
+
+<br/>
+
+## 전체음식중 가격이 5000천원이하인 음식의 타입, 이름, 가격을 출력하기
+
+```java
+ArrayList foods=new ArrayList();
+		
+foods.add(new Food("돈까스",10000,"일식",new Date()));
+foods.add(new Food("초밥",2000,"일식",new Date()));
+foods.add(new Food("컵라면",1400,"한식",new Date()));
+foods.add(new Food("샐러드",12000,"건강식",new Date()));
+
+for(int i=0;i<foods.size();i++) {
+			Food f1=(Food)foods.get(i);
+			if(f1.getPrice()<=5000) {
+				System.out.println(f1.getType()
+						+" "+f1.getName()
+						+" "+f1.getPrice());
+			}
+	}  
+//출력결과
+//일식 초밥 2000
+//한식 컵라면 1400
+```
+
+- 위와 똑같이 Food로 형변환을해서 get()을가져온후 if문을 사용해서
+- 사용자가 원하는 값만 출력을 할수가있다.
+
+<br/>
+
+
+
+    
+    
+	
