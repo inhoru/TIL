@@ -308,9 +308,69 @@ animals.clear();
 	- List.of로 생성한 list는 불변의 리스트
 	- 아무리값을 추가해도 추가되지않는다
 	- final이라고 생각하자
+
+- List.of로 선언한것은 변경할수없지만
+- list의 자체를 선언하면
+- list 객체의 갯수를 정해놓고사용할수있다.
+- 그객체의 내용은 변경이가능하다.
+
+
 ```java
+List intList=List.of(1,2,3,4,5);
+//List.of로 생성한 list는 불변의 리스트
+//intList.add(6);
+//intList.set(0, 100);
+-------------------------------------
+List animalList = List.of(new Animal(),new Animal(),new Animal());	
+((Animal)animalList.get(0)).setName("햄찌");
+
+```
+
+# 3. List 정렬
+
+- 지금까지 우리는 정렬을 하기위해서
+- 서로 값을 비교해서 위치를 변경했는데
+- List는 메소드를 통해 정렬을 할수가 있다.
+
+	- <code>Collection클래스에서 제공하는 sort()</code>
+	- <code>List인터페이스에서 제공하는 sort()</code>
+
+- 먼저 List sort()를 알아보자
+- Comparator 인터페이스를 사용한다.
+
+```java
+public class FoodPriceAes implements Comparator{
+
+@Override 
+public int compare(Object o1, Object o2) {
+	Food f=(Food)o1;
+	Food f2=(Food)o2;
+	//가격기준으로 정렬
+	// 반환값설정
+	// + : 두개의 객체 위치를 변경
+	//-, 0 : 변경하지 않음
+	//동일한값에 대한 설정
+	//오름차순정렬
+	if(f.getPrice()>f2.getPrice()) return +1;
+	else if(f.getPrice()<f2.getPrice()) return -1;
+	else return 0;
+	
+```
+- 보면 많이어려워보인다.
+- 지금은 어떻게 쓰는지만알고 자세히 어떻게 동작을하는건지는 나중에찾아보자
+- 간다히 이야기하자면
+
+	- 
+		
+		
+	}
+}
+
+
 
 <br/>
+
+
 
 
 
