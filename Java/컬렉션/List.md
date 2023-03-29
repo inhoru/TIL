@@ -1,9 +1,15 @@
 # 🔖 목차 
 
-1.
-2.
-3.
-4.
+1. [List](#1-List)<br/>
+2. [원하는 인덱스 위치에 값 추가](#2-원하는-인덱스-위치에-값-추가)<br/>
+3. [원하는 인덱스의 값을 수정하기](#3-원하는-인덱스의-값을-수정하기)<br/>
+4. [원하는 인덱스의 값 삭제](#4-원하는-인덱스의-값-삭제)<br/>
+5. [매개변수와 일치하는 값 삭제](#5-매개변수와-일치하는-값-삭제)<br/>
+6. [ArrayList의 데이터들을 관리할 수 있는 메소드](#6-ArrayList의-데이터들을-관리할-수-있는-메소드)<br/>
+7. [List 정렬](#7-List-정렬)<br/>
+8. [LinkedList클래스이용](#8-LinkedList클래스이용)<br/>
+9. [List 사용](#9-List-사용)<br/>
+
 
 <br/>
 
@@ -139,7 +145,7 @@ while(it.hasNext()) {
 
 <br/>
 
-## 원하는 인덱스 위치에 값 추가
+# 2. 원하는 인덱스 위치에 값 추가
 - add를통해 추가하는건 이미알고있다.
 - 이번엔 원하는 인덱스위치에 값을 추가할수가있다.
 - 추가가된다면 알아서 자동으로 **그자리에있던값은 뒤로밀려나서 한칸씩밀린다.**
@@ -168,7 +174,7 @@ animals.add(1,new Animal("부엉",4.3,3,"부엉이"));
 
 <br/>
 
-## 원하는 인덱스의 값을 수정하기
+# 3. 원하는 인덱스의 값을 수정하기
 - 이번에는 추가인add가아닌 set 를 이용한다.
 - <code>set(index, element)</code>
 
@@ -193,7 +199,7 @@ animals.set(1, new Animal("고라",20.2,1,"고라니"));
 
 <br/>
 
-## 원하는 인덱스의 값 삭제
+# 4. 원하는 인덱스의 값 삭제
 - 추가와 수정이가능하다면 삭제도가능하다.
 - <code>remove(index);</code>
 
@@ -215,7 +221,7 @@ animals.remove(1);
 ```
 <br/>
 
-## 매개변수와 일치하는 값 삭제
+# 5. 매개변수와 일치하는 값 삭제
 - 매개변수와 일치하는 값을 삭제하는방법이있는데
 - 단 주의할점은 **대상 클래스에 equals, hasCode가 오버라이딩 되어있어야한다.**
 
@@ -238,7 +244,7 @@ animals.remove(new Animal("음메에",30.5,3,"양"));
 ```
 <br/>
 
-# 2. ArrayList의 데이터들을 관리할 수 있는 메소드
+# 6. ArrayList의 데이터들을 관리할 수 있는 메소드
 - List를 관리하기 수월하게만드는 메소드들을 소개하겠다.
 
 <br/>
@@ -329,7 +335,7 @@ List animalList = List.of(new Animal(),new Animal(),new Animal());
 <br/>
 
 
-# 3. List 정렬
+# 7. List 정렬
 
 - 지금까지 우리는 정렬을 하기위해서
 - 서로 값을 비교해서 위치를 변경했는데
@@ -395,12 +401,9 @@ public class FoodPriceDecending implements Comparator {
 	- o2가 크다면 -1을 반환
 	- 0을 리턴한다면 변경값없이그대로
 
-- **오름차순 정렬과 내림차순 정렬의 인터페이스를 따로만들어야한다.**
-
+- **오름차순 정렬과 내림차순 정렬의 인터페이스 재정의 해서 사용한다.**
 
 <br/>
-
-
 
 - 이렇게 인터페이스를 만들었으면 <code>sort</code>를 사용이가능하다.
 
@@ -423,8 +426,110 @@ foods.sort(new FoodPriceDecending());
 
 
 
+<br/>
+## 문자열 비교
+
+
+- 위에쓰인 <code>compare</code>는 대소비교를 통해 +1,-1,0 을반환해서 사용했다.
+- 그렇다며 문자열을 어떻게 정렬할까?
+
+	- 예를들어 문자의 길이순으로 말이다.
+	- ("가나") , ("가나다") 이문자열을 오름차순한다면  이렇게 나와야할거다.
+	- 이걸해주는게 <code>compareTo()</code> 메소드다  재정의해서사용한다.
+
+- <code>compare</code>과 똑같이 대소비교를 통해 +1,-1,0,을반환해서사용한다.
+- 문자열의 숫자의 대소비교를 어떻게하지?
+- 문자안에 있는 아스키 코드를 이용해서 비교를한다.
+
+	- 문자열이 일치하는 경우 숫자비교와 똑같이 0 리턴
+	- 기준값의 앞자리부터 일치하는 문자열이 포함된 경우 (기준문자열길이-비교대상문자열길이) 리턴
+
+
+```java
+//오름차순
+public class FoodNameAscending implements Comparator{
+	
+@Override
+public int compare(Object o1, Object o2) {
+	Food prev=(Food)o1;
+	Food next=(Food)o2;
+	return prev.getName().compareTo(next.getName());
+	}
+}
+-----------------------------------------------------------
+//내림차순
+public class FoodDecending implements Comparator{
+
+@Override
+public int compare(Object o1, Object o2) {
+	return ((Food)o2).getName().compareTo(((Food)o1).getName());
+	}
+	
+}
+
+```
+- 오름차순 과 내림차순의 차이가 뭘까?
+- **바로 매개변수의 위치다**
+- **매개변수 1이 앞으로 오고 compareTO괄호안에 매개변수 2가 오면 오름차순이다.**
+- **매개변수 2가 앞으로 오고 compareTo괄호안에 매개변수 1이 오면 내림차순이다.**
+
+
+<br/>
+## 람다식
+
+- 사실 위에처럼 따로 인터페이스르 재정의 하지않고 
+- **람다식 표현방법**을 사용한다면 코드를 매우 줄일수가있다.
+
+```java
+foods.sort((o,o2)->((Food)o).getName().compareTo(((Food)o2).getName()));
+```
+- 이한줄로 위에썻던 모든것들이 정리가된다.
+- 람다식표현 꼭 익혀두자.
+
+
+
  
-# 3. List 사용
+
+<br/>
+
+# 8. LinkedList클래스이용
+- List인터페이스를 구현한 클래스다.
+- 사용방법은 ArrayList클래스와 유사하다.
+
+```java
+LinkedList linkList=new LinkedList();
+		
+linkList.add("김아우");
+linkList.add("강태풍");
+linkList.add("강바람");
+
+linkList.forEach((e)->System.out.println(e));
+
+System.out.println(linkList.getFirst());
+System.out.println(linkList.getLast());
+		
+//출력결과
+//김아우
+//강태풍
+//강바람
+
+//김아우
+//강바람
+
+```
+
+- <code>getFirst()</code> 메소드를 통해 첫번째 출력한다.
+- <code>getLast()</code> 메소드를 통해 마지막 출력한다.
+
+- 기본적으로 데이터 저장 , 출력 : ArrayList사용
+- 저장된 데이터에 조작이 많을때 : LinkedList를 사용
+
+
+<br/>
+
+
+ 
+# 9. List 사용
 - List를 사용해서 저장된 내용에대한 분기처리도가능하다.
 - 예를 들어 음식의 이름 가격 종류 를 List에 저장햇다고하다.
 
