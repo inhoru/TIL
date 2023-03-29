@@ -477,8 +477,13 @@ public int compare(Object o1, Object o2) {
 <br/>
 ## 람다식
 
+
 - 사실 위에처럼 따로 인터페이스르 재정의 하지않고 
+
+
 - **람다식 표현방법**을 사용한다면 코드를 매우 줄일수가있다.
+
+
 
 ```java
 foods.sort((o,o2)->((Food)o).getName().compareTo(((Food)o2).getName()));
