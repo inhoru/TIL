@@ -326,6 +326,9 @@ List animalList = List.of(new Animal(),new Animal(),new Animal());
 
 ```
 
+<br/>
+
+
 # 3. List 정렬
 
 - 지금까지 우리는 정렬을 하기위해서
@@ -339,6 +342,7 @@ List animalList = List.of(new Animal(),new Animal(),new Animal());
 - Comparator 인터페이스를 사용한다.
 
 ```java
+//오름차순
 public class FoodPriceAes implements Comparator{
 
 @Override 
@@ -354,23 +358,68 @@ public int compare(Object o1, Object o2) {
 	if(f.getPrice()>f2.getPrice()) return +1;
 	else if(f.getPrice()<f2.getPrice()) return -1;
 	else return 0;
+---------------------------------------------------------------
+//
+public class FoodPriceDecending implements Comparator {
 	
-```
-- 보면 많이어려워보인다.
-- 지금은 어떻게 쓰는지만알고 자세히 어떻게 동작을하는건지는 나중에찾아보자
-- 간다히 이야기하자면
-
-	- 
-		
-		
+	@Override
+	public int compare(Object o1, Object o2) {
+		Food prev=(Food)o1;
+		Food next=(Food)o2;
+		if(prev.getPrice()<next.getPrice()) return +1;
+		else if(prev.getPrice()>next.getPrice()) return -1;
+		else return 0;
 	}
-}
+	
+}	
 
+
+```
+
+- 보면 많이어려워보인다.
+- 지금은 어떻게 쓰는지만알고있자.
+- 간다히 이야기하자면 반환값에 따라 달라진다.
+
+	- + : 두개의 객체 위치를 변경
+	- -,0 : 변경하지않는다.
+
+- 오름차순 정렬
+	- 매개변수에 o1과 o2 의값을 비교해서
+	- o1이 크다면 +1을 반환
+	- o2가 크다면 -1을 반환
+	- 0을 리턴한다면 변경값없이 그대로
+- 내림차순 정렬
+
+	- 매개변수에 o1과o2 의값을 비교해서
+	- o1이 작다면 +1을 반환
+	- o2가 크다면 -1을 반환
+	- 0을 리턴한다면 변경값없이그대로
+
+- **오름차순 정렬과 내림차순 정렬의 인터페이스를 따로만들어야한다.**
 
 
 <br/>
 
 
+
+- 이렇게 인터페이스를 만들었으면 <code>sort</code>를 사용이가능하다.
+
+```java
+//오름차순정렬
+foods.sort(new FoodPriceAes());
+		System.out.println("===== 정렬 후 =====");
+		for(Object o : foods) {
+			System.out.println(o);
+		}
+------------------------------------------------------------
+//내림차순정렬
+
+foods.sort(new FoodPriceDecending());
+		for(Object o : foods) {
+			System.out.println(o);
+		}
+		
+```
 
 
 
