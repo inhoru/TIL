@@ -2,7 +2,7 @@
 
 1. [Map](#1-Map)<br/>
 2. [HashMap](#2-HashMap)<br/>
-3. [Map과 List 호환](#3- Map과-List-호환)<br/>
+3. [Map과 List 호환](#3-Map과-List-호환)<br/>
 4. [Map 전체순회](#4-Map-전체순회)<br/>
 5. [Map of메소드 사용](#5-Map-of메소드-사용)<br/>
 
