@@ -170,9 +170,149 @@
 <BR/>
 
 
+## 별칭
+
+- 조회된 컬럼에 별칭을 부여할수가있다.
+- **가상컬럼에서 많이사용한다.**
+
+  - 가상컬럼이란?
+  - **가상컬럼은 테이블안에 존재하는 컬럼이아닌**
+  - **우리가 가상으로 만들어낸 컬럼을 말한다.**
+  - 일회성이라는 뜻이다.
+  - 위에서 산술연산을 할때 쓰던 <CODE>DUAL;</CODE>도 가상컬럼이다.
+
+
+- **AS 예약어를 사용한다.**
+- 띄어쓰기 도 사용할수있지만 가독성을 위해서
+- AS 를 많이 사용한다.
+
+        SELECT EMP_NAME AS 사원명, SALARY AS 월급, EMAIL AS 이메일
+        FROM EMPLOYEE;
+        
+        -- AS 를 생략하고 띄어쓰기로 부여할 수 있다.
+        SELECT EMP_NAME 사원명, SALARY 월급, EMAIL 이메일
+        FROM EMPLOYEE;        
+
+- 그렇다면 별칭에 띄어쓰기 특수기호가 가능할까?
+- 가능 하다 
+- **별칭명 앞뒤에 ( " " ) 를 사용해주면된다.
+
+     
+        SELECT EMP_NAME AS "사 원 명", SALARY AS "$월$급"
+        FROM EMPLOYEE;
+ 
+ 
+ ## 문자 연결
+ - 위에서 산술연산에는 문자를 연산할수없다고 했는데
+ - 그렇다면 문자연결하는법은 뭘까?
+ - **자바에선 (" ") 를사용했다면 SQL 은(' ')  을사용한다.**
+
+        
+        SELECT '점심'+'맛있다' 
+        FROM DUAL;
+        
+## || 연산
+- || 연산은 컬럼을 합칠때 사용하거나 문자를 합칠때 사용한다.
+
+        SELECT '점심'||'맛없다 FEAT 반장'
+        FROM DUAL
+        
+        SELECT EMP_NAME||'님의 월급은 '||SALARY||' 보너스'||BONUS
+        FROM EMPLOYEE;
+  
+  
+  # 3. 원하는 ROW(DATA) 출력
+  
+  - 지정한 조건에 맞는 데이터만 가져올수가있다.
+  - <CODE>WHERE</CODE> 조건식을 이용한다.
+  - 사용방법
+
+  - SELECT 컬럼, 컬럼...... OR *
+  - FROM 테이블명
+  - WHERE 조건식
+
+        
+        -- 사원 중 월급이 200만원이상인 사원을 조회하기
+        SELECT * 
+        FROM EMPLOYEE
+        WHERE SALARY>=2000000;  
+        
+- 마치 JAVA에서의 IF문을 보는것같은느낌이다.
+
+
+<BR/>
+
+## 여러개 비교연산 처리
+
+- 여기서도 <CODE>AND</CODE>,<CODE>OR</CODE> 를 사용한다.
+
+
+
+         -- 사원 중 부서가 D5이고 월급이 300만원 이상인 사원의 이름, 부서코드, 월급 조회하기
+         
+        SELECT EMP_NAME, DEPT_CODE, SALARY
+        FROM EMPLOYEE
+        WHERE DEPT_CODE='D5' AND SALARY>=3000000;      
+        
+        <BR/>
+        
+        -- 사원 중 부서가 D5이거나 월급이 300만원 이상인 사원의 이름, 부서코드, 월급 조회하기
+        
+        SELECT EMP_NAME, DEPT_CODE, SALARY
+        FROM EMPLOYEE
+        WHERE DEPT_CODE='D5' OR SALARY>=3000000;
         
 
-         
+- 한가지 알아야 할점이 있다.
+- **조건식에 말이안되는 걸 적어도 오라클은 오류를 내지않는다**
+- **아무것도 출력이 안될뿐이다.**
+
+<BR/>
+
+
+## 날짜 대소비교
+
+- **날짜를 대소비교할때는 문자로비교, 문자열 패턴을 맞춰준다.**
+- **기본적이 날짜를 표시하는 문자열 패턴 : YY/MM/DD -> 'YY/MM/DD'**
+
+        
+        -- 입사일이 2000년 01월 01일 이전이 사원의 이름, 입사일을 조회하기
+        SELECT EMP_NAME, HIRE_DATE
+        FROM EMPLOYEE
+        WHERE HIRE_DATE<'00/01/01';
+        
+        
+- 이렇게 범위값을 조회할수있지만
+- 더간단해서 명령어를 통해서 조회하는방법도있다.
+
+## BETWEEN AND
+- 범위의 값을 조회할때 BETWEEN AND 연산을 이용하기
+- 사용방법
+  - 컬럼명 BETWEEN 값 AND 값 ;
+
+        -- 연봉 2000000 과 3000000 사이 조회
+        SELECT EMP_NAME, SALARY, BONUS, HIRE_DATE
+        FROM EMPLOYEE
+        WHERE SALARY BETWEEN 2000000 AND 3000000;
+        
+        -- 입사일이 00년01월01부터 02년 12월 31일까지 사이 조회 그리고 D9인사람만
+        SELECT *
+        FROM EMPLOYEE
+        WHERE HIRE_DATE BETWEEN '00/01/01' AND '02/12/31' AND DEPT_CODE ='D9';
+
+
+# 3. LIKE
+- 검색을 문자열 패턴으로 검색하는 기능 -> 부분일치, 포함여부, 원하는 문자열패턴검색
+- 문자열 패턴을 나타내는 기호는 <CODE>( % )</CODE> , <CODE>( _ )</CODE>
+
+  - **% : 문자가 0개이상 아무문자나 허용할때 사용**
+  - 예)  %강% : 강 o, 한강, 두강, 두만강, 한강다리, 강강술래 -> 강이 포함되어있는 문자열
+  -      %강 : 강으로 끝나는 말
+  -     강% : 강으로 시작하는 말
+
+
+  
+  
 
    
 
