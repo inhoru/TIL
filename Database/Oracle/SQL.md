@@ -353,6 +353,11 @@
         FROM EMPLOYEE
         WHERE EMP_NAME NOT LIKE '김%';
         
+        
+ <BR/>
+ 
+ 
+        
 # 5. NULL
 
 - **NULL값은 여기에선 쓰레기, 아무의미없는 값이다. 연산도 불가능하다.**
