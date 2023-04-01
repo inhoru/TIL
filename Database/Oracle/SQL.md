@@ -356,34 +356,6 @@
         
  <BR/>
  
- 
-        
-# 5. NULL
-
-
-- **NULL값은 여기에선 쓰레기, 아무의미없는 값이다. 연산도 불가능하다.**
-- 그렇다면 NULL값을 찾고싶을땐 어떻게 해야할까?
-- <CODE>IS NULL</CODE>, <CODE>IS NOT NULL</CODED> 을 사용한다.
-- 
-<BR/>
-    
- ## NULL 대체하기
- 
- 
- - 조회를 할때 아무것도 없을때 NULL로 표시간된다
- - NULL로 표현하고 싶지않고 다른값으로 표현하고싶을떄 사용하는 명려어가있다.
- - **NVL(컬럼명,대체값)함수를 이용한다.**
-
-
-         -- BONUS의 NULL값을 0으로변경
-        SELECT EMP_NAME, SALARY, NVL(BONUS,0)
-        FROM EMPLOYEE;
-
-
-<BR/>
-
-        
-        
 # 6. IN / NOT IN
   
   - 다중값을 동등 비교할때 사용하는 명령어다.
