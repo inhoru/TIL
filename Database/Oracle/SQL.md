@@ -376,13 +376,15 @@
  - 조회를 할때 아무것도 없을때 NULL로 표시간된다
  - NULL로 표현하고 싶지않고 다른값으로 표현하고싶을떄 사용하는 명려어가있다.
  - **NVL(컬럼명,대체값)함수를 이용한다.**
-        
-        -- BONUS의 NULL값을 0으로변경
-        
+
+
+         -- BONUS의 NULL값을 0으로변경
         SELECT EMP_NAME, SALARY, NVL(BONUS,0)
         FROM EMPLOYEE;
-        
-        <BR/>
+
+
+<BR/>
+
         
         
 # 6. IN / NOT IN
