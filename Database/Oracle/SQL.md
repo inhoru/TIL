@@ -46,7 +46,7 @@
 - 이제 여러가지 계정들을 만들거나 권한을 부여할수있다.
 - 먼저 계정생성하는 법을 알아보자.
 
-          -- 계정생성하는 명령어
+-- 계정생성하는 명령어
           CREATE USER BS IDENTIFIED BY BS DEFAULT TABLESPACE USERS QUOTA UNLIMITED ON USERS;
 
         
