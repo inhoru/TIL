@@ -407,7 +407,14 @@
 
 # 7. SYSDATE
 - 오늘 날짜를 출력할때 사용한다.
+- <CODE>SELECT SYSDATE</CODE>
+        
+        -- 현재날짜
         SELECT SYSDATE FROM DUAL;
+        
+        -- 현재날짜에서 10일을 
+        SELECT SYSDATE-10 FROM DUAL;
+        
         
  <BR/>       
         
