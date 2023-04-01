@@ -370,8 +370,16 @@
         
         
         -- 보너스를 받고있는 사원의 이름, 보IS너스를 조회하기
+        SELECT EMP_NAME,BONUS
+        FROM EMPLOYEE
+        WHERE BONUS IS NOT NULL;
         
+ 
+ 
+<BR/>
+
         
+     
  ## NULL 대체하기
  - 조회를 할때 아무것도 없을때 NULL로 표시간된다
  - NULL로 표현하고 싶지않고 다른값으로 표현하고싶을떄 사용하는 명려어가있다.
