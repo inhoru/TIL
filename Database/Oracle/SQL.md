@@ -357,10 +357,9 @@
 
 - **NULL값은 여기에선 쓰레기, 아무의미없는 값이다. 연산도 불가능하다.**
 - 그렇다면 NULL값을 찾고싶을땐 어떻게 해야할까?
+- <CODE>IS NULL</CODE>, <CODE>IS NOT NULL</CODED> 을 사용한다.
 
-  - <CODE>IS NULL</CODE>, <CODE>IS NOT NULL</CODED>
-
-        
+   
         -- 보너스를 받지 않는 사원조회하기
         
         SELECT EMP_NAME,BONUS
