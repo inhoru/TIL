@@ -48,5 +48,32 @@
 
         -- 계정생성하는 명령어
         CREATE USER BS IDENTIFIED BY BS DEFAULT TABLESPACE USERS QUOTA UNLIMITED ON USERS;
+        -- 18C버전부터 사용자계정명에 ##을 붙여서 생성해야 한다.
+        -- ##안붙일 수 있게 설정하기
+        ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
+
+- 이렇게 명령어를 실행하면
+- BS라는 계정이 생겻다.
+
+<BR/>
+
+##  DB  사용자 조회
+
+- 등록을 했으니 정상적으로 등록이됐는지 확인해보자
+
+        -- DB에 등록되어 있는 사용자 조회하기
+        SELECT * FROM DBA_USERS;   
+  
+  
+![DB](https://user-images.githubusercontent.com/126074577/229294188-9c629864-cc14-49b2-8715-6880a7448b28.png)
+
+- 이런식으로 27행에 정상적으로 생성된걸 확인할수가있다.
+- 하지만 계정만생성 했을뿐 저계정은 아무것도할수가없다.
+- 왜?   관리자가 권한을 부여하지않앗기때문인다.
+
+## 권환부여
+
+
+   
 
         
