@@ -364,23 +364,8 @@
 - **NULL값은 여기에선 쓰레기, 아무의미없는 값이다. 연산도 불가능하다.**
 - 그렇다면 NULL값을 찾고싶을땐 어떻게 해야할까?
 - <CODE>IS NULL</CODE>, <CODE>IS NOT NULL</CODED> 을 사용한다.
-
-         -- 보너스를 받지 않는 사원조회하기
-        
-        SELECT EMP_NAME,BONUS
-        FROM EMPLOYEE
-        --WHERE BONUS='(null)';
-        WHERE BONUS IS NULL;
-        
-         -- 보너스를 받고있는 사원의 이름, 보IS너스를 조회하기
-        SELECT EMP_NAME,BONUS
-        FROM EMPLOYEE
-        WHERE BONUS IS NOT NULL;
-        
-
+- 
 <BR/>
-
-
     
  ## NULL 대체하기
  
