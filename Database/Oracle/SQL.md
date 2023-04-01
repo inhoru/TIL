@@ -1,6 +1,11 @@
 # 🔖 목차
-1.
-2.
+1. [계정생성](#1-계정생성-및-권한)<BR/>
+2. [전체조회 SELECT](#2-SELECT)<BR/>
+3. [조건 WHERE](#3-WHERE)<BR/>
+4. [문자열패턴 LIKE](#4-LIKE)<BR/>
+5. [NULL](#5-NULL)<BR/>
+6. [다중값비교 IN / NOT IN](#6-IN-/-NOT-IN)<BR/>
+7. [날짜 SYSDATE](#7-SYSDATE)<BR/>
 
 
 <br/>
@@ -221,7 +226,7 @@
         FROM EMPLOYEE;
   
   
-  # 3. 원하는 ROW(DATA) 출력
+  # 3. WHERE
   
   - 지정한 조건에 맞는 데이터만 가져올수가있다.
   - <CODE>WHERE</CODE> 조건식을 이용한다.
@@ -301,20 +306,104 @@
         WHERE HIRE_DATE BETWEEN '00/01/01' AND '02/12/31' AND DEPT_CODE ='D9';
 
 
-# 3. LIKE
+# 4. LIKE
 - 검색을 문자열 패턴으로 검색하는 기능 -> 부분일치, 포함여부, 원하는 문자열패턴검색
 - 문자열 패턴을 나타내는 기호는 <CODE>( % )</CODE> , <CODE>( _ )</CODE>
 
-  - **% : 문자가 0개이상 아무문자나 허용할때 사용**
+
+<BR/>
+
+- **% : 문자가 0개이상 아무문자나 허용할때 사용**
   - 예)  %강% : 강 o, 한강, 두강, 두만강, 한강다리, 강강술래 -> 강이 포함되어있는 문자열
-  -      %강 : 강으로 끝나는 말
-  -     강% : 강으로 시작하는 말
+  - %강 : 강으로 끝나는 말
+  - 강% : 강으로 시작하는 말
+
+<BR/>
+
+- _ : 문자가 1개 아무문자나 허용할때 사용
+
+  - _강_ : 중간에 강이 있는 세글자
+  - _강 : 강으로 끝나는 두글자
+  - 강_ : 강으로 시작하는 두글자
+  - _강% : 두글자 이상의 두번째자리에 강을 포함하는 문자
+
+<BR/>
 
 
+        -- 사원 중 유씨성을 가진 사원의 이름, 월급, 부서코드를 조회
+        
+        SELECT EMP_NAME, SALARY, DEPT_CODE
+        FROM EMPLOYEE
+        WHERE EMP_NAME LIKE '유__';
+
+        -- 이메일 주소에 yo를 포함하고 있는 사원의 사원명, 이메일 조회하기
+        
+        SELECT EMP_NAME, EMAIL 
+        FROM EMPLOYEE
+        WHERE EMAIL LIKE '%yo%';
+        
+
+## NOT
+
+- 명령어 앞에 NOT을 사용한다면
+- **일치하지 않는 것들을 찾을수가있다.**
+- **JAVA에서 사용했던 ( ! ) 랑같다.**
+
+        SELECT *
+        FROM EMPLOYEE
+        WHERE EMP_NAME NOT LIKE '김%';
+        
+# 5. NULL
+
+- **NULL값은 여기에선 쓰레기, 아무의미없는 값이다. 연산도 불가능하다.**
+- 그렇다면 NULL값을 찾고싶을땐 어떻게 해야할까?
+
+  - <CODE>IS NULL</CODE>, <CODE>IS NOT NULL</CODED>
+
+        
+        -- 보너스를 받지 않는 사원조회하기
+        
+        SELECT EMP_NAME,BONUS
+        FROM EMPLOYEE
+        --WHERE BONUS='(null)';
+        WHERE BONUS IS NULL;
+        
+        
+        -- 보너스를 받고있는 사원의 이름, 보IS너스를 조회하기
+        
+        
+ ## NULL 대체하기
+ - 조회를 할때 아무것도 없을때 NULL로 표시간된다
+ - NULL로 표현하고 싶지않고 다른값으로 표현하고싶을떄 사용하는 명려어가있다.
+ - **NVL(컬럼명,대체값)함수를 이용한다.**
+        
+        -- BONUS의 NULL값을 0으로변경
+        
+        SELECT EMP_NAME, SALARY, NVL(BONUS,0)
+        FROM EMPLOYEE;
+        
+        <BR/>
+        
+        
+# 6. IN / NOT IN
   
-  
+  - 다중값을 동등 비교할때 사용하는 명령어다.
+  - 위에서는 다중비교를 할때 <CODE>OR</CODE> 를 사용햇지만 더간편하게가능하다.
 
-   
+        
+        SELECT * 
+        FROM EMPLOYEE
+        WHERE DEPT_CODE NOT IN ('D5','D6','D7','D8');
+        
+        --WHERE DEPT_CODE='D5' OR DEPT_CODE='D6' OR DEPT_CODE='D7' OR DEPT_CODE='D8';
+        
+<BR/>
 
+# 7. SYSDATE
+- 오늘 날짜를 출력할때 사용한다.
+        SELECT SYSDATE FROM DUAL;
+        
+ <BR/>       
+        
 
         
