@@ -12,7 +12,7 @@
 ## Categories
 
 * [Java](#Java)
-* [Database](https://github.com/inhoru/TIL/tree/main/Database/Oracle)
+* [Database](#Database)
 
 <br/>
 
@@ -31,5 +31,5 @@
 
 <br/>
 
-## [Database](https://github.com/inhoru/TIL/tree/main/Database/Oracle)
-- [Oracle](https://github.com/inhoru/TIL/tree/main/Database)
+## [Database](https://github.com/inhoru/TIL/tree/main/Database)
+- [Oracle](https://github.com/inhoru/TIL/tree/main/Database/Oracle)
