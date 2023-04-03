@@ -461,12 +461,84 @@
 
 - 컬럼값을 넣어 찾을수도있다.
 
+
+        --EMAIL 주소에 j가 포함되어있는 사원찾기
+        
         SELECT EMAIL, INSTR(EMAIL,'j')
         FROM EMPLOYEE;
+        
 
 <BR/>
 
+## 시작위치를 정해서 검색하기
 
-
-
+        SELECT INSTR('GD아카데미 GD게임즈 GD음악사 GD화이팅','GD'),
         
+        -- 3번째 부터 시작해서 GD를 찾아라
+        INSTR('GD아카데미 GD게임즈 GD음악사 GD화이팅','GD',3),
+        
+        -- 음수값을 집어넣으면 뒤에서부터찾는다.
+        INSTR('GD아카데미 GD게임즈 GD음악사 GD화이팅','GD',-1),
+        
+        --  1부터시작해서 3번째 GD를 찾아라
+        INSTR('GD아카데미 GD게임즈 GD음악사 GD화이팅','GD',1,3)
+        FROM DUAL;
+
+
+- 이것또한 컬럼값을 넣어 찾을수있다.
+
+          -- EMAIL 컬럼에서 @위 위치를 
+          
+         SELECT EMP_NAME, EMAIL, INSTR(EMAIL,'@')
+         FROM EMPLOYEE;
+
+<BR/>
+
+# 11. LPAD/RPAD
+
+- **문자열의 길이가 지정한 길이만큼 차지 않았을때 빈공백을 채워주는 함수다.**
+- 사용방법
+
+  - LPAD/RPAD(문자열||컬럼,최대길이,대체문자)
+
+
+## LAPD
+- **LPAD 왼쪽부터 빈공간채움**
+- 대체문자를 정하지않앗다면 공백으로 출력한다.
+
+        SELECT LPAD('강태풍',10,'*'), LPAD('강태풍',10)
+        FROM DUAL;
+        //****강태풍   |    강태풍    
+        
+<BR/>
+
+## RPAD
+- **RPAD 오른쪽부터 빈공간채움**
+- 대체문자를 정하지않앗다면 공백으로 출력한다.
+
+        SELECT RPAD('강태풍',10,'@')
+        FROM DUAL;
+        //강태풍@@@@
+
+
+## 칼럼을 가져와서 사용
+
+        SELECT EMAIL, RPAD(EMAIL,20,'#')
+        FROM EMPLOYEE;
+        //sun_di@BS.or.kr#####
+        
+        
+<BR/>
+
+
+# 12. LTRIM/RTRIM
+
+- **공백을 제거하는 함수, 특정문자를 지정해서 삭제해주는 함수**
+- 공백으로 연달아있는 공백만 지운다.
+- 글자사이에 공백은 삭제하지않는다.
+- 사용방법
+
+  -  LTRIM/RTRIM('문자열'||컬럼[,'특정문자'])
+
+
+
