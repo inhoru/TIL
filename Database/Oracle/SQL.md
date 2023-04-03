@@ -4,7 +4,7 @@
 3. [조건 WHERE](#3-WHERE)<BR/>
 4. [문자열패턴 LIKE](#4-LIKE)<BR/>
 5. [NULL](#5-NULL)<BR/>
-6. [다중값비교 IN / NOT IN](#6-IN-/-NOT-IN)<BR/>
+6. [다중값비교 IN / NOT IN](#6-IN-,-NOT-IN)<BR/>
 7. [날짜 SYSDATE](#7-SYSDATE)<BR/>
 8. [함수 Function](#8-함수)<BR/>
 9. 
@@ -393,7 +393,7 @@
 <BR/>
  
  
-# 6. IN / NOT IN
+# 6. IN , NOT IN
   
   - 다중값을 동등 비교할때 사용하는 명령어다.
   - 위에서는 다중비교를 할때 <CODE>OR</CODE> 를 사용햇지만 더간편하게가능하다.
