@@ -856,6 +856,11 @@
 <BR/>
 
 # 34. CASE WHEN THEN ELSE
+- 비교하고자 하는 값 또는 컬럼이 조건식과 같으면 결과 값 반환(조건은범위 값 가능)
+
+
+
+
 - CASE
 -   WHEN 조건식 THEN 실행내용
 -   WHEN 조건식 THEN 실행내용
