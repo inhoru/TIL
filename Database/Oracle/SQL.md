@@ -857,11 +857,11 @@
 
 # 34. CASE WHEN THEN ELSE
 - CASE
--             WHEN 조건식 THEN 실행내용
--            WHEN 조건식 THEN 실행내용
--            WHEN 조건식 THEN 실행내용
--             ELSE 실행내용 
-- END
+-   WHEN 조건식 THEN 실행내용
+-   WHEN 조건식 THEN 실행내용
+-   WHEN 조건식 THEN 실행내용
+-   ELSE 실행내용 
+-   END
 
         
           SELECT EMP_NAME, JOB_CODE,
