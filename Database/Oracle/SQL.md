@@ -7,38 +7,38 @@
 6. [다중값비교 IN / NOT IN](#6-IN)<BR/>
 7. [날짜 SYSDATE](#7-SYSDATE)<BR/>
 8. [길이 LENGTH](#8-LENGTH)<BR/>
-9. [바이트 LENGTHB](#-9-LENGTHB)<BR/>
-10. [위치반환 INSTR](#-10-INSTR)<BR/>
-11. [공백채움 LPAD/RPAD](#-11-LPAD/RPAD)<BR/>
-12. [공백삭제 LTRIM/RTRIM](#-12-LTRIM/RTRIM)<br/>
-13. [열 잘라내기 SUBSTR](#-13-SUBSTR)<BR/>
-14. [영문자 처리 UPPER,LOWER,INITCAP](#-14-UPPER,LOWER,INITCAP)<BR/>
-15. [문자열 결합 함수 CONCAT](#-15-CONCAT)<BR/>
-16. [지정문자 특정문자변경 PEPLACE](#-16-PEPLACE)<BR/>
-17. [문자열을 거꾸로 REVERSE](#-17-REVERSE)< BR/>
-18. [매칭되는 문자 변경 TRANSLATE](#-18-TRANSLATE)<BR/>
-19. [절대값 처리 ABS](#-19-ABS)<BR/>
-20. [나머지 구하기 MOD](#-20-MOD)<BR/>
-21. [소수점 반올림 ROUND](#-21-ROUND)<BR/>
-22. [소수점 버리기 FLOOR](#-22-FLOOR)<BR/>
-23. [소수점 버리면서 자리수 지정 TRUNC](#-23-TRUNC)<RR/>
-24. [소수점 올리기 CEIL](#-24-CEIL)<BR/>
-25. [날짜 심화 SYSDATE](#-25-SYSDATE)<BR/>
-26. [전달받은 요일중 가까운다음날짜 출력 NEXT_DAY](#-26-NEXT_DAY)<BR/>
-27. [그달의 마지막날 출력 LASY_DAY](#-27-LASY_DAY)<BR/>
-28. [개월수 더하기  ADD_MONTHS](#-28-ADD_MONTHS)<BR/>
-29. [두날짜 개월수 계산 MONTHS_BETWEEN](#-29-MONTHS_BETWEEN)<BR/>
-30. [날짜 년도,월,일자 따로출력 EXTRACT](#-30-EXTRACT)<BR/>
-31. [숫자, 날짜 문자형 변경 TO_CHAR](#-31-TO_CHAR)<BR/>
-32. [NULL 값 처리해주는함수 NVL](#-32-NVL)<BR/>
-33. [조건에따라 출력값 변경 DECODE](#-33-DECODE)<BR/>
-34. [조건식 반환 CASE WHEN THEN ELSE](#-34-CASE-WHEN-THEN-ELSE)<BR/>
-35. [그룹함수 총합 SUM](#-35-SUM)<BR/>
-36. [그룹함수 평균 AVG](#-36-AVG)<BR/>
-37. [그룹함수 데이터수 COUNT](#-37-COUNT)<BR/>
-38. [그룹함수 최소값/최대값 MAX/MIN](#-38-MAX/MIN)<BR/>
-39. [그룹함수 묶어서 처리  GROUP BY](#-39-GROUP-BY)<BR/>
-40. [그룹함수 값을구해올 조건설정 HAVING](#-40-HAVING)<BR/>
+9. [바이트 LENGTHB](#9-LENGTHB)<BR/>
+10. [위치반환 INSTR](#10-INSTR)<BR/>
+11. [공백채움 LPAD/RPAD](#11-LPAD/RPAD)<BR/>
+12. [공백삭제 LTRIM/RTRIM](#12-LTRIM/RTRIM)<br/>
+13. [열 잘라내기 SUBSTR](#13-SUBSTR)<BR/>
+14. [영문자 처리 UPPER,LOWER,INITCAP](#14-UPPER,LOWER,INITCAP)<BR/>
+15. [문자열 결합 함수 CONCAT](#15-CONCAT)<BR/>
+16. [지정문자 특정문자변경 PEPLACE](#16-PEPLACE)<BR/>
+17. [문자열을 거꾸로 REVERSE](#17-REVERSE)< BR/>
+18. [매칭되는 문자 변경 TRANSLATE](#18-TRANSLATE)<BR/>
+19. [절대값 처리 ABS](#19-ABS)<BR/>
+20. [나머지 구하기 MOD](#20-MOD)<BR/>
+21. [소수점 반올림 ROUND](#21-ROUND)<BR/>
+22. [소수점 버리기 FLOOR](#22-FLOOR)<BR/>
+23. [소수점 버리면서 자리수 지정 TRUNC](#23-TRUNC)<RR/>
+24. [소수점 올리기 CEIL](#24-CEIL)<BR/>
+25. [날짜 심화 SYSDATE](#25-SYSDATE)<BR/>
+26. [전달받은 요일중 가까운다음날짜 출력 NEXT_DAY](#26-NEXT_DAY)<BR/>
+27. [그달의 마지막날 출력 LASY_DAY](#27-LASY_DAY)<BR/>
+28. [개월수 더하기  ADD_MONTHS](#28-ADD_MONTHS)<BR/>
+29. [두날짜 개월수 계산 MONTHS_BETWEEN](#29-MONTHS_BETWEEN)<BR/>
+30. [날짜 년도,월,일자 따로출력 EXTRACT](#30-EXTRACT)<BR/>
+31. [숫자, 날짜 문자형 변경 TO_CHAR](#31-TO_CHAR)<BR/>
+32. [NULL 값 처리해주는함수 NVL](#32-NVL)<BR/>
+33. [조건에따라 출력값 변경 DECODE](#33-DECODE)<BR/>
+34. [조건식 반환 CASE WHEN THEN ELSE](#34-CASE-WHEN-THEN-ELSE)<BR/>
+35. [그룹함수 총합 SUM](#35-SUM)<BR/>
+36. [그룹함수 평균 AVG](#36-AVG)<BR/>
+37. [그룹함수 데이터수 COUNT](#37-COUNT)<BR/>
+38. [그룹함수 최소값/최대값 MAX/MIN](#38-MAX/MIN)<BR/>
+39. [그룹함수 묶어서 처리  GROUP BY](#39-GROUP-BY)<BR/>
+40. [그룹함수 값을구해올 조건설정 HAVING](#40-HAVING)<BR/>
 
 
 
