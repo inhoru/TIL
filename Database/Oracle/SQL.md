@@ -4,7 +4,7 @@
 3. [조건 WHERE](#3-WHERE)<BR/>
 4. [문자열패턴 LIKE](#4-LIKE)<BR/>
 5. [NULL](#5-NULL)<BR/>
-6. [다중값비교 IN / NOT IN](#6-IN-,-NOT-IN)<BR/>
+6. [다중값비교 IN / NOT IN](#6-IN)<BR/>
 7. [날짜 SYSDATE](#7-SYSDATE)<BR/>
 8. [함수 Function](#8-함수)<BR/>
 9. 
