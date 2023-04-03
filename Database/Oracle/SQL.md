@@ -9,10 +9,10 @@
 8. [길이 LENGTH](#8-LENGTH)<BR/>
 9. [바이트 LENGTHB](#9-LENGTHB)<BR/>
 10. [위치반환 INSTR](#10-INSTR)<BR/>
-11. [공백채움 LPAD/RPAD](#11-LPAD/RPAD)<BR/>
-12. [공백삭제 LTRIM/RTRIM](#12-LTRIM/RTRIM)<br/>
+11. [공백채움 LPAD/RPAD](#11-LPAD-RPAD)<BR/>
+12. [공백삭제 LTRIM/RTRIM](#12-LTRIM-RTRIM)<br/>
 13. [열 잘라내기 SUBSTR](#13-SUBSTR)<BR/>
-14. [영문자 처리 UPPER,LOWER,INITCAP](#14-UPPER,LOWER,INITCAP)<BR/>
+14. [영문자 처리 UPPER,LOWER,INITCAP](#14-UPPER-LOWER-INITCAP)<BR/>
 15. [문자열 결합 함수 CONCAT](#15-CONCAT)<BR/>
 16. [지정문자 특정문자변경 PEPLACE](#16-PEPLACE)<BR/>
 17. [문자열을 거꾸로 REVERSE](#17-REVERSE)< BR/>
@@ -21,7 +21,7 @@
 20. [나머지 구하기 MOD](#20-MOD)<BR/>
 21. [소수점 반올림 ROUND](#21-ROUND)<BR/>
 22. [소수점 버리기 FLOOR](#22-FLOOR)<BR/>
-23. [소수점 버리면서 자리수 지정 TRUNC](#23-TRUNC)<RR/>
+23. [소수점 버리면서 자리수 지정 TRUNC](#23-TRUNC)<BR/>
 24. [소수점 올리기 CEIL](#24-CEIL)<BR/>
 25. [날짜 심화 SYSDATE](#25-SYSDATE)<BR/>
 26. [전달받은 요일중 가까운다음날짜 출력 NEXT_DAY](#26-NEXT_DAY)<BR/>
@@ -36,7 +36,7 @@
 35. [그룹함수 총합 SUM](#35-SUM)<BR/>
 36. [그룹함수 평균 AVG](#36-AVG)<BR/>
 37. [그룹함수 데이터수 COUNT](#37-COUNT)<BR/>
-38. [그룹함수 최소값/최대값 MAX/MIN](#38-MAX/MIN)<BR/>
+38. [그룹함수 최소값/최대값 MAX/MIN](#38-MAX-MIN)<BR/>
 39. [그룹함수 묶어서 처리  GROUP BY](#39-GROUP-BY)<BR/>
 40. [그룹함수 값을구해올 조건설정 HAVING](#40-HAVING)<BR/>
 
@@ -523,7 +523,7 @@
 
 <BR/>
 
-# 11. LPAD/RPAD
+# 11. LPAD RPAD
 
 - **문자열의 길이가 지정한 길이만큼 차지 않았을때 빈공백을 채워주는 함수다.**
 - 사용방법
@@ -560,7 +560,7 @@
 <BR/>
 
 
-# 12. LTRIM/RTRIM
+# 12. LTRIM RTRIM
 
 - **공백을 제거하는 함수, 특정문자를 지정해서 삭제해주는 함수**
 - 공백으로 연달아있는 공백만 지운다.
@@ -619,7 +619,7 @@
         
 <BR/>   
 
-# 14. UPPER,LOWER,INITCAP
+# 14. UPPER LOWER INITCAP
 - **영문자를 처리하는 함수**
 
   - UPPER : 전부 대문자로처리
@@ -908,7 +908,7 @@
 
 <BR/>
 
-# 38. MAX/MIN
+# 38. MAX MIN
 - 테이블의 특정컬럼에 대한 최소값 -> MIN(컬럼명)
 
         SELECT MAX(SALARY), MIN(SALARY)
