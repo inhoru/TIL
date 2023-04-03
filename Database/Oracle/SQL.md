@@ -15,7 +15,7 @@
 14. [영문자 처리 UPPER,LOWER,INITCAP](#14-UPPER-LOWER-INITCAP)<BR/>
 15. [문자열 결합 함수 CONCAT](#15-CONCAT)<BR/>
 16. [지정문자 특정문자변경 PEPLACE](#16-PEPLACE)<BR/>
-17. [문자열을 거꾸로 REVERSE](#17-REVERSE)< BR/>
+17. [문자열을 거꾸로 REVERSE](#17-REVERSE)<BR/>
 18. [매칭되는 문자 변경 TRANSLATE](#18-TRANSLATE)<BR/>
 19. [절대값 처리 ABS](#19-ABS)<BR/>
 20. [나머지 구하기 MOD](#20-MOD)<BR/>
