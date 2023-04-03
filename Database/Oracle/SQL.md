@@ -23,7 +23,7 @@
 22. [소수점 버리기 FLOOR](#22-FLOOR)<BR/>
 23. [소수점 버리면서 자리수 지정 TRUNC](#23-TRUNC)<BR/>
 24. [소수점 올리기 CEIL](#24-CEIL)<BR/>
-25. [날짜 심화 SYSDATE](#25-SYSDATE)<BR/>
+25. [날짜 심화 SYSDATE](#25-SYSDATE-)<BR/>
 26. [전달받은 요일중 가까운다음날짜 출력 NEXT_DAY](#26-NEXT_DAY)<BR/>
 27. [그달의 마지막날 출력 LASY_DAY](#27-LASY_DAY)<BR/>
 28. [개월수 더하기  ADD_MONTHS](#28-ADD_MONTHS)<BR/>
@@ -711,7 +711,7 @@
         //결과 127
 <BR/>
 
-# 25.SYSDATE
+# 25.SYSDATE 
 - 오라클에서 날짜를 출력할때는 두가지방식이있다.
 
   - SYSDATE예약어 -> 날짜 년/월/일 오늘 날짜(오라클이 설치되어있는 컴퓨터의 날짜)를 출력해줌.
