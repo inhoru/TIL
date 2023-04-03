@@ -6,8 +6,19 @@
 5. [NULL](#5-NULL)<BR/>
 6. [다중값비교 IN / NOT IN](#6-IN)<BR/>
 7. [날짜 SYSDATE](#7-SYSDATE)<BR/>
-8. [함수 ](#8-함수)<BR/>
-9. 
+8. [길이 LENGTH](#8-LENGTH)<BR/>
+9. [바이트 LENGTHB](#-9-ENGTHB)<BR/>
+10. [위치반환 INSTR](#-10-INSTR)<BR/>
+11. [공백채움 LPAD/RPAD](#-11-LPAD/RPAD)<BR/>
+12. [공백삭제 LTRIM/RTRIM](#-12-LTRIM/RTRIM)<br/>
+13. [열 잘라내기 SUBSTR](#-13-SUBSTR)<BR/>
+14. [영문자 처리 UPPER,LOWER,INITCAP](#-14-UPPER,LOWER,INITCAP)<BR/>
+15. 
+
+
+
+
+
 
 
 
@@ -539,6 +550,199 @@
 - 사용방법
 
   -  LTRIM/RTRIM('문자열'||컬럼[,'특정문자'])
+
+        SELECT '              태풍',  LTRIM ('             태풍') , RTRIM('                태풍                     ')
+        FROM DUAL;
+        //        병승|병승     |         병승
+        
+- 특정 문자를 지정해서 삭제할 수 있다.
+- 연달아있는 수만 지우고 다른문구가 들어가있다면 지우지않는다.
+
+        SELECT ' 태풍2222', RTRIM('태풍2222','2'), RTRIM('태풍22122','2'),
+        RTRIM('태풍22122','12')
+        FROM DUAL;
+        //태풍2222|태풍       |태풍221        |태풍
+        
+<BR/>
+
+## TRIM
+- 양쪽에 있는 값을 제거하는 함수, 기본 : 공백, 설정하면 설정값을 제거(한글자만)
+- 사용방법
+
+  -  TRIM(문자열||컬럼)
+  -  TRIM(LEADING||TRAILING||BOTH '제거할문자' FROM 문자열||컬럼명)
+  -  삭제할 문자열은 한글자만가능!
+      
+        
+        SELECT '                    월요일                 ',TRIM( '                    월요일                 ')
+        ,'ZZZZZZ마징가ZZZZZZ',TRIM('Z' FROM 'ZZZZZZ마징가ZZZZZZ'),
+        TRIM(LEADING 'Z' FROM 'ZZZZZZ마징가ZZZZZZ'),
+        TRIM(TRAILING 'Z' FROM 'ZZZZZZ마징가ZZZZZZ'),
+        TRIM(BOTH 'Z' FROM 'ZZZZZZ마징가ZZZZZZ')
+        FROM EMPLOYEE;
+
+# 13. SUBSTR
+-  **열을 잘라내는 기능 * JAVA SUBSTRING메소드와 동일하다**
+-  사용방법
+
+  - SUBSTR(문자열||컬럼명,시작인덱스번호,[,길이])
+
+
+ 
+        -- 5번째부터 가져오겟다.
+        SELECT SUBSTR('SHOWMETHEMONEY',5), 
+        
+        -- 5번째 중에 2개만 가져오겟다.
+        SUBSTR('SHOWMETHEMONEY',5,2),
+        
+        --뒤에서부터 5번째 2개가져오겟다.
+        
+        SUBSTR('SHOWMETHEMONEY',-5,2) 
+        
+<BR/>   
+
+# 14. UPPER,LOWER,INITCAP
+- **영문자를 처리하는 함수**
+
+  - UPPER : 전부 대문자로처리
+  - LOWER : 전부 소문자로 처리
+  - INITCAP : 문자에 첫자리만 대문자
+
+       SELECT UPPER('Welcome to oRACLE worLd'),
+       LOWER('Welcome to oRACLE worLd'),
+       INITCAP('Welcome to oRACLE worLd')
+       FROM DUAL;
+       
+<BR/>
+
+# 15. CONCAT
+- **문자열을 결합해주는 함수
+- ( || )연산자와 동일하다.
+
+        SELECT EMP_NAME ||EMAIL, CONCAT(EMP_NAME, EMAIL)
+        ,CONCAT(CONCAT(EMP_NAME, EMAIL),SALARY)
+        FROM EMPLOYEE;
+        
+<BR/>
+
+# 16. PEPLACE
+- 대상문자에서 지정문자를 찾아서 특정문자로 변경하는 것
+- 사용방법
+
+  - PEPLACE(문자열||컬럼명,'찾을문자','대체문자')
+
+        SELECT EMAIL, REPLACE(EMAIL,'BS','GD')
+        FROM EMPLOYEE;    
+<BR/>
+
+# 17. REVERSE
+- 문자열을 거꾸로 만들어주는 기능
+        SELECT EMAIL, REVERSE(EMAIL)
+        
+<BR/>
+
+
+# 18. TRANSLATE
+- 매칭되는 문자로 변경해주는 함수
+
+        SELECT TRANSLATE ('010-3644-6259','0123456789','영일이삼사오육칠팔구')
+<BR/>
+
+# 19. ABS
+- 숫자처리 함수
+- 절대값을 처리한다.
+
+        SELECT ABS(-10), ABS(10)
+<BR/>
+
+# 20. MOD
+- 나머지를 구하는 함수* 자바의 %연산자와 동일한함수
+        SELECT MOD(3,2)
+<BR/>
+
+# 21. ROUND
+
+- 소수점을 반올림하는함수
+- 사용방법
+
+  - ROUND (숫자||컬럼명[,자리수])
+
+
+        
+        SELECT 126.567,ROUND(126.567), ROUND(126.467),ROUND(126.567,2)
+        
+<BR/>
+
+# 22. FLOOR
+- 소수점자리 버리는함수
+
+        SELECT 126.567, FLOOR(126.567)
+<BR/>
+
+# 23. TRUNC
+- 소수점 자리를 버리면서 자리수를 지정할수가있다.
+- **자리수 자리에 음수가나오면 소수점앞으로가면서 지나간숫자들을 0으로 만듬**
+
+
+        SELECT 126.567, TRUNC(126.567) , TRUNC(126.567,2) ,TRUNC(126.567,-2),
+        TRUNC(2123456.32,-2)
+        
+# 24. CEIL
+- 소수점 올리는 함수
+        SELECT 126.567, CEIL(126.567),CEIL(126.111)
+        //결과 127
+<BR/>
+
+# 25.SYSDATE
+- 오라클에서 날짜를 출력할때는 두가지방식이있다.
+
+  - SYSDATE예약어 -> 날짜 년/월/일 오늘 날짜(오라클이 설치되어있는 컴퓨터의 날짜)를 출력해줌.
+  - SYSTIMESTAMP예약어 -> 날짜+시간까지 출력해줌
+
+        
+        SELECT SYSDATE, SYSTIMESTAMP
+        
+<BR/>
+
+- **도 산술연산처리가 가능하다. +, - 연산 가능 -> 일수가 차감 , 추가된다.**
+
+        SELECT SYSDATE, SYSDATE-2, SYSDATE+3,SYSDATE+30
+<BR/>
+
+
+# 26. NEXT_DAY
+- 매개변수로 전달받은 요일 중 가장 가까운 다음 날짜 출력
+
+        SELECT SYSDATE, NEXT_DAY(SYSDATE,'월'),NEXT_DAY(SYSDATE,'수')
+        
+        
+- **오라클은 외국 기업인데 왜 한글이 들어가도 정삭적으로작동할까?**
+
+  - LOCALE의 값이 한국으로 되어있기에 월요일,수, 등등 가능하다.
+  - LOCALE의 값을 가지고 언어선택을 할수가있다.
+
+        
+        SELECT * FROM V$NLS_PARAMETERS;
+        ALTER SESSION SET NLS_LANGUAGE = 'KOREAN';
+        SELECT SYSDATE, NEXT_DAY(SYSDATE,'MON'),NEXT_DAY(SYSDATE,'TUESDAY')
+
+<BR/>
+
+# 27. LASY_DAY
+- 그달의 마지막날을 출력한다.
+
+        SELECT SYSDATE, LAST_DAY(SYSDATE), LAST_DAY(SYSDATE+30)
+<BR/>
+
+
+# 28. ADD_MONTHS
+- 개월수를 더해주는 함수
+
+            SELECT SYSDATE, ADD_MONTHS(SYSDATE,4)
+<BR/>
+
+
+        
 
 
 
