@@ -862,7 +862,7 @@
 - DEFAULT : 모든 조건이 불일치 시 반환할 값
 
 
-<BR/>
+
 
   - CASE
   -   WHEN 조건식 THEN 실행내용
