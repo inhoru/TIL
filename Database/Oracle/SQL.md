@@ -6,6 +6,8 @@
 5. [NULL](#5-NULL)<BR/>
 6. [다중값비교 IN / NOT IN](#6-IN-/-NOT-IN)<BR/>
 7. [날짜 SYSDATE](#7-SYSDATE)<BR/>
+8. [함수 Function](#8-함수)<BR/>
+9. 
 
 
 <br/>
@@ -418,5 +420,66 @@
         
  <BR/>       
         
+# 8. 함수
+
+## 단일행 함수
+- 사용하는 위치
+
+  - SELECT문의 컬럼을 작성하는부분
+  - WHERE절
+  - INSERT
+  - UPDATE
+  - DELETE
+
+<BR/>
+
+
+# 9. LENGTH
+- **저장된 컬럼이나 리터럴값에 대한길이를 출력해주는 함수**
+- 사용방법
+
+  -  LENGTH('문자열'||컬럼명)  - > 문자열의 갯수를 출력
+
+        SELECT LENGTH('오늘 월요일 힘내요!')
+        FROM DUAL;
+        SELECT EMAIL, LENGTH(EMAIL)
+        FROM EMPLOYEE;
+        //출력결과
+        //11
+
+- 컬럼안에 있는 문자열도가능하다.
+
+        SELECT EMAIL, LENGTH(EMAIL)
+        FROM EMPLOYEE;        
+
+- 조건을 넣어서 조회도가능하다.
+
+        SELECT EMP_NAME, EMAIL, LENGTH(EMAIL)
+        FROM EMPLOYEE
+        WHERE LENGTH(EMAIL)>=16;  
+        
+<BR/>
+
+# 10. LENGTHB
+- 차지하는 BYTE를 출력해준다.
+- **EXPRESS버전에서 한글은 3BYTE로 저장된다. ENTERPRISE버전에서는 2BYTE로저장된다.**
+
+        SELECT LENGTHB('ABCD'), LENGTHB('월요일')
+        FROM EMPLOYEE;      
+        //'ABCD/'월요일'
+        //4     / 9
+
+<BR/>
+
+# 11. INSTR
+- JAVA의 INDEXOF 와 유사한 기능을가지고있다.
+- **지정한 위치부터 지정한 숫자 번째로 나타나는 문자의 시작 위치 반환**
+- 사용방법
+
+  -  **INSTR('문자열'||컬럼,'찾을 문자'[,시작위치, 찾을번째(횟수)]**
+  -  오라클에서는  인덱스 번호는 1부터시작한다.
+  -  없는 값을 찾을때는 0을 출력한다.
+
+
 
         
