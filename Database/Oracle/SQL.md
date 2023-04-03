@@ -7,7 +7,7 @@
 6. [다중값비교 IN / NOT IN](#6-IN)<BR/>
 7. [날짜 SYSDATE](#7-SYSDATE)<BR/>
 8. [길이 LENGTH](#8-LENGTH)<BR/>
-9. [바이트 LENGTHB](#-9-ENGTHB)<BR/>
+9. [바이트 LENGTHB](#-9-LENGTHB)<BR/>
 10. [위치반환 INSTR](#-10-INSTR)<BR/>
 11. [공백채움 LPAD/RPAD](#-11-LPAD/RPAD)<BR/>
 12. [공백삭제 LTRIM/RTRIM](#-12-LTRIM/RTRIM)<br/>
