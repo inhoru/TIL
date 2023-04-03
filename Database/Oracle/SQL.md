@@ -13,7 +13,7 @@
 12. [공백삭제 LTRIM/RTRIM](#-12-LTRIM/RTRIM)<br/>
 13. [열 잘라내기 SUBSTR](#-13-SUBSTR)<BR/>
 14. [영문자 처리 UPPER,LOWER,INITCAP](#-14-UPPER,LOWER,INITCAP)<BR/>
-15. 
+15. [
 
 
 
@@ -741,8 +741,211 @@
             SELECT SYSDATE, ADD_MONTHS(SYSDATE,4)
 <BR/>
 
+# 29. MONTHS_BETWEEN
+- 두개의 날짜를 받아서 두날짜의 개월수를 계산해주는 함수
+
+        SELECT FLOOR (MONTHS_BETWEEN('23/08/17',SYSDATE))
+
+<BR/>
+
+# 30. EXTRACT
+- 날짜의 년도, 월, 일자를 따로 출력할 수 있는 함수
+
+  - EXTRACT(YEAR||MONTH||DAY FROM 날짜)
+  - 숫자로 출력해준다.
+
+        -- 현재날짜의 년, 월, 일 출력하기
+        
+        SELECT EXTRACT(YEAR FROM SYSDATE) AS 년 , EXTRACT(MONTH FROM SYSDATE) AS 월,           EXTRACT(DAY FROM SYSDATE) AS 일
 
         
+- 날짜에 숫자를 더할수가 있다.
+
+        
+        SELECT EXTRACT(DAY FROM HIRE_DATE)+100
+        
+<BR/>
+
+# 31. TO_CHAR
+- 숫자, 날짜를 문자형으로 변경해주는 함수
+
+<BR/>
+
+## 날짜를 문자형으로 변경하기
+
+  - 날짜값을 기호로표시해서 문자형으로 변경을 한다.
+  - Y : 년, M : 월, D : 일 , H : 시 , MI : 분, ss : 초
+
+        SELECT SYSDATE, TO_CHAR(SYSDATE,'YYYY-MM-DD'), TO_CHAR(SYSDATE,'YYYY-MM-DD              HH24:MI:SS')
+
+<BR/>
+
+## 숫자를 문자형으로 변경하기
+- 패턴에 맞춰서 변환 -> 자리수를 어떻게 표현할지 선택
+- 0 :  변환대상값의 자리수가 지정한 자리수와 일치하지않을때, 값이 없는 자리에 0을 표시하는 패턴
+- 9 :  변환대상값의 자리수가 지정한 자리수와 일치하지않을때, 값이 없는 자리에 생략하는 패턴 
+- 통화를 표시하고 싶을때는 L을 표시
+- FM을붙이면 공백제거
+        
+        SELECT 1234567,TO_CHAR(1234567,'000,000,000'), TO_CHAR(1234567,'999,999,999'),
+        TO_CHAR(500,'L999,999')
+        
+## 숫자형으로 변경하기
+- TO_NUMBER함수를 이용
+- 문자를 숫자형으로 변경하기
+
+        SELECT 1000000+1000000,TO_NUMBER('1,000,000','999,999,999')+1000000,
+        TO_CHAR(TO_NUMBER('1,000,000','999,999,999')+1000000,'FML999,999,999') 
+  
+## 날짜형으로 변경하기
+- 숫자를 날짜로 변경
+- 문자열을 날짜로 변경
+
+        SELECT TO_DATE('23/12/25','YY/MM/DD')-SYSDATE,                TO_DATE('241225','YYMMDD'),TO_DATE('25-12-25','YY-MM-DD') 
+        
+
+- 주의사항
+- 년원일을 사용할떄 앞에 000이붙으면 조심해야한다 000은 읽지않기때문이다 그래서 문자열로 변경해서사용한다.
+
+        SELECT TO_DATE(20230405,'YYYY/MM/DD'), TO_DATE(230505,'YYMMDD'), TO_DATE (TO_CHAR(00224,'000000'),'YYMMDD')
+        
+<BR/>
+
+
+# 32. NVL
+
+- NULL갑을 처리해주는 함수
+
+  - NVL함수 : NVL(컬럼,대체값)
+  - NVL2함수 : NVL2(컬럼,NULL아닐때, NULL일때)
+
+        SELECT EMP_NAME, DEPT_CODE, NVL(DEPT_CODE,'인턴'),
+        NVL2(DEPT_CODE,'있음','없음')         
+
+# 33. DECODE
+
+- 조건에 따라 출력할 값을 변경해주는 함수
+
+  - DECODE(컬럼명 || 문자열, '예상값','대체값','예상값2','대체값2',.....)
+
+       
+         -- 각 직책코드의 명칭을 출력하기
+        -- J1은 대표, J2 부사장, J3 부장, J4 과장
+        -- 맨마지막에는 적으면디폴트값이된다.
+        SELECT EMP_NAME, DECODE(JOB_CODE,'J1','대표','J2','부사장','J3','부장','J4','과         장','사원') AS 직책
+        FROM EMPLOYEE;        
+
+<BR/>
+
+# 34. CASE WHEN THEN ELSE
+- CASE
+-             WHEN 조건식 THEN 실행내용
+-            WHEN 조건식 THEN 실행내용
+-            WHEN 조건식 THEN 실행내용
+-             ELSE 실행내용 
+- END
+
+        
+          SELECT EMP_NAME, JOB_CODE,
+            CASE
+                    WHEN JOB_CODE = 'J1' THEN '대표'
+                    WHEN JOB_CODE = 'J2' THEN '부사장'
+                    WHEN JOB_CODE = 'J3' THEN '부장'
+                    WHEN JOB_CODE = 'J4' THEN '과장'
+                    ELSE '사원'
+            END AS 직책,
+            CASE JOB_CODE
+                    WHEN 'J1' THEN '대표'
+                    WHEN 'J2' THEN '부사장'
+            END
+
+
+
+<BR/>
+
+# 35. SUM
+- 테이블의 특정컬럼에 대한 총합 -> SUM(컬럼(NUMBER))
+
+        SELECT TO_CHAR (SUM(SALARY),'FML999,999,999') FROM EMPLOYEE;
+
+ <BR/>
+ 
+ # 36. AVG
+  
+- 테이블의 특정컬럼에 대한 평균 -> AVG(컬럼(NUMBER))
+
+         -- D5의 급여 평균을 구하기
+        SELECT AVG(SALARY) FROM EMPLOYEE
+        WHERE DEPT_CODE = 'D5';
+
+<BR/>
+
+# 37. COUNT
+- 테이블의 데이터수(ROW수) -> COUNT(* | | 컬럼)
+
+        -- 테이블의 데이터수 확인하기
+        
+        SELECT COUNT(*)
+        FROM EMPLOYEE;
+
+<BR/>
+
+# 38. MAX/MIN
+- 테이블의 특정컬럼에 대한 최소값 -> MIN(컬럼명)
+
+        SELECT MAX(SALARY), MIN(SALARY)
+        
+<BR/>
+
+# 39. GROUP BY
+- 그룹함수를 사용했을때 특정기준으로 컬럼값을 묶어서 처리하는 것 -> 묶인 그룹별 그룹함수의 결과가 출력됨.
+
+  - SELECT 컬럼
+  - FROM 테이블명
+  - [WHERE 조건식]
+  - [GROUP BY 컬럼명[,컬럼명,컬럼명,..... ]]
+  - [ORDERY BY 컬럼명]
+
+
+        -- 부서별 급여 합계를 구하시오
+        SELECT DEPT_CODE,SUM(SALARY)
+        FROM EMPLOYEE
+        GROUP BY DEPT_CODE;       
+
+<BR/>
+
+## GROUP BY 절에는 다수의 컬럼을 넣을 수 있다
+        
+        SELECT DEPT_CODE, JOB_CODE, COUNT(*)
+        FROM EMPLOYEE
+        GROUP BY DEPT_CODE, JOB_CODE;
+
+<BR/>
+
+## GROUP BY를 사용한 절에서 WHERE 도 사용이 가능하다.
+
+        SELECT DEPT_CODE, SUM(SALARY)
+        FROM EMPLOYEE
+        WHERE BONUS IS NOT NULL
+        GROUP BY DEPT_CODE; 
+        
+<BR/>
+
+# 40. HAVING
+- WHERE 는 그룹함수를 사용할수가없다. WHERE COUNT(*) >=3 <- 불가능
+- HAVING 사용한다.   HAVING COUNT(*) >=3;  
+
+
+        
+        -- 직책별 인원수가 3명이상인 직책 출력하기
+        
+        SELECT JOB_CODE , COUNT(*)
+        FROM EMPLOYEE
+        GROUP BY JOB_CODE
+        HAVING COUNT(*)>=3;
+        
+<BR/>
+
 
 
 
