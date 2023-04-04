@@ -82,10 +82,10 @@ ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 ##  DB  사용자 조회
 
 - 등록을 했으니 정상적으로 등록이됐는지 확인해보자
-        ```SQL
-        -- DB에 등록되어 있는 사용자 조회하기
-        SELECT * FROM DBA_USERS;   
-        ```
+```SQL
+-- DB에 등록되어 있는 사용자 조회하기
+SELECT * FROM DBA_USERS;   
+```
   
 ![DB](https://user-images.githubusercontent.com/126074577/229294188-9c629864-cc14-49b2-8715-6880a7448b28.png)
 
@@ -101,16 +101,17 @@ ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
   
 - 사용자를 생성하더라도 권환이 없으면 DB를 이용할 수 없다.
 - 그렇다면 사용자에게 권한을 부여해보자.
-        ```SQL
-        -- GRANT 권한 or 롤(역할) TO 사용자계정명
-        GRANT CONNECT TO BS;
+```SQL
+-- GRANT 권한 or 롤(역할) TO 사용자계정명
+GRANT CONNECT TO BS;
         
-        -- 테이블을 이용할 수 있는 권한을 부여하기
-        GRANT RESOURCE TO BS;
+-- 테이블을 이용할 수 있는 권한을 부여하기
+GRANT RESOURCE TO BS;
         
-        -- 한꺼번에 두개다 부여할수도있다.
-        GRANT CONNECT, RESOURCE TO BS;
-        ```
+-- 한꺼번에 두개다 부여할수도있다.
+
+GRANT CONNECT, RESOURCE TO BS;
+```
    
 - 이로써 BS계정을 사용할수있는 권환이생겻다.
 
