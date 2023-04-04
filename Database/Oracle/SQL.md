@@ -132,20 +132,23 @@ GRANT CONNECT, RESOURCE TO BS;
 ## 정보확인
 - 테이블에 정보를 확인하는 명령어
 
-          -- SELECT문을 이용해서 EMPLOYEE테이블의 전체 컬럼 조회하기
-          SELECT * 
-          FROM EMPLOYEE;
-          
+
+```SQL
+-- SELECT문을 이용해서 EMPLOYEE테이블의 전체 컬럼 조회하기
+SELECT * 
+FROM EMPLOYEE;
+```
+
 - ( * ) 을사용하면 전체데이터를 확인할수가 있다.
 
 <BR/>
 
 - 컬럼 하나하나도 조회도가능하다.
-
-          -- 전체 사원의 이름, 월급, 보너스 입사일을 조회하기
-          SELECT EMP_NAME, SALARY, BONUS, HIRE_DATE
-          FROM EMPLOYEE;        
-          
+```SQL
+-- 전체 사원의 이름, 월급, 보너스 입사일을 조회하기
+SELECT EMP_NAME, SALARY, BONUS, HIRE_DATE
+FROM EMPLOYEE;        
+```          
 - 이런식으로 자기가 원하는 내용을 따로 정보를 조회할수가있다.
 - **모든 내용을 확인할때는 SELECT문을 사용한다.**
 
@@ -157,19 +160,20 @@ GRANT CONNECT, RESOURCE TO BS;
   - +,-,*,/(사칙연산) -> 피연산자 리터럴, 컬럼값
 
 
-        SELECT 10+20, 10-20, 20/3, 5*4
-        FROM DUAL;
- 
+```SQL
+SELECT 10+20, 10-20, 20/3, 5*4
+FROM DUAL;
+```
  <BR/>
  
  - 그렇다면 이산술연산을 다른데서도사용이가능할까?
 
   - 가능하다. 
   - 우리가 위에서 사용한 EMPLOYEE에 산술연산을 적용시켜보자
-
-        SELECT EMP_NAME, SALARY+100, SALARY
-        FROM EMPLOYEE;  
-  
+```SQL
+SELECT EMP_NAME, SALARY+100, SALARY
+FROM EMPLOYEE;  
+```  
   
 ![산술연산](https://user-images.githubusercontent.com/126074577/229294970-c68320e3-5222-40d5-b337-d0c4219fef11.png)
 
@@ -181,10 +185,11 @@ GRANT CONNECT, RESOURCE TO BS;
   - 하지만 한가지 주의할점이있다.
   - **NULL값과 연산은 불가능하다** 
   - **결과가 무조건 NULL로 출력되기때문이다.**
+```SQL
+SELECT EMP_NAME, SALARY+BONUS
+FROM EMPLOYEE; 
+```
 
-        SELECT EMP_NAME, SALARY+BONUS
-        FROM EMPLOYEE; 
-        
 - 이런식으로 컬럼들끼리 모두 숫자면 산술연산이가능하다.
 
   - **그렇다면 숫자만가능하다면 문자열은 불가능한가?**
@@ -209,40 +214,44 @@ GRANT CONNECT, RESOURCE TO BS;
 - 띄어쓰기 도 사용할수있지만 가독성을 위해서
 - AS 를 많이 사용한다.
 
-        SELECT EMP_NAME AS 사원명, SALARY AS 월급, EMAIL AS 이메일
-        FROM EMPLOYEE;
+
+```SQL
+SELECT EMP_NAME AS 사원명, SALARY AS 월급, EMAIL AS 이메일
+FROM EMPLOYEE;
         
-        -- AS 를 생략하고 띄어쓰기로 부여할 수 있다.
-        SELECT EMP_NAME 사원명, SALARY 월급, EMAIL 이메일
-        FROM EMPLOYEE;        
+-- AS 를 생략하고 띄어쓰기로 부여할 수 있다.
+SELECT EMP_NAME 사원명, SALARY 월급, EMAIL 이메일
+FROM EMPLOYEE;        
+```
 
 - 그렇다면 별칭에 띄어쓰기 특수기호가 가능할까?
 - 가능 하다 
 - **별칭명 앞뒤에 ( " " ) 를 사용해주면된다.**
 
-     
-        SELECT EMP_NAME AS "사 원 명", SALARY AS "$월$급"
-        FROM EMPLOYEE;
- 
+```SQL   
+SELECT EMP_NAME AS "사 원 명", SALARY AS "$월$급"
+FROM EMPLOYEE;
+``` 
  
  ## 문자 연결
  - 위에서 산술연산에는 문자를 연산할수없다고 했는데
  - 그렇다면 문자연결하는법은 뭘까?
  - **자바에선 (" ") 를사용했다면 SQL 은(' ')  을사용한다.**
 
-        
-        SELECT '점심'+'맛있다' 
-        FROM DUAL;
-        
+```SQL      
+SELECT '점심'+'맛있다' 
+FROM DUAL;
+```   
+
 ## || 연산
 - || 연산은 컬럼을 합칠때 사용하거나 문자를 합칠때 사용한다.
-
-        SELECT '점심'||'맛없다 FEAT 반장'
-        FROM DUAL
+```SQL
+SELECT '점심'||'맛없다 FEAT 반장'
+FROM DUAL
         
-        SELECT EMP_NAME||'님의 월급은 '||SALARY||' 보너스'||BONUS
-        FROM EMPLOYEE;
-  
+SELECT EMP_NAME||'님의 월급은 '||SALARY||' 보너스'||BONUS
+FROM EMPLOYEE;
+``` 
   
   # 3. WHERE
   
@@ -254,12 +263,15 @@ GRANT CONNECT, RESOURCE TO BS;
   - FROM 테이블명
   - WHERE 조건식
 
-        
-        -- 사원 중 월급이 200만원이상인 사원을 조회하기
-        SELECT * 
-        FROM EMPLOYEE
-        WHERE SALARY>=2000000;  
-        
+
+
+```SQL        
+-- 사원 중 월급이 200만원이상인 사원을 조회하기
+SELECT * 
+FROM EMPLOYEE
+WHERE SALARY>=2000000;  
+```
+
 - 마치 JAVA에서의 IF문을 보는것같은느낌이다.
 
 
@@ -270,21 +282,23 @@ GRANT CONNECT, RESOURCE TO BS;
 - 여기서도 <CODE>AND</CODE>,<CODE>OR</CODE> 를 사용한다.
 
 
-
-         -- 사원 중 부서가 D5이고 월급이 300만원 이상인 사원의 이름, 부서코드, 월급 조회하기
+```SQL
+-- 사원 중 부서가 D5이고 월급이 300만원 이상인 사원의 이름, 부서코드, 월급 조회하기
          
-        SELECT EMP_NAME, DEPT_CODE, SALARY
-        FROM EMPLOYEE
-        WHERE DEPT_CODE='D5' AND SALARY>=3000000;      
+SELECT EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE='D5' AND SALARY>=3000000;      
+```
+
         
-        <BR/>
-        
-        -- 사원 중 부서가 D5이거나 월급이 300만원 이상인 사원의 이름, 부서코드, 월급 조회하기
-        
-        SELECT EMP_NAME, DEPT_CODE, SALARY
-        FROM EMPLOYEE
-        WHERE DEPT_CODE='D5' OR SALARY>=3000000;
-        
+- 사원 중 부서가 D5이거나 월급이 300만원 이상인 사원의 이름, 부서코드, 월급 조회하기
+
+
+```SQL        
+SELECT EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE='D5' OR SALARY>=3000000;
+```        
 
 - 한가지 알아야 할점이 있다.
 - **조건식에 말이안되는 걸 적어도 오라클은 오류를 내지않는다**
@@ -298,12 +312,12 @@ GRANT CONNECT, RESOURCE TO BS;
 - **날짜를 대소비교할때는 문자로비교, 문자열 패턴을 맞춰준다.**
 - **기본적이 날짜를 표시하는 문자열 패턴 : YY/MM/DD -> 'YY/MM/DD'**
 
-        
-        -- 입사일이 2000년 01월 01일 이전이 사원의 이름, 입사일을 조회하기
-        SELECT EMP_NAME, HIRE_DATE
-        FROM EMPLOYEE
-        WHERE HIRE_DATE<'00/01/01';
-        
+```SQL        
+-- 입사일이 2000년 01월 01일 이전이 사원의 이름, 입사일을 조회하기
+SELECT EMP_NAME, HIRE_DATE
+FROM EMPLOYEE
+WHERE HIRE_DATE<'00/01/01';
+```        
         
 - 이렇게 범위값을 조회할수있지만
 - 더간단해서 명령어를 통해서 조회하는방법도있다.
@@ -313,15 +327,20 @@ GRANT CONNECT, RESOURCE TO BS;
 - 사용방법
   - 컬럼명 BETWEEN 값 AND 값 ;
 
-        -- 연봉 2000000 과 3000000 사이 조회
-        SELECT EMP_NAME, SALARY, BONUS, HIRE_DATE
-        FROM EMPLOYEE
-        WHERE SALARY BETWEEN 2000000 AND 3000000;
+
+```SQL
+-- 연봉 2000000 과 3000000 사이 조회
+SELECT EMP_NAME, SALARY, BONUS, HIRE_DATE
+FROM EMPLOYEE
+WHERE SALARY BETWEEN 2000000 AND 3000000;
         
-        -- 입사일이 00년01월01부터 02년 12월 31일까지 사이 조회 그리고 D9인사람만
-        SELECT *
-        FROM EMPLOYEE
-        WHERE HIRE_DATE BETWEEN '00/01/01' AND '02/12/31' AND DEPT_CODE ='D9';
+-- 입사일이 00년01월01부터 02년 12월 31일까지 사이 조회 그리고 D9인사람만
+SELECT *
+FROM EMPLOYEE
+WHERE HIRE_DATE BETWEEN '00/01/01' AND '02/12/31' AND DEPT_CODE ='D9';
+```
+
+<BR/>
 
 
 # 4. LIKE
@@ -348,18 +367,21 @@ GRANT CONNECT, RESOURCE TO BS;
 <BR/>
 
 
-        -- 사원 중 유씨성을 가진 사원의 이름, 월급, 부서코드를 조회
-        
-        SELECT EMP_NAME, SALARY, DEPT_CODE
-        FROM EMPLOYEE
-        WHERE EMP_NAME LIKE '유__';
+-- 사원 중 유씨성을 가진 사원의 이름, 월급, 부서코드를 조회
 
-        -- 이메일 주소에 yo를 포함하고 있는 사원의 사원명, 이메일 조회하기
-        
-        SELECT EMP_NAME, EMAIL 
-        FROM EMPLOYEE
-        WHERE EMAIL LIKE '%yo%';
-        
+```SQL
+SELECT EMP_NAME, SALARY, DEPT_CODE
+FROM EMPLOYEE
+WHERE EMP_NAME LIKE '유__';
+
+-- 이메일 주소에 yo를 포함하고 있는 사원의 사원명, 이메일 조회하기
+```SQL       
+SELECT EMP_NAME, EMAIL 
+FROM EMPLOYEE
+WHERE EMAIL LIKE '%yo%';
+```
+
+<BR/>
 
 ## NOT
 
