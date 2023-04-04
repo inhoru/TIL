@@ -82,10 +82,10 @@ ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
 ##  DB  사용자 조회
 
 - 등록을 했으니 정상적으로 등록이됐는지 확인해보자
-
+        ```SQL
         -- DB에 등록되어 있는 사용자 조회하기
         SELECT * FROM DBA_USERS;   
-  
+        ```
   
 ![DB](https://user-images.githubusercontent.com/126074577/229294188-9c629864-cc14-49b2-8715-6880a7448b28.png)
 
