@@ -101,7 +101,7 @@ ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
   
 - 사용자를 생성하더라도 권환이 없으면 DB를 이용할 수 없다.
 - 그렇다면 사용자에게 권한을 부여해보자.
-
+        ```SQL
         -- GRANT 권한 or 롤(역할) TO 사용자계정명
         GRANT CONNECT TO BS;
         
@@ -110,7 +110,7 @@ ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
         
         -- 한꺼번에 두개다 부여할수도있다.
         GRANT CONNECT, RESOURCE TO BS;
-        
+        ```
    
 - 이로써 BS계정을 사용할수있는 권환이생겻다.
 
