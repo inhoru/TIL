@@ -66,11 +66,13 @@
 - 이제 여러가지 계정들을 만들거나 권한을 부여할수있다.
 - 먼저 계정생성하는 법을 알아보자.
 
-        -- 계정생성하는 명령어
-        CREATE USER BS IDENTIFIED BY BS DEFAULT TABLESPACE USERS QUOTA UNLIMITED ON USERS;
-        -- 18C버전부터 사용자계정명에 ##을 붙여서 생성해야 한다.
-        -- ##안붙일 수 있게 설정하기
-        ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
+```SQL
+-- 계정생성하는 명령어
+CREATE USER BS IDENTIFIED BY BS DEFAULT TABLESPACE USERS QUOTA UNLIMITED ON USERS;
+-- 18C버전부터 사용자계정명에 ##을 붙여서 생성해야 한다.
+-- ##안붙일 수 있게 설정하기
+ALTER SESSION SET "_ORACLE_SCRIPT"=TRUE;
+```
 
 - 이렇게 명령어를 실행하면
 - BS라는 계정이 생겻다.
