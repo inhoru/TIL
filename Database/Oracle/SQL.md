@@ -1009,32 +1009,274 @@ SELECT MOD(3,2)
   - ROLLUP : 두개이상의 인수를 전달했을때 두개 컬럼의 집계, 첫번째 인수컬럼의 소계, 전체 총계
   - CUBE : 두개이상 인수를 전달했을때 두개 컬럼의 집계, 첫번째 인수컬럼의 소계, 두번째 인수컬럼의 소개 , 전체 총계
 
+
+## ROLLUP
+- 먼저 첫번째 컬럼의 소계를한후 전체총계를한다
+
+
 ```SQL
 SELECT DEPT_CODE, JOB_CODE, SUM(SALARY)
 FROM EMPLOYEE
 WHERE DEPT_CODE IS NOT NULL 
 GROUP BY ROLLUP(DEPT_CODE, JOB_CODE);
-
+---------------------------------------
 D1	J6	6440000
 D1	J7	1380000
-D1		7820000
+D1	NULL	7820000
 D2	J2	8960000
 D2	J4	6520000
-D2		15480000
+D2	NULL	15480000
 D5	J3	3500000
 D5	J5	8460000
 D5	J7	3800000
-D5		15760000
+D5	NULL	15760000
 D6	J3	7300000
 D6	J4	2800000
-D6		10100000
+D6	NULL	10100000
 D8	J6	6986240
-D8		6986240
+D8	NULL	6986240
 D9	J1	8000000
 D9	J2	9700000
-D9		17700000
-		73846240
+D9	NULL	17700000
+NULL	NULL	73846240
 ```
+- 위에결과를 보고 설명하자면
+- DEPT_CODE 의 경우의수를 전부 돈다고 생각하면된다.
+- D1이면서 J1,J2,J3,.......전부돌고 일치하는값이 있다면 출력된다
+- 위를 보면 D1이면서 J6 값과 D1이면서 J7값이 일치한다 그래서 출력이된거다
+- 그후 그두개의값을 합친결과가 출력이된다.
+
+<BR/>
+
+## CUBE
+- 인수가 2개일때 인수 각각의 경우의 수를 전부돈다.
+
+```SQL
+SELECT DEPT_CODE, JOB_CODE, SUM(SALARY)
+FROM EMPLOYEE
+WHERE DEPT_CODE IS NOT NULL 
+GROUP BY CUBE(DEPT_CODE, JOB_CODE);
+
+---------------------------------------------------
+NULL	NULL	73846240
+NULL	J1	8000000
+NULL	J2	18660000
+NULL	J3	10800000
+NULL	J4	9320000
+NULL	J5	8460000
+NULL	J6	13426240
+NULL	J7	5180000
+D1	NULL	7820000
+D1	J6	6440000
+D1	J7	1380000
+D2	NULL	15480000
+D2	J2	8960000
+D2	J4	6520000
+D5	NULL	15760000
+D5	J3	3500000
+D5	J5	8460000
+D5	J7	3800000
+D6	NULL	10100000
+D6	J3	7300000
+D6	J4	2800000
+D8	NULL	6986240
+D8	J6	6986240
+D9	NULL	17700000
+D9	J1	8000000
+D9	J2	9700000
+```
+- JOB_CODE 의 경우의수 전부 돈후 DEPT_CODE 의경우의수를 돈다음 전체값을 출력한다.
+
+<BR/>
+
+# 42. GROUPING
+- GROUPING함수를 이용하면 집계한 결과에 대한 분기처리르 할 수 있다.
+- ROLLUP, CUBE로 집계된 ROW에 대한 분기처리
+- GROUPING 함수를 실행하면, ROLLUP, CUBE로 집계된 ROW 1을 반환 아니면 0을 반환한다
+
+	- 쉽게 설명하자면
+	- 그냥 우리가 컬럼에 AS로 이름을 붙이듯이
+	- 그룹에 이름을 붙이는거라고 생각하면된다.
+	- **NULL값은 1을 반환 그게아니라면 0을반환한다.**
+
+```SQL
+SELECT COUNT(*),DEPT_CODE, JOB_CODE,
+CASE
+WHEN GROUPING(DEPT_CODE)=0 AND GROUPING(JOB_CODE)=1 THEN '부서별인원'
+WHEN GROUPING(DEPT_CODE)=1 AND GROUPING(JOB_CODE)=0 THEN '직책별인원'
+WHEN GROUPING(DEPT_CODE)=0 AND GROUPING(JOB_CODE)=0 THEN '부서_직책인원'
+WHEN GROUPING(DEPT_CODE)=1 AND GROUPING(JOB_CODE)=1 THEN '총인원'
+END AS 결과
+FROM EMPLOYEE
+WHERE DEPT_CODE IS NOT NULL
+GROUP BY CUBE(DEPT_CODE, JOB_CODE);
+------------------------------------------------------------------------
+23			총인원
+1	NULL	J1	직책별인원
+4	NULL	J2	직책별인원
+3	NULL	J3	직책별인원
+4	NULL	J4	직책별인원
+3	NULL	J5	직책별인원
+5	NULL	J6	직책별인원
+3	NULL	J7	직책별인원
+3	D1	NULL	부서별인원
+2	D1	J6	부서_직책인원
+1	D1	J7	부서_직책인원
+5	D2	NULL	부서별인원
+2	D2	J2	부서_직책인원
+3	D2	J4	부서_직책인원
+6	D5	NULL	부서별인원
+1	D5	J3	부서_직책인원
+3	D5	J5	부서_직책인원
+2	D5	J7	부서_직책인원
+3	D6	NULL	부서별인원
+2	D6	J3	부서_직책인원
+1	D6	J4	부서_직책인원
+3	D8	NULL	부서별인원
+3	D8	J6	부서_직책인원
+3	D9	NULL	부서별인원
+1	D9	J1	부서_직책인원
+2	D9	J2	부서_직책인원
+```
+- 총집계의이름을 설정하지않앗으니 둘다 NULL이나오니 1,1을붙인다.
+
+<BR/>
+
+# 43. ORDER BY
+- 테이블에서 조회한 데이터를 정렬해준다.
+	
+	- ORDER BY 구문을 사용함.
+	- SELECT 컬럼명.....
+	- FROM 테이블명
+	- [WHERE 조건식]
+	- [GROUP BY 컬럼명]
+	- [HAVING 조건식]
+	- 정렬방법은 생략가능 디포틀값으로 나옴 디폴트값 = 오름차순
+	- [ORDER BY 컬럼명 정렬방식(DESC(내림),ASC(오름, DEFAULT)]
+
+```SQL
+-- 이름을 기준으로 정렬하기
+
+--오름차순
+SELECT *
+FROM EMPLOYEE
+ORDER BY EMP_NAME;
+
+--내림차순
+SELECT *
+FROM EMPLOYEE
+ORDER BY EMP_NAME DESC;
+```
+
+- 여러개를 쓸수도잇다.
+```SQL
+-- 부서코드를 기준으로 오름차순정렬하고 값이 같으면 월급이 내림차순으로 정렬하기
+SELECT *
+FROM EMPLOYEE
+ORDER BY DEPT_CODE ASC, SALARY DESC, EMP_NAME ASC;
+```
+## 정렬햇을때 NULL값에 대한 처리
+- ORDER BY BONUS  DESC; -- NULL인 값을 먼저 출력한다.
+- ORDER BY BONUS  ASC; -- NULL인 값을 나중에 출력한다.
+- 옵션을 설정해서 NULL값출력위치를 변경할 수 있다
+
+```SQL
+-- NULL값을 나중출력
+SELECT *
+FROM EMPLOYEE
+ORDER BY BONUS ASC NULLS LAST;
+
+-- NULL값을 먼저 출력
+SELECT *
+FROM EMPLOYEE
+ORDER BY BONUS ASC NULLS FIRST;
+```
+
+<BR/>
+
+##  ORDER BY 절에서는 별칭을 사용할 수 있음
+
+```SQL
+SELECT EMP_NAME, SALARY AS 월급, BONUS
+FROM EMPLOYEE
+ORDER BY 월급;
+```
+- WHERE 에는 쓰지못한다'월급'  FROM을먼저 그다음 WHERE 그다음에 별칭을 부여하기때문에 불가능하다.
+
+<BR/>
+
+## 인덱스번호로 정렬
+- SELECT문을 이용해서 데이터를 조회하면 RESULT SET 이 출력되는데
+- RESULT SET 에 출력되는 컬럼에는 자동으로 INDEX번호가 1부터 부여가 된다.
+- SELECT 는 출력시 컬럼명에 순서대로 인덱스부여한다 그인덱스번호를 사용할수있다.
+
+```SQL
+SELECT *
+FROM EMPLOYEE
+ORDER BY 2;
+208	김해술
+202	노옹철
+215	대북혼
+206	박나라
+214	방명수
+200	선동일
+203	송은희
+201	송종기
+209	심봉선
+252	옛사람
+251	월드컵
+204	유재식
+221	유하진
+```
+- 2를 넣엇으니 2번째칼럼인 이름들이 정렬된다.
+- 1을 넣는다면 앞에 숫자들이 정렬이된다.
+
+<BR/>
+
+# 44. 집합연산자
+- 여러개의 SELECT문을 한개의 결과(RESULT SET)으로 출력해주는 것
+- 첫번째 SELECT문의 컬럼수와 이후 SELECT문의 컬럼수가 같아야한다.
+- 각 컬럼별 데이터 타입도 동일해아한다.
+- 
+- UNION :  두개이상의 SELECT문을 합치는 연산자 중복값이 있을때 하나만 출력된다
+- UNION ALL :  중복값이있다면 중복값 포함시킨다
+- MINUIS : 중복값 포함 하지않는다.
+- INTERSECT :  중복값만 가져오다.
+
+<BR/>
+
+## UNION
+```SQL
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5'
+UNION
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE SALARY>=3000000;
+------------------------------------------------
+200	선동일	D9	8000000
+201	송종기	D9	6000000
+202	노옹철	D9	3700000
+204	유재식	D6	3400000
+205	정중하	D6	3900000
+206	박나라	D5	1800000
+207	하이유	D5	2200000
+208	김해술	D5	2500000
+209	심봉선	D5	3500000
+210	윤은해	D5	2000000
+215	대북혼	D5	3760000
+217	전지연	D1	3660000
+251	월드컵	D2	4480000
+252	옛사람	D2	4480000
+```
+
+- DEPT_CODE가 D5이고 월급이 3000000 이상인 사람전부 조회
+- 중복값은이 있다면 하나만 출력한다.
+
+<BR/>
+
+## 
 
 
 
