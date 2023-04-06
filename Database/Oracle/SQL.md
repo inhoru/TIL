@@ -388,11 +388,11 @@ WHERE EMAIL LIKE '%yo%';
 - 명령어 앞에 NOT을 사용한다면
 - **일치하지 않는 것들을 찾을수가있다.**
 - **JAVA에서 사용했던 ( ! ) 랑같다.**
-
-        SELECT *
-        FROM EMPLOYEE
-        WHERE EMP_NAME NOT LIKE '김%';
-        
+```SQL
+SELECT *
+FROM EMPLOYEE
+WHERE EMP_NAME NOT LIKE '김%';
+```        
         
 <BR/>
 
@@ -402,12 +402,12 @@ WHERE EMAIL LIKE '%yo%';
 - <CODE>IS NULL</CODE>,<CODE> IS NOT NULL</CODE> 를 사용한다.
 
          -- 보너스를 받지 않는 사원조회하기
-  
+         ```SQL
          SELECT EMP_NAME,BONUS
          FROM EMPLOYEE
          --WHERE BONUS='(null)';
          WHERE BONUS IS NULL;
-         
+         ```
          -- 보너스를 받고있는 사원의 이름, 보IS너스를 조회하기
           SELECT EMP_NAME,BONUS
           FROM EMPLOYEE
