@@ -39,6 +39,18 @@
 38. [그룹함수 최소값/최대값 MAX/MIN](#38-MAX-MIN)<BR/>
 39. [그룹함수 묶어서 처리  GROUP BY](#39-GROUP-BY)<BR/>
 40. [그룹함수 값을구해올 조건설정 HAVING](#40-HAVING)<BR/>
+41. [그룹함수 인수의 총계 ROLLUP() CUBE()](#41-ROLLUP()-CUBE())<BR/>
+42. [그룹함수 분기처리  GROUPING](#42-GROUPING)<BR/>
+43. [정렬 ORDER BY](#43-ORDER-BY)<BR/>
+44. [집합연산자 UNION](#44-집합연산자)<BR/>
+45. [그룹 절 합치기 GROUPING SET](#45-GROUPING-SET)<BR/>
+46. [두개의 테이블 연결 INNER JOIN](#46-INNER-JOIN)<BR/>
+47. [두개의 테이블 연결 NULL출력 OUTER JOIN](#47-OUTER-JOIN)<BR/>
+48. [모든ROW를 연결 CROSS JOIN](#48-CROSS-JOIN)<BR/>
+49. [같은 테이블을 조인하는거 SELF JOIN](#49-SELF-JOIN)<BR/>
+50. [비동등조인](#50-비동등조인)<BR/>
+51. [다중조인](#51-다중조인)<BR/
+
 
 
 
@@ -1240,7 +1252,7 @@ ORDER BY 2;
 - 
 - UNION :  두개이상의 SELECT문을 합치는 연산자 중복값이 있을때 하나만 출력된다
 - UNION ALL :  중복값이있다면 중복값 포함시킨다
-- MINUIS : 중복값 포함 하지않는다.
+- MINUS : 중복값 포함 하지않는다.
 - INTERSECT :  중복값만 가져오다.
 
 <BR/>
@@ -1276,7 +1288,346 @@ WHERE SALARY>=3000000;
 
 <BR/>
 
-## 
+## UNION ALL
+- UNION과 비슷하지만 중복값이 있다면 중복값도 포함을한다.
+
+```SQL
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5'
+UNION ALL
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE SALARY>=3000000;
+---------------------------------------------
+206	박나라	D5	1800000
+207	하이유	D5	2200000
+208	김해술	D5	2500000
+209	심봉선	D5	3500000
+210	윤은해	D5	2000000
+215	대북혼	D5	3760000
+200	선동일	D9	8000000
+201	송종기	D9	6000000
+202	노옹철	D9	3700000
+204	유재식	D6	3400000
+205	정중하	D6	3900000
+209	심봉선	D5	3500000
+215	대북혼	D5	3760000
+217	전지연	D1	3660000
+252	옛사람	D2	4480000
+251	월드컵	D2	4480000
+```
+
+<BR/>
+
+## MINUS
+
+- 중복값 을 포함하지 않는다
+```SQL
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5'
+MINUS
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE SALARY>=3000000;
+------------------------------------------
+206	박나라	D5	1800000
+207	하이유	D5	2200000
+208	김해술	D5	2500000
+210	윤은해	D5	2000000
+```
+<BR/>
+
+## INTERSECT
+- 중복값만 가져온다.
+
+```SQL
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE DEPT_CODE = 'D5'
+INTERSECT
+SELECT EMP_ID, EMP_NAME, DEPT_CODE, SALARY
+FROM EMPLOYEE
+WHERE SALARY>=3000000;
+------------------------------------------
+209	심봉선	D5	3500000
+215	대북혼	D5	3760000
+```
+<BR/>
+## 주의할점
+- 두개의 SELECT문의 컬럼의 타입을 맞춰야 한다
+- 두 SELECT문의 컬럼의 수가 다르면 안된다
+- 맞는 컬럼이없을경우 고정값(리터럴값)을 정해서 넣을수도있다.
+
+```SQL
+SELECT EMP_ID, EMP_NAME, SALARY
+FROM EMPLOYEE
+UNION
+SELECT DEPT_ID, DEPT_TITLE , 10
+FROM DEPARTMENT;
+```
+- 위처럼 SALARY값이없을경우 리터럴 값을 이용해서 사용할수도있다.
+
+<BR/>
+
+# 45. GROUPING SET
+- 여러 GROUP BY 절이 있는 구문을 하나로 작성하게 해주는 기능이다
+```SQL
+-- 부서, 직책, 매니저별 급여평균
+SELECT DEPT_CODE, JOB_CODE, MANAGER_ID , AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY DEPT_CODE,JOB_CODE, MANAGER_ID;
+
+-- 부서, 직책별, 급여평균
+SELECT DEPT_CODE, JOB_CODE , AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY DEPT_CODE,JOB_CODE;
+
+-- 부서, 매니저별 급여평균
+SELECT DEPT_CODE,  MANAGER_ID , AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY DEPT_CODE, MANAGER_ID;
+```
+- 위에있는 걸 전부한번에 조회할수가있다.
+
+```SQL
+-- GROUPING SET 을 이용해서 묶어서 사용해줄수있다.
+
+SELECT DEPT_CODE, JOB_CODE, MANAGER_ID, AVG(SALARY)
+FROM EMPLOYEE
+GROUP BY GROUPING SETS((DEPT_CODE,JOB_CODE,MANAGER_ID),(DEPT_CODE,JOB_CODE),(DEPT_CODE, MANAGER_ID));
+```
+<BR/>
+
+# 46.INNER JOIN
+- 두개이상의 테이블을 특정컬럼을 기준으로 연결해준, 기능
+- JOIN은 두 종류가 있음
+- 1. INNER JOIN : 기준되는 값이 일치하는 ROW만 가져오는 JOIN
+- 2. OUTER JOIN :  기준이되는 값이 일치하지 않은 ROW도 가져오는 JOIN * 기준이 필요하다
+- JOIN을 작성하는 방법 2가지
+
+	- 1. 오라클 조인방식 :  , 와 WHERE로 작성
+ 	- 2. ANSI 표준 조인방식 :  JOIN, ON | | USING 예약어를 사용해서 작성
 
 
+```SQL
+-- 오라클방식
+SELECT*
+ FROM EMPLOYEE, DEPARTMENT
+ WHERE EMPLOYEE.DEPT_CODE = DEPARTMENT.DEPT_ID;
 
+ -- ANSI 표준으로 JOIN하기
+ SELECT *
+ FROM EMPLOYEE 
+ JOIN DEPARTMENT ON EMPLOYEE.DEPT_CODE = DEPARTMENT.DEPT_ID;
+ ```
+ <BR/>
+ 
+ 
+ ## 예제
+
+```SQL
+ELECT EMP_NAME, EMAIL, PHONE,DEPT_TITLE
+FROM EMPLOYEE 
+JOIN DEPARTMENT ON DEPT_CODE=DEPT_ID; 
+```
+
+ - 사원에 대해 사운명, 이메일, 전화번호, 부서명 을조회하는데
+ - 부서명은 DEPARTMENT 테이블에있다
+ - 이때 조인을통해 사용할수가있다.
+
+<BR/>
+
+## JOIN 문에서도 WHERE절 사용하기
+ - 부서가 총무부인 사원  사원명, 월급, 보너스, 부서명 조회하기
+
+```SQL
+SELECT EMP_NAME, SALARY,BONUS, DEPT_TITLE
+ FROM EMPLOYEE
+ JOIN DEPARTMENT ON DEPT_CODE=DEPT_ID
+ WHERE DEPT_TITLE = '총무부';
+ ------------------------------------------
+ 노옹철	3700000	NULL	총무부
+송종기	6000000	NULL	총무부
+선동일	8000000	0.3	총무부
+```
+
+<BR/>
+
+## JOIN 문에서 GROUP BY 절 사용하기
+- 부서별 평균급여를 출력하기 부서명, 평균급여
+
+```SQL
+SELECT DEPT_TITLE,AVG(SALARY)
+ FROM EMPLOYEE
+ JOIN DEPARTMENT ON DEPT_CODE = DEPT_ID
+ GROUP BY DEPT_TITLE
+HAVING AVG(SALARY)>=3000000;
+-----------------------------------------
+총무부	5900000
+회계관리부	3096000
+해외영업2부	3366666.66666666666666666666666666666667
+```
+<BR/>
+
+## JOIN할때 기준이되는 컬럼명이 중복된다면 반드시 별칭을 작성해야한다.
+- 사원명, 급여, 보너스, 직책명을 조회하기
+
+
+```SQL
+SELECT *
+FROM EMPLOYEE E
+    JOIN JOB J ON E.JOB_CODE=J.JOB_CODE;
+```
+
+- 이런식으로 별칭을 이용해서 사용도가능하지만
+- <CODE>USING</CODE> 을 이용해서도 가능하다.
+	- 중복되는 코드가 하나만 출력이된다.
+	- 하나만 출력되기때문에 별칭부여해서 구분할필요가없다.
+	- USING 을사용할때 식별자(별칭)를 쓰지않는다.
+
+```SQL
+SELECT * 
+FROM EMPLOYEE
+    JOIN JOB  USING(JOB_CODE)
+WHERE JOB_CODE='J3'; 
+SELECT * FROM JOB;
+```
+<BR/>
+
+## JOIN 은 NULL값을 무시한다.
+- JOIN 을 사용한다면 NULL이 나오지않는다.
+- **NULL값을 조회할려면 OUTER JOIN사용해야한다.**
+
+<BR/>
+
+# 47. OUTER JOIN
+- 컬럼에 대해 동일비교를 했을때 없는 ROW를 출력해주는 JOIN
+- 기준이 되는 테이블(모든데이터를 출력함)을 설정해줘야한다.
+- <CODE>LEFT OUTER JOIN</CODE> 와 <CODE>RIGHT OUTER JOIN</CODE> 을사용한다.
+
+	- LEFT OUTER JOIN : JOIN을 기준으로 왼쪽에 있는 테이블을 기준으로 설정
+	- RIGHT OUTER JOIN : JOIN을 기준으로 오른쪽에 있는 테이블을 기준으로 설정
+- 일치되는 ROW가 없는 경우 모든 컬럼을 NULL로 표시한다
+- OUTER 은 생략해도 상관없음
+
+```SQL
+-- LEFT OUTER JOIN
+SELECT *
+FROM EMPLOYEE LEFT  JOIN DEPARTMENT ON DEPT_CODE=DEPT_ID;
+----------------------------------------------------------
+214	방명수	856795-1313513
+216	차태연	770808-1364897
+217	전지연	770808-2665412
+219	임시환	660712-1212123
+220	이중석	770823-1113111
+221	유하진	800808-1123341
+252	옛사람	320808-1123341
+251	월드컵	320808-2123341
+206	박나라	630709-2054321
+207	하이유	690402-2040612
+208	김해술	870927-1313564
+209	심봉선	750206-1325546
+210	윤은해	650505-2356985
+
+-- RIGHT OUTER JOIN 
+SELECT *
+FROM EMPLOYEE RIGHT OUTER JOIN DEPARTMENT ON DEPT_CODE=DEPT_ID;
+--------------------------------------------------------------
+214	방명수	856795-1313513
+216	차태연	770808-1364897
+217	전지연	770808-2665412
+252	옛사람	320808-1123341
+220	이중석	770823-1113111
+219	임시환	660712-1212123
+251	월드컵	320808-2123341
+221	유하진	800808-1123341
+NULL	NULL	NULL
+NULL	NULL	NULL
+210	윤은해	650505-2356985
+```
+
+<BR/>
+# 48. CROSS JOIN
+- 모든 ROW를 연결해주는 JOIN
+```SQL
+SELECT EMP_NAME, DEPT_TITLE
+FROM EMPLOYEE CROSS JOIN DEPARTMENT
+ORDER BY 1;
+-----------------------------------
+김해술	인사관리부
+김해술	회계관리부
+김해술	마케팅부
+김해술	국내영업부
+김해술	총무부
+김해술	해외영업2부
+김해술	해외영업3부
+김해술	기술지원부
+김해술	해외영업1부
+노옹철	회계관리부
+노옹철	해외영업1부
+노옹철	총무부
+노옹철	국내영업부
+노옹철	기술지원부
+```
+
+<BR/>
+
+# 49.SELF JOIN
+- 한개의 테이블에 다른 컬럼의 값을 가지고 있는 컬럼이 있는 경우 그두개 컬럼을 이용해서 JOIN
+<BR/>
+- MANAGER가 있는 사원의 이름, 매니저 아이디, 매니저 사원번호, 매니저 이름 조회
+
+```SQL
+SELECT E.EMP_NAME,E.MANAGER_ID,M.EMP_ID,M.EMP_NAME
+FROM EMPLOYEE E
+JOIN EMPLOYEE M ON E.MANAGER_ID=M.EMP_ID;
+-------------------------------------------------------
+송종기	200	200	선동일
+전형돈	200	200	선동일
+유재식	200	200	선동일
+하이유	200	200	선동일
+방명수	200	200	선동일
+노옹철	201	201	송종기
+정중하	204	204	유재식
+송은희	204	204	유재식
+윤은해	207	207	하이유
+심봉선	207	207	하이유
+김해술	207	207	하이유
+박나라	207	207	하이유
+장쯔위	211	211	전형돈
+전지연	214	214	방명수
+차태연	214	214	방명수
+```
+# 50. 비동등조인
+- 동등 비교할 컬럼이없는경우
+- 연결할 테이블이 범위값을 가져야한다.
+
+```SQL
+SELECT * 
+FROM EMPLOYEE
+       JOIN SAL_GRADE ON SALARY BETWEEN MIN_SAL AND  MAX_SAL;
+```
+
+<BR/>
+
+# 51. 다중조인
+- 3개이상의 테이블을 연결해서 사용하기
+- 사원의 사원명, 직책명, 부서명을 조회하기
+```SQL
+SELECT EMP_NAME,JOB_NAME,DEPT_TITLE
+FROM EMPLOYEE
+        JOIN DEPARTMENT ON DEPT_CODE=DEPT_ID
+        JOIN JOB  USING(JOB_CODE);
+-----------------------------------------------	
+전지연	대리	인사관리부
+차태연	대리	인사관리부
+방명수	사원	인사관리부
+월드컵	부사장	회계관리부
+옛사람	부사장	회계관리부
+유하진	차장	회계관리부
+이중석	차장	회계관리부
+임시환	차장	회계관리부
+```
+# 52. 
