@@ -55,8 +55,8 @@
 54. [다중행 다중열 서브쿼리](#54-다중행-다중열-서브쿼리)<BR/>
 55. [INLINE VIEW](#55-INLINE-VIEW)<BR/>
 56. [일련번호 ROWNUM](#56-ROWNUM)<BR/>
-57. [중복값 무시 RANK_OVER()](#57-RANK-OVER())<BR/>
-58. [중복값 포함 DENSC_RANK()](#58-DENSC-RANK())<BR/>
+57. [중복값 무시 RANK_OVER()](#57-RANK-OVER)<BR/>
+58. [중복값 포함 DENSC_RANK()](#58-DENSC-RANK)<BR/>
 
 
 <br/>
@@ -1981,7 +1981,7 @@ WHERE RNUM  BETWEEN 5 AND 10;
 
 <BR/>
 
-# 57. RANK OVER()
+# 57. RANK OVER
 - 중복 순위 개수만큼 다음 순위 값을 증가 시킴
 - 1,2,3,4,4,6
 - 이런식으로 중복이된다면 5번을 빼고 다음값으로넘어간다
@@ -2006,7 +2006,7 @@ WHERE NUM BETWEEN 5 AND 10;
 
 <BR/>
 
-# 58. DENSC RANK()
+# 58. DENSC RANK
 - 중복 순위가 존재해도 순차적으로 다음 순위 값을 표시함 
 - 1,2,3,4,4,5
 -  이런식으로 중복이된다면 중복값을 다출력하고 그다음값을 출력한다.
