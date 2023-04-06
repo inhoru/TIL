@@ -402,12 +402,12 @@ WHERE EMP_NAME NOT LIKE '김%';
 - <CODE>IS NULL</CODE>,<CODE> IS NOT NULL</CODE> 를 사용한다.
 
          -- 보너스를 받지 않는 사원조회하기
-         ```SQL
+         
          SELECT EMP_NAME,BONUS
          FROM EMPLOYEE
          --WHERE BONUS='(null)';
          WHERE BONUS IS NULL;
-         ```
+         
          -- 보너스를 받고있는 사원의 이름, 보IS너스를 조회하기
           SELECT EMP_NAME,BONUS
           FROM EMPLOYEE
@@ -699,8 +699,13 @@ WHERE EMP_NAME NOT LIKE '김%';
 <BR/>
 
 # 20. MOD
-- 나머지를 구하는 함수* 자바의 %연산자와 동일한함수
-        SELECT MOD(3,2)
+- 나머지를 구하는 함수
+- 자바의 %연산자와 동일한함수
+
+
+```SQL
+SELECT MOD(3,2)
+```
 <BR/>
 
 # 21. ROUND
