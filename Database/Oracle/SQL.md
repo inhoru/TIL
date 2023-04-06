@@ -47,7 +47,7 @@
 46. [두개의 테이블 연결 INNER JOIN](#46-INNER-JOIN)<BR/>
 47. [두개의 테이블 연결 NULL출력 OUTER JOIN](#47-OUTER-JOIN)<BR/>
 48. [모든ROW를 연결 CROSS JOIN](#48-CROSS-JOIN)<BR/>
-49. [같은 테이블을 조인하는거 SELF JOIN](#49-SELF-JOIN)<BR/>
+49. [같은 테이블을 조인 SELF JOIN](#49-SELF-JOIN)<BR/>
 50. [비동등조인](#50-비동등조인)<BR/>
 51. [다중조인](#51-다중조인)<BR/>
 
@@ -1403,7 +1403,7 @@ GROUP BY GROUPING SETS((DEPT_CODE,JOB_CODE,MANAGER_ID),(DEPT_CODE,JOB_CODE),(DEP
 ```
 <BR/>
 
-# 46.INNER JOIN
+# 46. INNER JOIN
 - 두개이상의 테이블을 특정컬럼을 기준으로 연결해준, 기능
 - JOIN은 두 종류가 있음
 - 1. INNER JOIN : 기준되는 값이 일치하는 ROW만 가져오는 JOIN
@@ -1582,7 +1582,7 @@ ORDER BY 1;
 <BR/>
 
 
-# 49.SELF JOIN
+# 49. SELF JOIN
 
 - 한개의 테이블에 다른 컬럼의 값을 가지고 있는 컬럼이 있는 경우 그두개 컬럼을 이용해서 JOIN
 
