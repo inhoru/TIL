@@ -1549,8 +1549,12 @@ NULL	NULL	NULL
 ```
 
 <BR/>
+
 # 48. CROSS JOIN
+
 - 모든 ROW를 연결해주는 JOIN
+
+
 ```SQL
 SELECT EMP_NAME, DEPT_TITLE
 FROM EMPLOYEE CROSS JOIN DEPARTMENT
@@ -1574,9 +1578,11 @@ ORDER BY 1;
 
 <BR/>
 
+
 # 49.SELF JOIN
+
 - 한개의 테이블에 다른 컬럼의 값을 가지고 있는 컬럼이 있는 경우 그두개 컬럼을 이용해서 JOIN
-<BR/>
+
 - MANAGER가 있는 사원의 이름, 매니저 아이디, 매니저 사원번호, 매니저 이름 조회
 
 ```SQL
@@ -1600,6 +1606,9 @@ JOIN EMPLOYEE M ON E.MANAGER_ID=M.EMP_ID;
 전지연	214	214	방명수
 차태연	214	214	방명수
 ```
+
+<BR/>
+
 # 50. 비동등조인
 - 동등 비교할 컬럼이없는경우
 - 연결할 테이블이 범위값을 가져야한다.
