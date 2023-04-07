@@ -193,17 +193,17 @@ FROM USER_TAB_COMMENTS;
 # 4. 제약조건
 - 테이블에 각 컬럼에 저장되는 데이터의 특성에 따라 제약조건을 설정할 수 있다.
 - 오라클이 제공하는 제약조건
-- NOT NULL(C)  : 지정된 컬럼에 NULL값을 허용하지않는 것 *DEFAULT설정 NULLABLE(NULL값이 가능하다)
-- UNIQUE(U) : 지정된 컬럼에 중복값을 허용하지 않는 것 
-- PRIMARY KEY(P) /PK : 데이터(ROW) 구분하는 컬럼에 설정하는 제약조건 -> NOT NULL, UNIQUE제약조건설(중복도안되고 NULL도안된다) 자동으로 설정됨제약조건이다.
+- <CODE>NOT NULL(C)</CODE>  : 지정된 컬럼에 NULL값을 허용하지않는 것 *DEFAULT설정 NULLABLE(NULL값이 가능하다)
+- <CODE>UNIQUE(U)</CODE> : 지정된 컬럼에 중복값을 허용하지 않는 것 
+- <CODE>PRIMARY KEY(P) /PK</CODE> : 데이터(ROW) 구분하는 컬럼에 설정하는 제약조건 -> NOT NULL, UNIQUE제약조건설(중복도안되고 NULL도안된다) 자동으로 설정됨제약조건이다.
   - 일반적으로 한개테이블에 한개 PK를 설정한다.
   - 다수컬럼에 설장할 수도 있다.(복합키라고한다)
 
-- FOREGIN KEY(R) : 지정된 컬럼의 값을 다른 테이블의 지정된 컬럼에 있는 값만 저장하게 하는 제약조건
+- <CODE>FOREGIN KEY(R)</CODE> : 지정된 컬럼의 값을 다른 테이블의 지정된 컬럼에 있는 값만 저장하게 하는 제약조건
 
 
   - 다른 테이블에 지정된 컬럼은 중복이 있으면안된다. (UNIQUE제약조건이나 PK제약조건이 설정된컬럼이여야한다)
-- CHECK(C) : 지정된 컬럼에 지정된 값을 저장하기 위한 제약조건  
+- <CODE>CHECK(C)</CODE> : 지정된 컬럼에 지정된 값을 저장하기 위한 제약조건  
 
   - 동등값, 범위값을 지정할수가있다.
 
