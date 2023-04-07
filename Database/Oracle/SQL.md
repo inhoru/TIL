@@ -1255,10 +1255,10 @@ ORDER BY 2;
 - 첫번째 SELECT문의 컬럼수와 이후 SELECT문의 컬럼수가 같아야한다.
 - 각 컬럼별 데이터 타입도 동일해아한다.
 - 
-- UNION :  두개이상의 SELECT문을 합치는 연산자 중복값이 있을때 하나만 출력된다
-- UNION ALL :  중복값이있다면 중복값 포함시킨다
-- MINUS : 중복값 포함 하지않는다.
-- INTERSECT :  중복값만 가져오다.
+- <CODE>UNION</CODE> :  두개이상의 SELECT문을 합치는 연산자 중복값이 있을때 하나만 출력된다
+- <CODE>UNION ALL</CODE> :  중복값이있다면 중복값 포함시킨다
+- <CODE>MINUS</CODE> : 중복값 포함 하지않는다.
+- <CODE>INTERSECT</CODE> :  중복값만 가져오다.
 
 <BR/>
 
