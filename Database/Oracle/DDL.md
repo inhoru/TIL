@@ -1,6 +1,11 @@
 # 🔖 목차
 
-1.[CREATE](#1-CREATE)<BR/>
+1. [CREATE](#1-CREATE)<BR/>
+2. [기본테이블작성](#2-기본테이블작성)<BR/>
+3. [COMMENT](#3-COMMENT)<BR/>
+4. [제약조건](#4-제약조건)<BR/>
+5. 
+
 
 
 
@@ -242,7 +247,6 @@ FROM USER_CONSTRAINTS C
   - 테이블 레벨에서 설정
 
     - CREATE TABLE 테이블명( 컬럼명 자료형, 컬럼명2 자료형 제약조건,......)
-
 <BR/>
 
 
@@ -250,15 +254,104 @@ FROM USER_CONSTRAINTS C
 
   - ALTER명령어사용
 
-  
-
-  
+ 
 
 <BR/>
 
   
+## NOT NULL 제약조건
+- 컬럼레벨에서만 설정이가능하다.
+- 제약조건이 설정되지않으면 모든 컬럼에는 NULL값을 허용한다.
+- **NOT NULL은 테이블레벨에서는 설정 불가능**
+
+```SQL
+CREATE TABLE NN_MEMBER(
+MEMBER_NO NUMBER,
+MEMBER_ID VARCHAR2(20) NOT NULL,
+MEMBER_PWD VARCHAR2(20) NOT NULL,
+MEMBER_NAME VARCHAR2(10),
+MEMBER_AGE NUMBER
+);
+```
+
+- 아이디 , 비밀번호는 NULL값을 허용하면안되니 NOT NULL을사용한다.
+
+<BR/>
+
+
+## UNIQUE
+- 컬럼이 유일한값을 유지해야할때 사용한다.
+- 입렵값에대한 중복을 제한한다.
+- 컬럼과 테이블 레벨에 설정이가능하다.
+
+```SQL
+CREATE TABLE NQ_MEMBER(
+MEMBER_NO NUMBER,
+MEMBER_ID VARCHAR2(20) UNIQUE ,
+MEMBER_PWD VARCHAR2(20) NOT NULL ,
+MEMBER_NAME VARCHAR2(10),
+MEMBER_AGE NUMBER
+);
+
+INSERT INTO NQ_MEMBER VALUES(1,'ADMIN',1234,'관리자',44);
+-- 유니크로 제약조건을 했으니 중복값이있다면알아서 알려준다.
+INSERT INTO NQ_MEMBER VALUES(2,'ADMIN',1234,'유저1',33);
+```
+<BR/>
+
+## UNIQUE제약조건의 NULL값
+- UNIQUE제약조건이 설정된 값에 NULL값에 대한 처리는 어떻게??
+- UNIQUE는 중복값만 찾고 NULL값은 찾지않는다.
+  - NULL값을 허용하지 않으려면?
+  - 제약조건을 추가하면된다.
+  - 컬럼뒤에 둘다써주면된다.
+  - 그러면 중복값도 허용하지않고 NULL값도 허용하지않는다.
+
+```SQL
+CREATE TABLE NQ_MEMBER2(
+MEMBER_NO NUMBER,
+MEMBER_ID VARCHAR2(20) UNIQUE NOT NULL,
+MEMBER_PWD VARCHAR2(20) NOT NULL ,
+MEMBER_NAME VARCHAR2(10),
+MEMBER_AGE NUMBER
+);
+```
+
+<BR/>
+
+## UNIQUE 테이블에서 사용
+- 다수의 컬럼에 UNIQUE제약조건을 설정할때 사용한다.
+
+```SQL
+CREATE TABLE NQ_MEMBER4(
+MEMBER_NO NUMBER,
+MEMBER_ID VARCHAR2(20)  NOT NULL ,
+MEMBER_PWD VARCHAR2(20) NOT NULL ,
+MEMBER_NAME VARCHAR2(10),
+MEMBER_AGE NUMBER,
+UNIQUE(MEMBER_ID,MEMBER_NAME)
+);
+```
+
+- UNIQUE에 2개컬럼을 묶어서 썻지만
+- 2개가 하나의값이라 생각하면된다
+- 2개 전부 일치하지 않는다면 UNIQUE가 적용되지않는다
+
+```SQL
+UNIQUE(MEMBER_ID,MEMBER_NAME)
+
+-- 아이디는 중복이지만 이름이 중복이아니기때문에 유니크가 적용이안된다.
+INSERT INTO NQ_MEMBER4 VALUES(2,'ADMIN','3333','유저1',33);
+INSERT INTO NQ_MEMBER4 VALUES(3,'ADMIN','4444','관리자',24);
+```
+
+
+<BR/>
+
 
   
+# 5. PRIMARY KEY
+
 
 
 
