@@ -212,7 +212,35 @@ FROM USER_TAB_COMMENTS;
 SELECT *
 FROM USER_CONSTRAINTS;
 ```
-- 이렇게 하면 컬럼명은 나오
+- 이렇게 하면 제약조건은 나오지만 컬럼명은 나오지않는다
+
+```SQL
+SELECT * 
+FROM USER_CONS_COLUMNS;
+```
+- 컬럼명은 나오지만 제약조건이 나오지않는다.
+- 컬러명와 제약조건을 함께 확인할려면 
+- 둘이 조인해서 사용한다
+
+```SQL
+SELECT C.CONSTRAINT_NAME , CONSTRAINT_TYPE, C.TABLE_NAME, SEARCH_CONDITION, COLUMN_NAME
+FROM USER_CONSTRAINTS C
+    JOIN USER_CONS_COLUMNS CC ON C.CONSTRAINT_NAME=CC.CONSTRAINT_NAME;
+```
+
+## 제약조건 설정하기
+- 제약조건 설정하는 방법 2가지가있다.
+1. 테이블 생성과 동시에 설정
+  - **컬럼 레벨에서 설정**
+  - **테이블 레벨에서 설정
+
+2. 생성된 테이블에 제약조건 추가하기
+
+  - ALTER명령어사용
+
+<BR/>
+
+  
 
   
 
