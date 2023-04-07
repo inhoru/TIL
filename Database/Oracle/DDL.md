@@ -117,6 +117,100 @@ TO_TIMESTAMP('98/01/26 15:30:30','RR/MM/DD HH24:MI:SS'));
 
 - 이런형식으로 값을 넣을수가있다.
 
+# 2. 기본테이블작성
+- 테이블을 만드는방법을 알아보자
+- 방법
+  - **CREATE TABLE 테이블명예)BOARD_COMMENT ( 컬럼명 자료형(길이),컬럼명2 자료형....);**
+
+## 회원을 저장하는 테이블 만들기
+- 이름 : 문자, 회원번호 : 숫자||문자, 아이디 : 문자,패스워드 : 문자, 이메일 : 문자 , 나이 : 숫자 , 등록일 : 날짜
+
+```SQL
+CREATE TABLE MEMBER(
+-- 한글은 한글자식 3바이트 보통 3자리 많으면 5자리니간 20으로 넉넉히 함
+MEMBER_NAME VARCHAR2(20),
+MEMBER_NO NUMBER,
+MEMBER_ID VARCHAR2(15),
+MEMBER_PWD VARCHAR2(20),
+EMAIL VARCHAR2(30),
+AGE NUMBER,
+ENROLL_DATE DATE
+);
+```
+- 이렇게 저장하려는 내용따라 타입을과 길이를 정해서 만들수가있다.
+
+<BR/>
+
+# 3. COMMENT
+- 생성된 테이블의 컬럼에 설명(COMMENT)를 작성할수가있다.
+
+```SQL
+COMMENT ON COLUMN MEMBER.MEMBER_NAME IS '회원이름 최소2글자이상저장';
+COMMENT ON COLUMN MEMBER.MEMBER_ID IS '회원아이디 최소4글자이상저장';
+COMMENT ON COLUMN MEMBER.MEMBER_PWD IS '회원비밀번호 최소8글자이상저장';
+```
+
+## 테이블에 COMMENT작성
+- 컬럼에만 작성할수있는게 아닌 테이블에도 작성을 할수가있다.
+
+```SQL
+COMMENT ON TABLE MEMBER IS '회원정보저장';
+
+```
+
+## COMMENT 조회
+
+- 컬럼이나 테이블에 작성된 코멘트를 조회할수있는 명령어가있다
+<BR/>
+
+- 전체 컬럼 코멘트 조회하기
+
+```SQL
+SELECT * 
+FROM USER_COL_COMMENTS
+```
+
+<BR/>
+
+- 전체 테이블 코멘트 조회하기
+
+```SQL
+SELECT *
+FROM USER_TAB_COMMENTS;
+```
+- WHERE을 사용해서 자기가 원하는 테이블이나 컬럼을 찾을수가있다.
+
+<BR/>
+
+# 4. 제약조건
+- 테이블에 각 컬럼에 저장되는 데이터의 특성에 따라 제약조건을 설정할 수 있다.
+- 오라클이 제공하는 제약조건
+- NOT NULL(C)  : 지정된 컬럼에 NULL값을 허용하지않는 것 *DEFAULT설정 NULLABLE(NULL값이 가능하다)
+- UNIQUE(U) : 지정된 컬럼에 중복값을 허용하지 않는 것 
+- PRIMARY KEY(P) /PK : 데이터(ROW) 구분하는 컬럼에 설정하는 제약조건 -> NOT NULL, UNIQUE제약조건설(중복도안되고 NULL도안된다) 자동으로 설정됨제약조건이다.
+  - 일반적으로 한개테이블에 한개 PK를 설정한다.
+  - 다수컬럼에 설장할 수도 있다.(복합키라고한다)
+
+- FOREGIN KEY(R) : 지정된 컬럼의 값을 다른 테이블의 지정된 컬럼에 있는 값만 저장하게 하는 제약조건
+
+
+  - 다른 테이블에 지정된 컬럼은 중복이 있으면안된다. (UNIQUE제약조건이나 PK제약조건이 설정된컬럼이여야한다)
+- CHECK(C) : 지정된 컬럼에 지정된 값을 저장하기 위한 제약조건  
+
+  - 동등값, 범위값을 지정할수가있다.
+
+## 테이블에 설정된 제약조건을 확인하는 명령어
+```SQL
+SELECT *
+FROM USER_CONSTRAINTS;
+```
+- 이렇게 하면 컬럼명은 나오
+
+  
+
+
+
+
 
 
 
