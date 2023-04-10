@@ -9,7 +9,8 @@
 7. [CHECK](#7-CHECK)<BR/>
 8. [DEFAULT](#8-DEFAULT)<BR/>
 9. [제약조건이름지정 CONSTRAINT](#9-CONSTRAINT)<BR/>
-10.[SELECT사용 AS](#10-AS)<BR/>
+10. [SELECT사용 AS](#10-AS)<BR/>
+
 
 
 <BR/>
