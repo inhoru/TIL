@@ -4,9 +4,12 @@
 2. [기본테이블작성](#2-기본테이블작성)<BR/>
 3. [COMMENT](#3-COMMENT)<BR/>
 4. [제약조건](#4-제약조건)<BR/>
-5. 
-
-
+5. [PRIMARY KEY](#5-PRIMARY-KEY)<BR/>
+6. [FOREIGN KEY](#6-FOREIGN-KEY)<BR/>
+7. [CHECK](#7-CHECK)<BR/>
+8. [DEFAULT](#8-DEFAULT)<BR/>
+9. [제약조건이름지정 CONSTRAINT](#9-CONSTRAINT)<BR/>
+10.[SELECT사용 AS](#10-AS)<BR/>
 
 
 <BR/>
@@ -351,6 +354,262 @@ INSERT INTO NQ_MEMBER4 VALUES(3,'ADMIN','4444','관리자',24);
 
   
 # 5. PRIMARY KEY
+- PRIMARY KEY 제약 조건을 설정하면, 해당 필드는 NOT NULL과 UNIQUE 제약 조건의 특징을 모두 가진다.
+- 따라서 이 제약 조건이 설정된 필드는 NULL 값을 가질 수 없으며, 또한 중복된 값을 가져서도 안 된다.
+- 이러한 PRIMARY KEY 제약 조건을 기본 키라고 한.
+
+<BR/>
+- PK를 설정하면 자동으로 UNIQUE, NOT NULL제약조건,INDEX가 부여된다.
+```SQL
+CREATE TABLE PK_MEMBER(
+MEMBER_NO NUMBER PRIMARY KEY,
+MEMBER_ID VARCHAR2(20) UNIQUE NOT NULL ,
+MEMBER_PWD VARCHAR2(20) NOT NULL ,
+MEMBER_NAME VARCHAR2(10),
+MEMBER_AGE NUMBER,
+UNIQUE(MEMBER_ID,MEMBER_NAME)
+);
+
+INSERT INTO PK_MEMBER VALUES(NULL,'ADMIN,''1234','관리자',44); --NULL삽입불가
+INSERT INTO PK_MEMBER VALUES(1,'ADMIN,''1234','관리자',44); -- 무결성 제약조건위
+INSERT INTO PK_MEMBER VALUES(1,'USER01','2222','유저1',22); -- 정상저장
+```
+
+<BR/>
+
+
+## 테이블레벨에 설정
+- PK 테이블레벨에서 설정이 가능
+
+```SQL
+CREATE TABLE PK_MEMBER1(
+MEMBER_NO NUMBER,
+MEMBER_ID VARCHAR2(20) UNIQUE NOT NULL ,
+MEMBER_PWD VARCHAR2(20) NOT NULL ,
+MEMBER_NAME VARCHAR2(10),
+MEMBER_AGE NUMBER,
+PRIMARY KEY (MEMBER_NO)
+);
+```
+<BR/>
+
+## 다수컬럼 설정 
+- PRIMARY KEY를 다수컬럼에 설정할 수  있다.
+- 이걸 복합키 라고한다.
+- 테이블 레벨에서 설정을한다.
+
+```SQL
+CREATE TABLE PK_MEMBER2(
+MEMBER_NO NUMBER,
+MEMBER_ID VARCHAR2(20),
+MEMBER_PWD VARCHAR2(20) NOT NULL ,
+MEMBER_NAME VARCHAR2(10),
+MEMBER_AGE NUMBER,
+PRIMARY KEY (MEMBER_NO,MEMBER_ID)
+);
+
+INSERT INTO PK_MEMBER2 VALUES(1,'USER01','1111','유저1',33); --정상
+INSERT INTO PK_MEMBER2 VALUES(2,'USER01','2222','유저2',22); --정상
+INSERT INTO PK_MEMBER2 VALUES(1,'USER01','2222','유저2',22); -- 불가능
+INSERT INTO PK_MEMBER2 VALUES(NULL,'USER01','3333','유저3',33); --NULL은들어갈수없다.
+```
+- PRIMARY KEY (MEMBER_NO,MEMBER_ID) 안에괄호가 동시에 맞을때만 제약조건이 걸린다.
+- 하나라도 틀리면 제약조건이 걸리지않는다.
+
+<BR/>
+
+# 6. FOREIGN KEY
+- 다른테이블에 있는 데이터를 가져와 사용하는것(참조)
+- 참조관계를 설정하면 부모(참조되는테이블)-자식(참조하는테이블)관계가 설정이 됨.
+- FK제약조건은 자식테이블에 설정
+- FK제약조건을 설정하는 컬럼은 UNIQUE제약조건이나 PK제약조건이 설정되어있어야 한다.
+
+<BR/>
+
+## 연결
+- 게시판을 만든다고치자
+- 먼저 게시판을 테이블을만들고 댓글 테이블을 만든다
+- 그리고 서로연결을한다.
+
+  - REFERENCES 테이블명(컬럼명)
+  - 이렇게 선언한다.
+
+```SQL
+-- 게시판
+CREATE TABLE BOARD(
+    BOARD_NO NUMBER PRIMARY KEY,
+    BOARD_TITLE VARCHAR2(200),
+    BOARD_CONTENT VARCHAR2(3000),
+    BOARD_WRITER VARCHAR2(10) NOT NULL,
+    BOARD_DATE DATE
+);
+
+-- 댓글
+--레퍼런스로 관계를 설정해서 가져온다
+CREATE TABLE BOARD_COMMENT(
+    COMMENT_NO NUMBER PRIMARY KEY,
+    COMMENT_CONTENT VARCHAR2(800),
+    COMMENT_WRITER VARCHAR2(10),
+    COMMENT_DATE DATE,
+    BOARD_REF NUMBER REFERENCES BOARD(BOARD_NO)
+);
+
+SELECT * 
+FROM BOARD
+    JOIN BOARD_COMMENT ON BOARD_NO=BOARD_REF;
+```
+
+<BR/>
+
+## FK가 설정된 컬럼에 NULL
+- FK가 설정된 컬렘에는 NULL이 저장이된다.
+- 저장이 되지않기 하기위해서는
+- NOT NULL 제약조건을 설정해야한다.
+
+<BR/>
+
+## FK 가설정된 테이블 삭제
+- FK를 설정해서 테이블간 관계가 설정이 되면 참조되고 있는 부모테이블의
+- ROW를 함부로 삭제할 수 없다.
+
+```SQL
+SELECT *
+FROM BOARD_COMMENT;
+
+-----------------------------------
+1	네 없어요!!	관리자	23/04/11	3
+2	전 그럴의도가 없어요	최솔	23/04/11	2
+3	전 그럴의도가 없어요	최솔	23/04/11	3
+4	호호호 금요일즐겨	조장흠	23/04/11	3
+------------------------------------------
+DELETE FROM BOARD WHERE BOARD_NO=1; -- 참조된값이없기에 가능
+
+DELETE FROM BOARD WHERE BOARD_NO=3; -- 참조된값이 있어서 불가능
+```
+
+- 기본적으로 부모테이블에 참조관계가 없어야지만 삭제가가능하다.
+
+<BR/>
+
+## FK설정할때 삭제에 대한 옵션을 설정할 수 있다.
+- ON DELETE SET NULL : 부모가삭제되었을때 참조컬럼(자식)을 NULL값으로 수정 
+  - 주의할점 참조컬럼(자식)에 NOT NULL 제약조건이 있으면 안된다
+
+- ON DELETE CASCADE : 참조되는 부모데이터가 삭제되면 같이 삭제해버림
+
+```SQL
+CREATE TABLE BOARD_COMMENT2(
+    COMMENT_NO NUMBER PRIMARY KEY,
+    COMMENT_CONTENT VARCHAR2(800),
+    COMMENT_WRITER VARCHAR2(10),
+    COMMENT_DATE DATE,
+    
+    -- BOARD_REF NUMBER REFERENCES BOARD(BOARD_NO) ON DELETE SET NULL -- 참조하는값이 지워지면 NULL을넣어라
+    
+    -- BOARD_REF NUMBER REFERENCES BOARD(BOARD_NO) ON DELETE CASCADE -- 참조하고있는 데이터가 사라지면 자식데이터도 같이 삭제해버림
+);
+```
+
+<BR/>
+
+## 주의사항
+
+- 참조관계를 설정할때 대상이되는 컬럼에는 반드시 UNIQUE ,PK제약조건이 설정되어있어야한다.
+- FK는 한개의 테이블만 가능 다수컬러을 지정할 수 없다.
+- FK설정하는 컬럼은 참조하는 컬럼과 타입, 길이(더커도 상관없음)가 일치해야한다.
+
+
+<BR/>
+
+# 7. CHECK
+
+- 컬럼에 지정한 값만 저장할 수 있게 하는 제약조건
+- 컬럼레벨에서 가능
+
+```SQL
+CREATE TABLE PERSON(
+    NAME VARCHAR2(20),
+    AGE NUMBER CHECK(AGE>0) NOT NULL,
+    GENDER VARCHAR2(5)  CHECK(GENDER IN('남','여'))  
+);
+
+INSERT INTO PERSON VALUES('유병승',19,'남');
+INSERT INTO PERSON VALUES('유병승',19,'유');--안됨 남또는여만가능
+```
+<BR/>
+
+
+# 8. DEFAULT
+- 테이블 생성시 DEFAULT값을 설정할 수 있음
+- DEFAULT 예약어 사용
+
+```SQL
+CREATE TABLE DEFAULT_TEST(
+    TEST_NO NUMBER PRIMARY KEY,
+    TEST_DATE DATE DEFAULT SYSDATE,
+    TEST_DATA VARCHAR2(20) DEFAULT '기본값'
+); 
+
+INSERT INTO DEFAULT_TEST VALUES(1,DEFAULT,DEFAULT); -- 1	23/04/11	기본값
+INSERT INTO DEFAULT_TEST VALUES(2,'23/02/04','데이터');-- 2	23/02/04	데이터
+INSERT INTO DEFAULT_TEST (TEST_NO) VALUES(3); -- 3	23/04/11	기본값
+```
+
+<BR/>
+
+
+# 9. CONSTRAINT
+- 제약조건에 이름을 설정할수가 있다.
+- 제약조건을 이름을 설정하지않고 자동으로 생성한다면
+- SYS00000으로 자동으로 설정된다.
+
+```SQL
+CREATE TABLE MEMBER_TEST(
+    MEMBER_NO NUMBER  CONSTRAINT MEMBER_NO_PK PRIMARY KEY,
+    MEMBER_ID VARCHAR2(20) CONSTRAINT MEMBER_ID_UQ UNIQUE NOT NULL,
+    MEMBER_PWD VARCHAR2(20) CONSTRAINT MEMBER_PWD_NN NOT NULL,
+    CONSTRAINT COMPOSE_UQ UNIQUE(MEMBER_NO,MEMBER_ID)
+);
+
+SELECT * 
+FROM USER_CONSTRAINTS
+WHERE TABLE_NAME ='MEMBER_TEST';
+
+--------------------------------------------------------------
+SYSTEM	SYS_C008104
+SYSTEM	MEMBER_PWD_NN
+SYSTEM	MEMBER_NO_PK
+SYSTEM	MEMBER_ID_UQ
+SYSTEM	COMPOSE_UQ
+```
+<BR/>
+
+# 10. AS
+- 테이블을 생성 할떄 SELECT문을 이용할수도있다.
+- 테이블 복사의 개념이다.
+- AS SELECT 를사용한다.
+
+```SQL
+CREATE TABLE EMP_COPY
+AS SELECT * FROM EMPLOYEE;
+```
+- EMP_COPY에 EMPLOYEE 의 모든테이블이 들어갓다.
+- SELECT문이기때문에 WHERE,JOIN등등 을사용해서 값을 찾아낼수도있다.
+
+```SQL
+
+CREATE TABLE EMP_SAL
+AS SELECT E.*,(SELECT AVG(SALARY) FROM EMPLOYEE WHERE DEPT_CODE=E.DEPT_CODE) AS SAL_DEPT_AVG
+    FROM EMPLOYEE E JOIN DEPARTMENT D ON DEPT_ID=DEPT_CODE ;
+
+```
+
+
+
+
+
+
+
 
 
 
