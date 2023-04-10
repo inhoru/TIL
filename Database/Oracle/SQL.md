@@ -839,7 +839,7 @@ SELECT MOD(3,2)
 ## 날짜를 문자형으로 변경하기
 
   - 날짜값을 기호로표시해서 문자형으로 변경을 한다.
-  - Y : 년, M : 월, D : 일 , H : 시 , MI : 분, ss : 초
+  - Y : 년, M : 월, D : 일 , H : 시 , MI : 분, ss : 초 - 요일 : DAY
 
         SELECT SYSDATE, TO_CHAR(SYSDATE,'YYYY-MM-DD'), TO_CHAR(SYSDATE,'YYYY-MM-DD              HH24:MI:SS')
 
