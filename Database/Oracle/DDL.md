@@ -10,7 +10,8 @@
 8. [DEFAULT](#8-DEFAULT)<BR/>
 9. [제약조건이름지정 CONSTRAINT](#9-CONSTRAINT)<BR/>
 10. [SELECT사용 AS](#10-AS)<BR/>
-
+11. [ALTER](#11-ALTER)<BR/>
+12. [DROP](#12-DROP)<BR/>
 
 
 <BR/>
@@ -638,7 +639,147 @@ ALTER TABLE TBL_USERALTER ADD (NICKNAME VARCHAR2(30));
 --------------------------
 ```
 
-- 
+<BR/>
+
+- 이메일 주소 추가할때 NOT NULL제약조건 설정
+- 이미 데이터가 들어가있다면 새로만든 컬럼은NULL이들어간다.
+- 그렇다면 NOT NULL제약조건을 넣은 컬럼을 넣고싶다면 어떻게해야할까?
+- 바로 DEFAULT 값을 이용해주면된다.
+
+```SQL
+ALTER TABLE TBL_USERALTER ADD(EMAIL VARCHAR2(40) DEFAULT ' 미설정' NOT NULL);
+-----------------------------
+1	ADMIN	1234	관리자		 미설정
+```
+<BR/>
+
+- CHECK 제약조건도 가능하다.
+
+```SQL
+ALTER TABLE TBL_USERALTER ADD(GENDER VARCHAR2(10) CONSTRAINT GENDER_CK CHECK (GENDER  IN('남','여')));
+
+----------------------------------------------
+
+2	USER01	USER01	유저1	유저	USER01@USER01.COM	여
+```
+<BR/>
+
+## 제약조건 추가하기
+- 테이블을 만들당시에 제약조건을 넣지않앗을때 제약조건을 추가할수가있다.
+- ALTER TABLE 테이블명 ADD CONSTRAINT 제약조건명 제약조건설정
+
+```SQL
+ALTER TABLE TBL_USERALTER ADD CONSTRAINT USERID_UQ UNIQUE(USER_ID);
+```
+
+<BR/>
+
+## MODIFY
+
+- NULL제약조건같은경우는
+- 이미 컬럼에 NULLABLE로 설정이 되어있기 때문에 ADD가 아닌 MODIFY변경 으로 해줘야한다...
+```SQL
+ALTER TABLE TBL_USERALTER MODIFY USER_PWD CONSTRAINT USER_PWD NOT NULL;
+```
+<BR/>
+
+
+
+## 컬럼 수정하기
+- 컬럼의 타입, 크기를 변경할수가있다.
+- ALTER TABLE 테이블명 MODIFY컬럼명 자료형
+
+``` SQL
+LTER TABLE TBL_USERALTER MODIFY GENDER CHAR(10);
+```
+- GENDER 를 CHAR(10)으로 변경해줫다.
+
+
+<BR/>
+
+## 제약조건 수정하기
+
+```SQL
+ALTER TABLE TBL_USERALTER
+MODIFY USER_PWD CONSTRAINT USER_PWD_UQ UNIQUE;
+```
+- USER_PWD 를 UNIQUE 수정해줫다.
+
+<BR/>
+
+## 컬럼명 변경하기
+- ALTER TABLE 테이블명 RENAME COLUMN 컬럼명 TO 새컬럼명
+
+```SQL
+ALTER TABLE TBL_USERALTER RENAME COLUMN USER_ID TO USERID;
+```
+
+<BR/>
+
+## 제약조건명 변경하기
+-ALTER TABLE 테이블명 RENAME CONSTRAINT 제약조건명 TO 새제약조건명
+
+```SQL
+ALTER TABLE TBL_USERALTER RENAME CONSTRAINT SYS_C007472 TO USERALTER_PK;
+```
+
+<BR/>
+# 12. DROP
+
+- 컬럼삭제하기
+- -ALTER TABLE 테이블명 DROP 컬럼명;
+
+```SQL
+ALTER TABLE TBL_USERALTER DROP COLUMN EMAIL;
+```
+
+## 제약조건 삭제하기
+- ALTER TABLE  테이블명 DROP CONSTRAINT 제약조건명;
+
+```SQL
+ALTER TABLE TBL_USERALTER DROP CONSTRAINT USERALTER_PK;
+```
+
+<BR/>
+
+## 테이블 삭제하기
+```SQL
+DROP TABLE TBL_USERALTER;
+```
+- 테이블 삭제할때 FK제약조건이 설정되어있다면 기본적으로 삭제가 불가능하다.
+```
+SQL
+CREATE TABLE EMP_COPY
+AS SELECT * FROM EMPLOYEE;
+ALTER TABLE EMP_COPY ADD CONSTRAINT EMP_ID_PK PRIMARY KEY(EMP_ID);
+
+CREATE TABLE TBL_FKTEST(
+    EMP_ID VARCHAR2(20) CONSTRAINT FK_EMPID REFERENCES EMP_COPY(EMP_ID),
+    CONTENT VARCHAR2(20)
+);
+
+DROP TABLE EMP_COPY;
+```
+- 부모임 EMP_COPY를 삭제할려고해도 TBL_FKTEST가 참조되어있기때문에
+- 불가능하다.
+- 이럴때 옵션을 설정해서 삭제할수가있다.
+
+```SQL
+DROP TABLE EMP_COPY CASCADE CONSTRAINT;
+```
+- 이렇게 부모 테이블을 삭제가가능하다.
+- 이때 부모가 삭제된다면 자식도 삭제될까?
+- 아니다. 부모를 삭제해도 자식은 그대로 남아있다.
+- 참조만 끊어질뿐이다.
+
+<BR/>
+
+
+
+
+
+
+
 
 
 
