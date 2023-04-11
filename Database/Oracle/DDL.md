@@ -204,11 +204,7 @@ FROM USER_TAB_COMMENTS;
 - 오라클이 제공하는 제약조건
 - <CODE>NOT NULL(C)</CODE>  : 지정된 컬럼에 NULL값을 허용하지않는 것 *DEFAULT설정 NULLABLE(NULL값이 가능하다)
 - <CODE>UNIQUE(U)</CODE> : 지정된 컬럼에 중복값을 허용하지 않는 것 
-
-
 - <CODE>PRIMARY KEY(P) /PK</CODE> : 데이터(ROW) 구분하는 컬럼에 설정하는 제약조건 -> NOT NULL, UNIQUE제약조건설(중복도안되고 NULL도안된다) 자동으로 설정됨제약조건이다.
-
-
   - 일반적으로 한개테이블에 한개 PK를 설정한다.
   - 다수컬럼에 설장할 수도 있다.(복합키라고한다)
 
@@ -608,6 +604,41 @@ AS SELECT E.*,(SELECT AVG(SALARY) FROM EMPLOYEE WHERE DEPT_CODE=E.DEPT_CODE) AS 
     FROM EMPLOYEE E JOIN DEPARTMENT D ON DEPT_ID=DEPT_CODE ;
 
 ```
+
+<BR/>
+
+# 11. ALTER
+- 테이블에 정의된 내용을 수정할 때 사용하는 데이터 정의어로컬럼의 추가/삭제 
+- 제약조건의 추가/삭제 
+- 컬럼의 - 자료형 변경
+- DEFAULT 값 변경, 테이블 명/컬럼 명/제약조건 명 변경 등을 할 수 있음
+- **컬럼의대한 길이를 늘릴때나, 테이블에 컬럼을 추가할때, 제약조건을추가할때 등등등 사용한다.**
+
+## ADD
+- 컬럼을 추가할때  ADD를사용한다.
+- ALTER TABLE 테이블명 ADD (컬럼명 자료형 [제약조건])
+```SQL
+ALTER TABLE TBL_USERALTER ADD (USER_NAME VARCHAR2(20))`
+```
+- 요런식으로 테이블에 USER_NAME 컬럼을 추가했다.
+
+## 테이블에 데이터가 있는 상태에서 컬럼추가
+
+- 이미데이터가 들어가있으면 나머지 데이터는 NULL이들어간다.
+
+```SQL
+---------------------
+1	ADMIN	1234	관리자
+---------------------
+
+ALTER TABLE TBL_USERALTER ADD (NICKNAME VARCHAR2(30));
+
+--------------------------
+1	ADMIN	1234	관리자	(NULL)
+--------------------------
+```
+
+- 
 
 
 
