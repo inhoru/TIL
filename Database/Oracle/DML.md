@@ -1,6 +1,10 @@
 # 🔖 목차
-1.
-2.
+1. [INSERT](#1-INSERT)<BR/>
+2. [INSERT ALL](#2-INSERT-ALL)<BR/>
+3. [UPDATE](#3-UPDATE)<BR/>
+4. [DELETE](#4-DELETE)<BR/>
+5. [TRUNCATE](#5-TRUNCATE)<BR/>
+6. [MERGE](#6-MERGE)<BR/>
 
 
 <br/>
@@ -132,7 +136,7 @@ FROM EMPLOYEE;
 
 <BR/>
 
-# UPDATE
+# 3. UPDATE
 - 테이블에 기록된 컬럼 값을 수정하는 구문으로 테이블 전체 행 개수는 변화는없다.
 - UPDATE 테이블명 SET 수정할컬럼명 = 수정할값, 수정할컬럼명=수정할값...[WHERE 조건]
 - **WHERE절을 생략해두 상과없지만 WHERE절을 사용하지않으면 전체 데이터를 수정한다....**
@@ -170,7 +174,7 @@ WHERE EMP_NAME='방명수';
 
 <BR/>
 
-# 3. DELETE
+# 4. DELETE
 - 테이블의 ROW를 삭제할수가있다.
 - DELETE FROM 테이블명 [WHERE 조건]
 - **이것도 마찬가지로 WHERE 를 무조건써주자 아니면 전부다 삭제된다.**
@@ -182,7 +186,7 @@ DELETE FROM EMP_SALARY WHERE DEPT_CODE = 'D9';
 
 <BR/>
 
-# 4. TRUNCATE 
+# 5. TRUNCATE 
 - TRUNCATE 삭제한다면 ROLLBACK이안된다 ;;;; 넘무 무섭다 왠만하면 쓰지마라
 - ROLLBACK란 커밋하기전까지의 데이터를 모두 되돌려주는 명령어인데
 - 자세한 트렌젝션 을 참고하자
@@ -192,7 +196,7 @@ TRUNCATE TABLE EMP_SALARY;
 ```
 <BR/>
 
-# 5. MERGE
+# 6. MERGE
 - 구조가 같은 두 개의 테이블을 하나의 테이블로 합치는 기능
 - 두 테이블에서 지정하는 조건의 값이 존재하면 UPDATE되고조건의 값이 없으면 INSERT함
 ```SQL
