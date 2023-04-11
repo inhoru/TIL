@@ -32,4 +32,9 @@
 <br/>
 
 ## [Database](https://github.com/inhoru/TIL/tree/main/Database)
-- [Oracle](https://github.com/inhoru/TIL/tree/main/Database/Oracle)
+- [SQL](https://github.com/inhoru/TIL/blob/main/Database/Oracle/SQL.md)
+- [DDL](https://github.com/inhoru/TIL/blob/main/Database/Oracle/DDL.md)
+- [DML](https://github.com/inhoru/TIL/blob/main/Database/Oracle/DML.md)
+- [DCL](https://github.com/inhoru/TIL/blob/main/Database/Oracle/DCL.md)
+- [OBJECT](https://github.com/inhoru/TIL/blob/main/Database/Oracle/OBJECT.md)
+
