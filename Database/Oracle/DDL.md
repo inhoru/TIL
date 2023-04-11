@@ -744,9 +744,11 @@ ALTER TABLE TBL_USERALTER DROP CONSTRAINT USERALTER_PK;
 <BR/>
 
 ## 테이블 삭제하기
+
 ```SQL
 DROP TABLE TBL_USERALTER;
 ```
+
 - 테이블 삭제할때 FK제약조건이 설정되어있다면 기본적으로 삭제가 불가능하다.
 
 ```SQL
@@ -766,9 +768,11 @@ DROP TABLE EMP_COPY;
 - 불가능하다.
 - 이럴때 옵션을 설정해서 삭제할수가있다.
 
+
 ```SQL
 DROP TABLE EMP_COPY CASCADE CONSTRAINT;
 ```
+
 - 이렇게 부모 테이블을 삭제가가능하다.
 - 이때 부모가 삭제된다면 자식도 삭제될까?
 - 아니다. 부모를 삭제해도 자식은 그대로 남아있다.
