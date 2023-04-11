@@ -204,7 +204,11 @@ FROM USER_TAB_COMMENTS;
 - 오라클이 제공하는 제약조건
 - <CODE>NOT NULL(C)</CODE>  : 지정된 컬럼에 NULL값을 허용하지않는 것 *DEFAULT설정 NULLABLE(NULL값이 가능하다)
 - <CODE>UNIQUE(U)</CODE> : 지정된 컬럼에 중복값을 허용하지 않는 것 
+
+
 - <CODE>PRIMARY KEY(P) /PK</CODE> : 데이터(ROW) 구분하는 컬럼에 설정하는 제약조건 -> NOT NULL, UNIQUE제약조건설(중복도안되고 NULL도안된다) 자동으로 설정됨제약조건이다.
+
+
   - 일반적으로 한개테이블에 한개 PK를 설정한다.
   - 다수컬럼에 설장할 수도 있다.(복합키라고한다)
 
