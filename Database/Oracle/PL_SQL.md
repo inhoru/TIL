@@ -250,10 +250,130 @@ PL/SQL 프로시저가 성공적으로 완료되었습니다.
             THEN : 조건식이 TRUE일때  THEN에 있는 구문이 실행됨. 
          END IF;        
 
+```SQL
+DECLARE 
+    V_SALARY EMPLOYEE.SALARY%TYPE;
+BEGIN
+    SELECT SALARY
+    INTO V_SALARY
+    FROM EMPLOYEE
+    WHERE EMP_ID='&사원번호';
+    
+    IF V_SALARY>3000000
+        THEN DBMS_OUTPUT.PUT_LINE('많이 받으시네요!');
+    END IF;
+END;
+/
+------------------------------------------------------
+입력 200
+
+많이 받으시네요!
 
 
+PL/SQL 프로시저가 성공적으로 완료되었습니다.
+```
+
+<BR/>
 
 
+## ELSE
+
+        IF 
+          THEN 실행구문 
+          ELSE  실행구문
+      END IF;
+      
+```SQL
+DECLARE
+    V_SALARY EMPLOYEE.SALARY%TYPE;
+BEGIN
+    SELECT SALARY
+    INTO V_SALARY
+    FROM EMPLOYEE
+    WHERE EMP_NAME = '&사원명';
+    IF V_SALARY>3000000
+        THEN DBMS_OUTPUT.PUT_LINE('많이받으시네요!');
+    ELSE
+        DBMS_OUTPUT.PUT_LINE('보통이시네요!');
+    END IF;
+END;
+/
+-----------------------------------------------------
+입력 방명수
+
+보통이시네요!
+
+
+PL/SQL 프로시저가 성공적으로 완료되었습니다.
+```
+
+<BR/>
+
+# 4. 선택문
+- IF-THEN-ELSIF 문은 여러 종류의 조건식을 지정하여
+- 각 조건을 만족하는 경우마다 다른 작업을 지정할 수 있다.
+- IF 조건식 THEN ELSIF 조건식 THEN ELSE END IF;
+
+```SQL
+
+CREATE TABLE MSGTEST(
+    EMP_ID VARCHAR2(20) REFERENCES EMPLOYEE(EMP_ID),
+    MSG VARCHAR2(100)
+);
+
+DECLARE
+    V_EMP_ID EMPLOYEE.EMP_ID%TYPE;
+    V_JOBCODE EMPLOYEE.JOB_CODE%TYPE;
+    MSG VARCHAR2(100);
+BEGIN
+    SELECT EMP_ID, JOB_CODE
+    INTO V_EMP_ID,V_JOBCODE
+    FROM EMPLOYEE
+    WHERE EMP_ID='&사원번호';
+    
+    IF V_JOBCODE = 'J1'
+        THEN   MSG:='대표이사';
+    ELSIF V_JOBCODE IN ('J2','J3','J4')
+        THEN MSG := '임원';
+    ELSE MSG :='사원';
+    END IF;
+    INSERT INTO MSGTEST VALUES(V_EMP_ID,MSG);
+    COMMIT;
+END;
+/
+
+SELECT * FROM MSGTEST JOIN EMPLOYEE USING(EMP_ID);
+--------------------------------------------------------
+200	대표이사	선동일	621235-1985634	sun_di@BS.or.kr	01099546325	D9	J1	S1	8000000	0.3		90/02/06		N
+```
+<BR/>
+
+# 4. CASE
+```SQL
+DECLARE
+    NUM NUMBER;
+BEGIN
+    NUM:='&수';
+    CASE
+        WHEN NUM>10
+            THEN DBMS_OUTPUT.PUT_LINE('10초과');
+            WHEN NUM>5
+                THEN DBMS_OUTPUT.PUT_LINE('10~5사이값');
+            ELSE DBMS_OUTPUT.PUT_LINE('5이하의 값입니다.');
+    END CASE;            
+END;
+/
+--------------------------------------------------------
+입력 1
+
+5이하의 값입니다.
+
+
+PL/SQL 프로시저가 성공적으로 완료되었습니다.
+```
+<BR/>
+
+2831 반복문부터시작
 
 
 
