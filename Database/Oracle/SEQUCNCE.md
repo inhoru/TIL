@@ -14,8 +14,6 @@
 <BR/>
 
 
-
-
 # 1. SEQUENCE생성하기
 - 기본으로 생성하면 번호가 1부터 1씩증가해서 발급해준다.
 
@@ -26,10 +24,10 @@ CREATE SEQUENCE SEQ_BASIC;
 -- 실행할때마다 자동으로 1씩증가함
 SELECT SEQ_BASIC.NEXTVAL FROM DUAL;
 ```
-
 <BR/>
 
 ## 데이터를 입력해줄때 중복되지않는 숫자가 필요할때
+
 ```SQL
 INSERT INTO BOARD VALUES(SEQ_BASIC.NEXTVAL,'첫번째게시글','첫번째','김아무',SYSDATE);
 
@@ -37,12 +35,14 @@ INSERT INTO BOARD VALUES(SEQ_BASIC.NEXTVAL,'첫번째게시글','첫번째','김
 24	첫번째게시글	첫번째 김아무 23/04/13
 25	첫번째게시글	첫번째 김아무	23/04/13
 26  첫번째게시글	첫번째 김아무	23/04/13
-``
-- 이제 여러번 등록해도 BOARD_NO는 중복되지않는다.`
+```
+
+- 이제 여러번 등록해도 BOARD_NO는 중복되지않는다.
 
 <BR/>
 
 ## 현재 SEQEUNCE 값을 확인하기
+
 - 시퀀명.CURRVAL를 이용한다
 ```SQL
 SELECT SEQ_BASIC.CURRVAL FROM DUAL;
