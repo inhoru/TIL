@@ -49,11 +49,31 @@
 - CSS 인코딩
 ![CSS](https://user-images.githubusercontent.com/126074577/231723292-0fc4531b-140c-459a-84b2-e7b005700e2c.png)
 
+
 <br/>
+
 
 - 위에 있는 것들을 전부 해줘야 JDBC의 API를 사용할수가있다.
 
+
 <br/>
+
+
+
+## Library 등록
+
+- 전부 설정이 완료됐다면 jar파일을 이클립스 Library에 등록을 해줘야한다.
+- 프로젝트를 만들때 랑 만들고나서 전부 다 가능하다 
+
+![프로젝트](https://user-images.githubusercontent.com/126074577/231724939-eb56919a-a2a8-4ecd-84a2-fc063ab2ddba.png)
+
+- 이런식으로 프로젝트를 만들때 Classpath 을 누른후 ADD External JARs... 을눌러서
+- jar파일을 등록해주면 된다.
+
+<br/>
+
+
+
 
 
 
