@@ -57,6 +57,7 @@
 56. [일련번호 ROWNUM](#56-ROWNUM)<BR/>
 57. [중복값 무시 RANK_OVER()](#57-RANK-OVER)<BR/>
 58. [중복값 포함 DENSC_RANK()](#58-DENSC-RANK)<BR/>
+59. [조회되는 데이터 중복제거 DISTINCT](#59-DISTINCT)<br/>
 
 
 <br/>
