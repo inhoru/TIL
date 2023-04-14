@@ -359,7 +359,6 @@ WHERE HIRE_DATE BETWEEN '00/01/01' AND '02/12/31' AND DEPT_CODE ='D9';
 
 <BR/>
 
-
 # 4. LIKE
 - 검색을 문자열 패턴으로 검색하는 기능 -> 부분일치, 포함여부, 원하는 문자열패턴검색
 - 문자열 패턴을 나타내는 기호는 <CODE>( % )</CODE> , <CODE>( _ )</CODE>
@@ -2044,3 +2043,38 @@ WHERE NUM BETWEEN 1 AND 23;
 방명수	1380000	23	22
 ```
 <BR/>
+
+# 59. DISTINCT
+- 조회되는 데이터의 중복을 제거해주는 명령어 : DISTINCT
+- 컬럼명 앞에 사용, SELECT문의 맨 앞에 작성
+- SELECT DISTINCT 컬럼명[,컬럼명...] FROM 테이블명
+
+```sql
+SELECT DEPT_CODE FROM EMPLOYEE;
+--------------------------------------
+D9
+D9
+D9
+D6
+D6
+D6
+D5
+D5
+D5
+D5
+D5
+D8
+D8
+
+-- 중복값제거
+SELECT DISTINCT DEPT_CODE FROM EMPLOYEE;
+--------------------------------------
+D9
+D6
+D1
+D8
+D5
+D2
+```
+
+<br/>
