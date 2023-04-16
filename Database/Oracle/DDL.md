@@ -356,12 +356,16 @@ INSERT INTO NQ_MEMBER4 VALUES(3,'ADMIN','4444','관리자',24);
 
   
 # 5. PRIMARY KEY
+
 - PRIMARY KEY 제약 조건을 설정하면, 해당 필드는 NOT NULL과 UNIQUE 제약 조건의 특징을 모두 가진다.
 - 따라서 이 제약 조건이 설정된 필드는 NULL 값을 가질 수 없으며, 또한 중복된 값을 가져서도 안 된다.
 - 이러한 PRIMARY KEY 제약 조건을 기본 키라고 한.
 
 <BR/>
+
 - PK를 설정하면 자동으로 UNIQUE, NOT NULL제약조건,INDEX가 부여된다.
+
+
 ```SQL
 CREATE TABLE PK_MEMBER(
 MEMBER_NO NUMBER PRIMARY KEY,
@@ -371,6 +375,7 @@ MEMBER_NAME VARCHAR2(10),
 MEMBER_AGE NUMBER,
 UNIQUE(MEMBER_ID,MEMBER_NAME)
 );
+
 
 INSERT INTO PK_MEMBER VALUES(NULL,'ADMIN,''1234','관리자',44); --NULL삽입불가
 INSERT INTO PK_MEMBER VALUES(1,'ADMIN,''1234','관리자',44); -- 무결성 제약조건위
@@ -393,6 +398,7 @@ MEMBER_AGE NUMBER,
 PRIMARY KEY (MEMBER_NO)
 );
 ```
+
 <BR/>
 
 ## 다수컬럼 설정 
