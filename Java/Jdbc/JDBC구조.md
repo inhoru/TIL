@@ -1,6 +1,8 @@
 # 🔖 목차
-1.
-2.
+1. [Service](#1-Service)<br/>
+
+
+
 
 <br/>
 
@@ -56,6 +58,47 @@
 <br/>
 
 
+# 1. Service
+-  클래스 내부의 중복 코드를 처리하는 클래스가 담겨있는 패키지다.
+- DB에 연결하는 Connection객체를 관리 생성과 소멸을 이클래스안에서 한다.
+- 트렌젝션처리(commit, rollback)도 여기서 한다.
+- 서비스에 해당하는 DAO클래스를 호출해서 연결DB에서 sql문을 실행시키는 기능을한다.
+- 커넥션을 열고 닫는거 까지 전부 여기서이용한다.
+
+```java
+public List<MemberDTO> selectAllMember(){
+		Connection conn= JDBCTemplate.getConnection();
+		List<MemberDTO> members = dao.selectAllMember(conn);
+		JDBCTemplate.close(conn);
+		return members;
+		
+	}
+  --------------------------------------------------------
+public List<MemberDTO> selectAllMember(Connection conn) {
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM MEMBER";
+		List<MemberDTO> members = new ArrayList();
+		try {
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next())
+				members.add(getMember(rs));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(stmt);
+		}
+		return members;
+    
+```
+
+- JDBCTemplate 에는 Connection객체를 생성해주는 기능을 가진 메소드가 들어가있다.
+- Service 클래스에서 DB접속을하고 DAO에 보내서 DAO에서 사용을한다.
+- 그리고 사용이 다끝난후 Service에서 닫아준다...
+- 이렇게 Service에서 Connection을 관리해줄수가있다.
+- 코드가 더욱 간결해지고 따로따로 관리해주기가 수월해진다.
 
 
 
