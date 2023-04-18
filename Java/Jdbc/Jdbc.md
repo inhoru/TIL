@@ -4,7 +4,7 @@
 3. [sql문실행](#3-sql문실행)<br/>
 4. [ResultSet이용하기](#4-ResultSet이용하기)<br/>
 5. [DML](#5-DML)<br/>
-6. [전체 출력하는 예시](#6-전체-출력하는-예시)<br/>
+6. [공통 클래스사용](#6-공통-클래스-사용)<br/>
 
 
 
@@ -481,62 +481,131 @@ public int updateMember(MemberDTO member) {
 
 
 
-# 6. 전체 출력하는 예시
-- 위에꺼를 사용해서 전체를 출력하는 코드다,
+# 6. 공통 클래스사용
+- 지금까지 위에서는 하나의 메소드를 만들때마다 계속 무조건 써주어야 햇던것들을 써주곤했다.
+- 예를 들어 Connection,Statement,close,commit,rollback......등등 메소드를 만들때마다 써주엇다
+- 굉장히 비효율적이고 시간도 오래걸린다.
+- 하나의 클래스에 기능들을 분산해서 만들수가있다.
+- 이기능들을 static메소드로 만들어서 메소드를 호출하면 사용이가능하도록 만들어서 사용할수가있다.
+- JDBCTemplate 라는 클래스를 생성햇다고 치고 거기안에 메소드들을 생성해보겟다.
 
+<br/>
+
+## Connection
 ```java
-public class MyjdbcTest {
-
-	public static void main(String[] args) {
+public static Connection getConnection() {
 		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-		List<Department> departments = new ArrayList();
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "BS", "BS");
-
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "student", "student");
 			conn.setAutoCommit(false);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return conn;
+	}
+```
+<br/>
 
-			String sql = "SELECT * FROM DEPARTMENT";
-
-			stmt = conn.createStatement();
-
-			rs = stmt.executeQuery(sql);
-
-			while (rs.next()) {
-				Department m = new Department();
-				m.setDeptID(rs.getString("dept_id"));
-				m.setDeptTitle(rs.getString("dept_title"));
-				m.setLocationId(rs.getString("location_id"));
-				// 밑에꺼처럼 가능 근대 가독성이 없어서 추천하지않는다.
-//				m.setDeptID(rs.getString(1));
-//				m.setDeptTitle(rs.getString(2));
-//				m.setLocationId(rs.getString(3));
-				departments.add(m);
+## close
+```java
+//Connection close
+	public static void close(Connection conn) {
+		try {
+			if (conn != null && !conn.isClosed()) {
+				conn.close();
 			}
-			departments.forEach((e) -> System.out.println(e));
-
-		} catch (ClassNotFoundException c) {
-			c.printStackTrace();
-		} catch (SQLException s) {
-			s.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
-				if (conn != null)
-					conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-
-			}
-
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
-}
+	
+//Statement close
+	public static void close(Statement stmt) {
+		try {
+			if (stmt != null && !stmt.isClosed()) {
+				stmt.close();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+//ResultSet close
+	public static void close(ResultSet rs) {
+		try {
+			if (rs != null && !rs.isClosed())
+				rs.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
 ```
+
+<br/>
+
+## commit rollback
+
+```java
+//commit	
+public static void commit(Connection conn) {
+		try {
+			if(conn!=null&&!conn.isClosed())conn.commit();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+//rollback	
+public static void rollback(Connection conn) {
+		try {
+			if(conn!=null&&!conn.isClosed())conn.rollback();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+```
+
+<br/>
+
+## 적용
+- 위에있는 메소드를 이용해서 다시한번 DTO를 작성해보겟다.
+
+```java
+public List<MemberDTO> selectAllMember() {
+		//이런식으로 코드 한줄로 컬렉션에 접근할수있다.
+		Connection conn= JDBCTemplate.getConnection();
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM MEMBER";
+		List<MemberDTO> members = new ArrayList();
+		try {
+			
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			// 다수값 - > 여러개면 while문, 0~1개로 출력되면 if로 출력
+			while (rs.next()) {
+} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCTemplate.close(rs);
+			JDBCTemplate.close(stmt);
+			JDBCTemplate.close(conn);
+			return members;
+		}
+
+	}			
+
+```
+
+- 원래였으면 Class.forName을써서 확인을하고 드라버에서가서 버전정보 등등 전부 써줘야햇지만
+- 이미 클래스안에 메소드를 만들어놧기때문에 호출을한다면 쓸필요없이 바로된다.
+- close도 마찬가지로 메소드호출만으로 해결이가능하다.
+
+<br/>
+
 
 
