@@ -326,6 +326,71 @@ List<Member> members = new ArrayList<Member>();
 
 <br/>
 
+## 메소드에 저장해서 사용하기
+
+- 위에처럼 사용한다면 컬럼이생길때 마다 일일히 모든 메소드들을 바꿔줘야한다
+- 굉장히 비효율적이라고 볼수가있다.
+- 그래서 row를 저장하는 메소드를 만든후 그메소드를 이용하는방법을 이용한다.
+
+```java
+//getMember 메소드에 저장하여 사용하
+private MemberDTO getMember(ResultSet rs) throws SQLException {
+		MemberDTO m = new MemberDTO();
+		m.setMemberId(rs.getString("member_id"));
+		m.setMemberPwd(rs.getString("member_pwd"));
+		m.setMemberName(rs.getString("member_name"));
+		m.setGender(rs.getString("gender").charAt(0));
+		m.setAge(rs.getInt("age"));
+		m.setPhone(rs.getNString("phone"));
+		m.setEmail(rs.getString("email"));
+		m.setAddress(rs.getString("address"));
+		m.setHobby(rs.getString("hobby").split(","));
+		m.setEnrollDate(rs.getDate("enroll_Date"));
+		return m;
+
+	}
+-----------------------------------------------------------------------
+// List에저장
+public List<MemberDTO> selectAllMember() {
+		// DB에 접속해서 member테이블에 있는 전체데이터를 가져오는 기능
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		String sql = "SELECT * FROM MEMBER";
+		List<MemberDTO> members = new ArrayList();
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "student", "student");
+			conn.setAutoCommit(false);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			// 다수값 - > 여러개면 while문, 0~1개로 출력되면 if로 출력
+			while (rs.next()) {
+			// 이거한줄로 가능하다.
+			mbers.add(getMember(rs));
+-------------------------------------------------------------------------------
+//그냥 사용
+public MemberDTO searchId(String id) {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		MemberDTO m = null;
+		String sql = "SELECT * FROM MEMBER WHERE MEMBER_ID ='" + id + "'";
+		// 이렇게도가능
+		// List<MemberDTO> members = selectAllMember();
+		// members.stream().filter(m1-	>m1.getMemberId().equals(id)).collect(Collectors.toList()).get(0);
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "student", "student");
+			conn.setAutoCommit(false);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			if (rs.next()) {
+				m = getMember(rs);
+```
+
+<br/>
+
 # 5. DML
 - 이클립스 안에서도 DML구문(insert, update, delete문)을 사용이가능하다.
 - 위에서말햇던 <code>executeUpdate</code>를사용한다.
