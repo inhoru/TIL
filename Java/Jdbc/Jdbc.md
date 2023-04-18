@@ -576,7 +576,7 @@ public static void rollback(Connection conn) {
 
 ```java
 public List<MemberDTO> selectAllMember() {
-		//이런식으로 코드 한줄로 컬렉션에 접근할수있다.
+		//이런식으로 코드 한줄로 DB에 접근할수있다.
 		Connection conn= JDBCTemplate.getConnection();
 		Statement stmt = null;
 		ResultSet rs = null;
