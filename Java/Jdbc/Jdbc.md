@@ -407,6 +407,79 @@ int result = stmt.executeUpdate(sql);
 
 <br/>
 
+## 입력받은 데이터로 DML사용하기
+- 우리가 sql문에 직접쓰지 않고 스캐너로 입력받은 데이터를 넣어서 DML을구문을 사용할수가있다.
+
+```java
+//입력받은 이름으로 데이터찾기
+public List<MemberDTO> searchName(String name) {
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+		MemberDTO m = null;
+		List<MemberDTO> members = new ArrayList();
+		String sql = "SELECT * FROM MEMBER WHERE MEMBER_NAME LIKE'%" + name + "%'";
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "student", "student");
+			conn.setAutoCommit(false);
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery(sql);
+			while (rs.next()) {
+				members.add(getMember(rs));
+
+			}
+---------------------------------------------------------------------
+//입력받은정보로 INSERT하기
+public int insertMember(MemberDTO m) {
+		Connection conn = null;
+		Statement stmt = null;
+		int result = 0;
+		String sql = "INSERT INTO MEMBER VALUES('" + m.getMemberId() + "','" + m.getMemberPwd() + "','"
+				+ m.getMemberName() + "','" + m.getGender() + "'," + m.getAge() + ",'" + m.getEmail() + "','"
+				+ m.getPhone() + "','" + m.getAddress() + "','" + String.join(",", m.getHobby()) + "',DEFAULT)";
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "student", "student");
+			conn.setAutoCommit(false);
+			stmt = conn.createStatement();
+			result = stmt.executeUpdate(sql);
+			if (result > 0) {
+				conn.commit();
+
+			} else {
+				conn.rollback();
+
+			}
+----------------------------------------------------------------------------
+//입력받은 데이터로 업데이트하기
+public int updateMember(MemberDTO member) {
+		Connection conn = null;
+		Statement stmt = null;
+		int result = 0;
+		String sql = "UPDATE MEMBER SET MEMBER_NAME = '" + member.getMemberName() + "',AGE=" + member.getAge()
+				+ ",email='" + member.getEmail() + "'," + "address='" + member.getAddress() + "' WHERE MEMBER_ID='"
+				+ member.getMemberId() + "'";
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "student", "student");
+			conn.setAutoCommit(false);
+			stmt = conn.createStatement();
+			result = stmt.executeUpdate(sql);
+			if (result > 0) {
+				conn.commit();
+
+			} else {
+				conn.rollback();
+
+			}
+```
+
+- 이런식으로  입력받은 데이터를 문자열로 변환해서 SQL문에 사용할수가있다.
+
+<BR/>
+
+
 
 # 6. 전체 출력하는 예시
 - 위에꺼를 사용해서 전체를 출력하는 코드다,
