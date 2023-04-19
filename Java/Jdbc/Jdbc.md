@@ -5,7 +5,7 @@
 4. [ResultSet이용하기](#4-ResultSet이용하기)<br/>
 5. [DML](#5-DML)<br/>
 6. [공통 클래스사용](#6-공통-클래스사용)<br/>
-
+7. [파일 입출력이용]
 
 
 
@@ -606,6 +606,114 @@ public List<MemberDTO> selectAllMember() {
 - close도 마찬가지로 메소드호출만으로 해결이가능하다.
 
 <br/>
+
+
+# 7. 파일 입출력이용
+- 우리는 지금까지 <CODE>Class.forName</CODE> 이나 <CODE>DriverManager.getConnection</CODE>에 직접 버전정보나 아이디 비밀번호를 직접 적엇다.
+- 그렇게되면 남이 우리코드를 볼때 아이디나 비밀번호를 볼수가있다.
+- 그렇게되면 db에정보를 유출시키게되는것이다.
+- 그런걸 방지하기위해 하나의 파일에 정보들을 입력하고 그파일로 실행시키는 걸 할수가있다.
+- 우리가 배웟던 파일입출력을 이용해보자
+
+## resources
+- resources파일에 우리의 정보들이 담긴파일들을 보관할수가있다.
+
+![resources](https://user-images.githubusercontent.com/126074577/233077268-a3271a1b-f883-4940-97f8-98172b802938.png)
+
+- 이런식으로 resources파일에 파일들을 저장시켯다.
+- 이제 이걸이용해보자
+
+```java
+// Connection
+public static Connection getConnection() {
+		Connection conn = null;
+		//절대경로가 필요함.
+		//driver.properties를 불러올려면 절대경로로 불러와야한다 위치는 bin에있다.
+		//클래스에잇는 위치를 가져올려고 getResource를 사용 (JDBCTemplate이 있는 최상위폴더는 bin폴더에있다.)
+		String path = JDBCTemplate.class.getResource("/driver.properties").getPath();
+		Properties driver = new Properties();
+		try (FileReader fr = new FileReader(path)){
+			driver.load(fr);
+			Class.forName(driver.getProperty("drivername"));
+			conn = DriverManager.getConnection(driver.getProperty("url"),driver.getProperty("user"),driver.getProperty("pw"));
+			conn.setAutoCommit(false);
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}catch(IOException e) {
+			e.printStackTrace();
+		}
+		return conn;
+--------------------------------------------------------------------------------------------
+```
+- 이렇게 Connection 에 작성해야하는필수 정보들을 driver.properties 파일에 적어두고
+- 불러와서 사용이가능하다.
+- **한가지 알아야할점은 FileReader도 닫아줘야하기때문에 try()안에써서 자동으로 닫아주게만들어줘야한다.**
+
+
+
+<br/>
+
+## sql파일
+- 우리가 쿼리문을 작성하는 sql도 파일에 저장해서 위와같이 사용이가능하다.
+- 먼저 파일을불러오구 읽어야하기에 우리가 컬렉션때 배웟던 <code>FileReader</code>을이용한다.
+- 먼저 파일내용들을 살펴보자
+
+![파일내용](https://user-images.githubusercontent.com/126074577/233078609-5c571db1-fb87-4291-aad5-097f67a8270a.png)
+
+- 이런식으로 되어있다
+- 이걸 읽어와서 안에있는 것들을 하나씩사용이가능하다.
+
+```java
+private Properties sql = new Properties();
+
+	{
+		try {
+			String path = BoardDao.class.getResource("/Board_sql.properties").getPath();
+			sql.load(new FileReader(path));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+```
+- 반드시 실행되야하기에 초기화블럭에다가 써줄수가있다.
+- 먼저 파일에서 load를 해와야 안에있는걸 사용할수있기때문이다.
+
+<br/>
+
+```java
+public List<BoardDTO> selectAllBoard(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String sql = this.sql.getProperty("selectAllBoard");
+		List<BoardDTO> boards = new ArrayList();
+		try {
+			pstmt = conn.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				boards.add(getBoard(rs));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return boards;
+	}
+```
+- sql문에 쿼리문대신 파일에있는 걸 호출해서 sql문을 작성할수가있다.
+
+<br/>
+
+# 8. 위치홀더
+- 우리는 sql문을 작성할때 계속 DTO에 get/set을이용해서 우리가원하는값을 쿼리문에썻는데
+- 이제는 **위치홀더(?)** 를 이용해서 쿼리문을 쓰지않고 위치홀더만 이용해서 값을넣을수가있다.
+- 
+
+
+
 
 
 
