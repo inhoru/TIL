@@ -710,7 +710,252 @@ public List<BoardDTO> selectAllBoard(Connection conn) {
 # 8. 위치홀더
 - 우리는 sql문을 작성할때 계속 DTO에 get/set을이용해서 우리가원하는값을 쿼리문에썻는데
 - 이제는 **위치홀더(?)** 를 이용해서 쿼리문을 쓰지않고 위치홀더만 이용해서 값을넣을수가있다.
-- 
+- <code>PreparedStatement</code> 를이용한다. 
+
+	- 우리가 기존에쓰던 Statement 를 상속받는다
+	- 그래서 닫아줄때 Statement로 닫아줘도 닫을수가있다.
+
+<br/>
+
+
+- 사용방법을 알아보자
+
+```java
+public int insertMember(Connection conn,MemberDTO m) {
+		PreparedStatement pstmt=null;
+		int result=0;
+		//String sql="INSERT INTO MEMBER VALUES(?,?,?,?,?,?,?,?,?,SYSDATE)";
+		String sql=this.sql.getProperty("insertMember");
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, m.getMemberId());
+			pstmt.setString(2, m.getMemberPwd());
+			pstmt.setString(3, m.getMemberName());
+			pstmt.setString(4, String.valueOf(m.getGender()));
+			pstmt.setInt(5, m.getAge());
+			pstmt.setString(6, m.getEmail());
+			pstmt.setString(7, m.getPhone());
+			pstmt.setString(8, m.getAddress());
+			pstmt.setString(9, String.join(",",m.getHobby()));
+			
+			result=pstmt.executeUpdate();
+			
+```
+- setString() 안에 순서대로 인덱스번호를 쓴후 원하는 값을 넣우주면 ? 안에 우리가 원하는값을 넣을수가있다.
+- Statement랑 다른것은 pstmt.executeUpdate(); 안에 sql문 을안넣어줘도된다.
+- 이미 저장이되어있기때문에 그냥 써주면 된다.
+
+<br/>
+
+## 위치홀더에 %등등 사용
+- 위치홀더를 사용하면 자동으로 문자열양쪽에 '문자열'  이런형태로 생긴다.
+- 만약에 LIKE를 사용한다면 % 가 필요한데 자동으로 문자열에만 ''이생기기때문에 %를 ' ' 안에넣을수가없다.
+- 그럴땐 두가지방법이있다.
+
+<br/>
+
+## 쿼리문 문자열결합
+```java
+String sql="SELECT * FROM MEMBER WHERE MEMBER_NAME LIKE '%'||?||'%'";
+```
+- 쿼리문자체에서 문자열을 결합해준다
+
+<br/>
+
+## setString에서 결합
+```java
+pstmt.setString(1,"%"+name+"%")
+```
+- 셋팅하는쪽에서 문자열로 결합해서 위치홀더에 넣어준다
+
+<br/>
+
+## 다중검색
+- 우리가 다중검색을할때 조회를 할때 2개 데이터가필요하다.
+- 만약에 게시글의 항목(제목,내용,작성자) 조회를한다고햇을때
+
+	- 검색할 항목(컬럼명) 과 검색어 2가지가필요하다.
+
+- 이때 Map을이용해서 우리가 원하는데이터를 보낼수가있다.
+
+```java
+public Map inputSearch() {
+		Scanner sc = new Scanner(System.in);
+		System.out.println("==== 게시글 항목별검색 ====");
+		System.out.println("항목 1. 제목 2. 내용 3. 작성자 : ");
+		int colCho = sc.nextInt();
+		sc.nextLine();
+		String col = "";
+		switch(colCho) {
+			case 1 : col = "board_title";break;
+			case 2 : col = "board_content";break;
+			case 3 : col = "board_writer";break;
+		}
+		System.out.print("검색어 : ");
+		String keyword = sc.nextLine();
+		return Map.of("col",col,"keyword",keyword);
+		
+		
+		
+	}
+	
+```
+- 컬럼과 키워드값을 반환시켜준다.
+
+<br/>
+
+
+```java
+public void selectSearchBoard() {
+		//검색할 항목(컬럼명), 검색어
+		Map param = view.inputSearch();
+		List<BoardDTO> boards = service.searchBoard(param);
+		view.printBoards(boards);
+```
+- List로하는 이유는 값이 여러개일수도있기때문이다.
+
+<br/>
+
+```java
+public List<BoardDTO> searchBoard(Map param){
+		Connection conn = getConnection();
+		List<BoardDTO> boards = dao.searchBoard(conn,param);
+		close(conn);
+		return boards;
+	}
+``` 
+- 서비스 에와서 커넥션을해준후
+- dao에 커넥션과 파람을 보내준다.
+
+<br/>
+- 여기가 중요하다. dao부분이다.
+
+```java
+```java
+//sql = selectBoardByCol = SELECT * FROM BOARD WHERE #COL LIKE ?
+public List<BoardDTO> searchBoard(Connection conn, Map param){
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<BoardDTO> boards = new ArrayList<>();
+		String sql = this.sql.getProperty("selectBoardByCol");
+		//where절에 ?를 사용한다면 '문자열'이되기때문에 재대로 찾을수가없다.
+		// 그래서 replace를 이용해서 임의의수를 문자열로 원하는 문자열로 바꿔준다.
+		sql = sql.replace("#COL", (String)param.get("col"));
+		
+		try {
+			pstmt=conn.prepareStatement(sql);
+			pstmt.setString(1, "%"+(String)param.get("keyword")+"%");
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				BoardDTO b = getBoard(rs);
+				b.setComments(selectBoardComment(conn, b.getBoardNo()));
+				boards.add(b);
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(rs);
+			close(pstmt);
+		}
+		return boards;
+		
+```
+
+<br/>
+
+
+# 8. 테이블연결
+- 객체기반으로 설계를 햇다면 테이블마다 객체를 만들어서 연결해줘야한다.
+- 자바에서는 객체간의 참조관계가 없기때문이다
+- 그래서 객체를 생성해서 집어넣어줘야한다.
+- 그래서 연결할테이블의 DTO 를 만들어서 서로연결해줘야한다.
+
+<br/>
+
+## 게시물과 댓글
+
+- 게시글 을조회 하면서 댓글의 수를 조회해보자
+- 먼저 게시글 객체와 댓글 객체를 따로만들자
+
+
+
+```java
+//Board DTO를 만들엇다고 치자
+//게시글
+
+public BoardDTO getBoard(ResultSet rs) throws SQLException {
+		BoardDTO b = new BoardDTO();
+		b.setBoardNo(rs.getInt("board_no"));
+		b.setBoardTitle(rs.getString("board_title"));
+		b.setBoardContent(rs.getString("board_content"));
+		b.setBoardWriter(rs.getString("board_writer"));
+		b.setBoardDate(rs.getDate("board_date"));
+		return b;
+	}
+-------------------------------------------------------------
+//BoardComment DTO를 만들엇다고 치자
+//댓글
+private BoardComment getComment(ResultSet rs) throws SQLException {
+		BoardComment bc = new BoardComment();
+
+		bc.setCommentNo(rs.getInt("comment_no"));
+		bc.setCommentContent(rs.getString("comment_content"));
+		bc.setCommentWriter(rs.getString("comment_writer"));
+		bc.setCommentDate(rs.getDate("comment_date"));
+		return bc;
+	}
+
+------------------------------------------------------------------
+// 서로 board_no이랑 board_ref로 연결되있는 상태이다.
+//selectBoardCommentByBoardNo 쿼리문은  SELECT * FROM BOARD_COMMENT WHERE BOARD_REF=? 상태이다.
+public List<BoardComment> selectBoardComment(Connection conn, int boardNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		List<BoardComment> comments = new ArrayList<>();
+		String sql = this.sql.getProperty("selectBoardCommentByBoardNo");
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, boardNo);
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				comments.add(getComment(rs));
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			close(rs);
+			close(pstmt);
+		}
+		return comments;
+	}
+```
+
+- 이렇게 객체를 만들어서 서로 연결을해줄수가있다.
+- Comment가 List인 이유는 댓글은 여러개이기때문이다.
+
+<br/>
+
+- 이제 DTO에선언햇던  Comment에 값을넣어보자
+
+```java
+public List<BoardDTO> selectAllBoard(){
+		Connection conn = getConnection();
+		List<BoardDTO> boards = dao.selectAllBoard(conn);
+		for(BoardDTO b : boards) {
+			b.setComments(dao.selectBoardComment(conn, b.getBoardNo()));
+			
+			
+		}
+		close(conn);
+		return boards;
+```
+- 보드리스트를 을 가져와서 반복문을돌려서 
+- 리스트에잇는값을 가지고 Comments 에넣어준것이다.
+
+<br/>
+
+
 
 
 
