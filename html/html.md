@@ -107,13 +107,47 @@
 
 <br/>
 
-## link
+# 5. link
 
 - 외부에 있는 파일을 불러와 페이지에 적용한다.
 - <link>태그를 이용한다.  css파일을 불러와서 적용할때 사용
   - rel : 불러오는 파일이 페이지에서 역할 stylesheet
   - type : MIME타입을 설정 * text/css
-  href : 외부파일의 위치를 설정(local, web상위치(url주소)
+  - href : 외부파일의 위치를 설정(local, web상위치(url주소)
+  
+```html
+<!-- 자기폴더안에있는 css파일을 사용하겟다. -->
+<link rel = "stylesheet" type="text/css" href="./css/style.css"/>
+
+<!-- 외부사이트 주소 설정 여기서 사용하겟다. -->
+<link  href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"/>  
+```
+## 파비콘
+- title앞에 출려되는 이미지를 말한다.
+- 크기에 맞는 image파일이 필요하다.
+
+```html
+<link rel="icon" href="https://www.w3schools.com/favicon.ico" type="image/x-icon">
+```
+
+<br/>
+
+# 6. style
+
+
+
+# 7. a는 하이퍼링크
+ <a href="/test.do">요청하기</a> 
+ href  = 클릭시 이동할링크를 적음 
+ 
+
+# 8. 
+ 
+ 
+
+
+
+  
   
 
 
