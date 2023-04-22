@@ -107,12 +107,22 @@
 
 <br/>
 
+## link
 
-        
+- 외부에 있는 파일을 불러와 페이지에 적용한다.
+- <link>태그를 이용한다.  css파일을 불러와서 적용할때 사용
+  - rel : 불러오는 파일이 페이지에서 역할 stylesheet
+  - type : MIME타입을 설정 * text/css
+  href : 외부파일의 위치를 설정(local, web상위치(url주소)
+  
 
 
-<br/>
+
+
 ![구조](https://user-images.githubusercontent.com/126074577/233774632-83d7375a-52fe-4156-897d-ba7e2cd89865.png)
+
+
+
   
   
   
