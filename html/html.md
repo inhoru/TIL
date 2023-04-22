@@ -68,8 +68,9 @@
 - **창에 대한 제목설정 : \<title>태그이용**       
 
 <br/>
-
 ***
+
+
  <!-- 페이지에 대한 언어설정하기 -->
       <meta http-equiv="content-language" content="ko"/>
       <!-- 페이지에 문서형식(MIME TYPE),인코딩형식 설정하기 -->
