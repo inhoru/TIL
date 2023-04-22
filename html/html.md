@@ -58,7 +58,7 @@
   
 # 4. 기본구조
 
-## head
+## \<head>
 
 - 기본적인 html에 대한 정보를 작성하는 부분
 - 정보 : \<meta>태그 이용 -> 내부적으로 통신시 필요한 내용설정
@@ -69,7 +69,7 @@
 
 <br/>
 
-## <meta>
+## \<meta>
 
 - \<meta>태그 이용
 - 내부적으로 통신시 필요한 내용설정
@@ -80,6 +80,23 @@
   <!-- 페이지에 문서형식(MIME TYPE),인코딩형식 설정하기 -->
   <meta http-equiv="content-type"       content="text/html;charset=utf-8"/>
   </head>
+```
+
+<br/>
+
+## charset속성을 이용
+- 페이지 인코딩은 http-equiv말고 charset속성을 이용할 수 있음
+
+```html
+<meta charset="utf-8"/>
+        <!-- 페이지 작성에 대한 정보를 설정 -->
+        <meta name = "application-name" content="html"/>
+        <meta name = "author" content="bsyoo"/>
+        <meta name = "description" content="html에 대한 기본설정"/>
+        <meta namme = "generator" content="vscode"/>
+        <meta name = "keywords" content="html,화면,web,webpage구조"/>
+        <!-- 반응형관련 사이즈설정 -->
+        <meta name = "viewprot" content="width=device-width,inital-scale=1.0"/>
 ```
  
 
