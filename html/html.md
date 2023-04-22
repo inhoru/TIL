@@ -40,7 +40,7 @@
 
 # 3. 속성
 
-- (<code><html></html></code>)  html문서 시작, 끝 표시 
+- (<html></html>)  html문서 시작, 끝 표시 
 - ang은 이 페이지가 어느 나라 언어로 되어있는지를 의미
 
   - html 뒤에 붙는 lang을 속성이라고 한다.
