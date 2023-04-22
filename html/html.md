@@ -74,13 +74,13 @@
 - \<meta>태그 이용
 - 내부적으로 통신시 필요한 내용설정
 
-***
-  <!-- 페이지에 대한 언어설정하기 -->
-  <meta http-equiv="content-language" content="ko"/>
-  <!-- 페이지에 문서형식(MIME TYPE),인코딩형식 설정하기 -->
-  <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
-  </head>
-*** 
+
+  \<!-- 페이지에 대한 언어설정하기 -->
+  \<meta http-equiv="content-language" content="ko"/>
+  \<!-- 페이지에 문서형식(MIME TYPE),인코딩형식 설정하기 -->
+  \<meta http-equiv="content-type"       content="text/html;charset=utf-8"/>
+  \</head>
+
  
 
         
