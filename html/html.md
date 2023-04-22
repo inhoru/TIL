@@ -65,7 +65,12 @@
 - **외부파일을 불러오기 : \<link>태그이용 * css파일을 불러올때 사용**
 - **스타일코드작성 : \<style>태그이용  필수, boby에도 쓸 수 있음**
 - **script문작성 및 불러오기: \<script>태그이용**
-- **창에 대한 제목설정 : \<title>태그이용**       
+- **창에 대한 제목설정 : \<title>태그이용**    
+
+```html
+<!-- 제목설정 -->
+<title>나의 첫페이지!!</title>
+```
 
 <br/>
 
@@ -98,7 +103,10 @@
         <!-- 반응형관련 사이즈설정 -->
         <meta name = "viewprot" content="width=device-width,inital-scale=1.0"/>
 ```
- 
+
+
+<br/>
+
 
         
 
