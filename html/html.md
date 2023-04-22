@@ -68,28 +68,21 @@
 - **창에 대한 제목설정 : \<title>태그이용**       
 
 <br/>
-***
 
+## <meta>
+- \<meta>태그 이용
+- 내부적으로 통신시 필요한 내용설정
 
- <!-- 페이지에 대한 언어설정하기 -->
-      <meta http-equiv="content-language" content="ko"/>
-      <!-- 페이지에 문서형식(MIME TYPE),인코딩형식 설정하기 -->
-      <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+    <!-- 페이지에 대한 언어설정하기 -->
+    <meta http-equiv="content-language" content="ko"/>
+    <!-- 페이지에 문서형식(MIME TYPE),인코딩형식 설정하기 -->
+    <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
     </head>
-        <!-- 페이지 인코딩은 http-equiv말고 charset속성을 이용할 수 있음 -->
-        <meta charset="utf-8"/>
-        <!-- 페이지 작성에 대한 정보를 설정 -->
-        <meta name = "application-name" content="html"/>
-        <meta name = "author" content="bsyoo"/>
-        <meta name = "description" content="html에 대한 기본설정"/>
-        <meta namme = "generator" content="vscode"/>
-        <meta name = "keywords" content="html,화면,web,webpage구조"/>
-        <!-- 반응형관련 사이즈설정 -->
-        <meta name = "viewprot" content="width=device-width,inital-scale=1.0"/>
+ 
+ 
 
-        <title>나의 첫페이지!!</title>
         
-***
+
 
 <br/>
 ![구조](https://user-images.githubusercontent.com/126074577/233774632-83d7375a-52fe-4156-897d-ba7e2cd89865.png)
