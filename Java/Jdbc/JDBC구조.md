@@ -66,6 +66,10 @@
 - 커넥션을 열고 닫는거 까지 전부 여기서이용한다.
 
 ```java
+// 임포트로 설정하면 JDBCT를 안쓰고사용가능
+import static com.bs.common.JDBCTemplate.*;
+
+
 public List<MemberDTO> selectAllMember(){
 		Connection conn= JDBCTemplate.getConnection();
 		List<MemberDTO> members = dao.selectAllMember(conn);
