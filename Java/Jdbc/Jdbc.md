@@ -655,6 +655,10 @@ public static Connection getConnection() {
 - 불러와서 사용이가능하다.
 - **한가지 알아야할점은 FileReader도 닫아줘야하기때문에 try()안에써서 자동으로 닫아주게만들어줘야한다.**
 
+<br/>
+
+
+![드라이버](https://user-images.githubusercontent.com/126074577/233874106-c25c37e9-e356-4894-9fce-3853d25407ce.png)
 
 
 <br/>
