@@ -8,7 +8,7 @@
 # 1. inline
 - 태그의 이벤트 속성에 javascript코드를 작성하는 방식이다.
 
-```html
+```javascript
 <h3>inline방식으로 적용하기</h3>
 <button onclick="alert('클릭했니');">이거눌러봐!</button>
 ```
@@ -22,7 +22,7 @@
 - inline방식으로 적용할때 body위에 써주는게좋다.
 - 위에서 아래로 읽기때문에 head부분에 써주면 안될경우가 생길수도있다.
 
-```html
+```javascript
 
  <h3>internal방식으로 적용하기</h3>
 
@@ -37,7 +37,7 @@
 # 3. extarnal
 - js파일에 javascript코드를 작성하고 script태그로 불러와서 적용하는 방식
 
-```html
+```javascript
 //js
 alert('external로 실행하기');
 
