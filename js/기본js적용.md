@@ -38,7 +38,8 @@
 - js파일에 javascript코드를 작성하고 script태그로 불러와서 적용하는 방식
 
 ```javascript
-//js
+test.js
+
 alert('external로 실행하기');
 
 const testfunc=()=>{
