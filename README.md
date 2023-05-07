@@ -13,6 +13,7 @@
 
 * [Java](#Java)
 * [Database](#Database)
+* [javascript](#javascript)
 
 <br/>
 
@@ -42,4 +43,11 @@
 <br/>
 
 ## [javascript](https://github.com/inhoru/TIL/tree/main/js)
+- [기본js적용](https://github.com/inhoru/TIL/blob/main/js/%EA%B8%B0%EB%B3%B8js%EC%A0%81%EC%9A%A9.md)
+- [데이터입출력](https://github.com/inhoru/TIL/blob/main/js/%EB%8D%B0%EC%9D%B4%ED%84%B0%EC%9E%85%EC%B6%9C%EB%A0%A5.md)
+- [태그가져오기](https://github.com/inhoru/TIL/blob/main/js/%ED%83%9C%EA%B7%B8%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0.md)
+- [변수활용](https://github.com/inhoru/TIL/blob/main/js/%EB%B3%80%EC%88%98%ED%99%9C%EC%9A%A9.md)
+- [연산자](https://github.com/inhoru/TIL/blob/main/js/%EC%97%B0%EC%82%B0%EC%9E%90.md)
+- [조건문](https://github.com/inhoru/TIL/blob/main/js/%EC%A1%B0%EA%B1%B4%EB%AC%B8.md)
+- [반복문](https://github.com/inhoru/TIL/blob/main/js/%EB%B0%98%EB%B3%B5%EB%AC%B8.md)
 
