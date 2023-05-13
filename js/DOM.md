@@ -5,6 +5,12 @@
 3. [구조가 있는 태그 만들기](#3-구조가-있는-태그-만들기)<br/>
 4. [생성된 태그를 원하는 위치에 넣기](#4-생성된-태그를-원하는-위치에-넣기)<br/>
 5. [태그삭제](#5-태그삭제)<br/>
+6. [class속성다루기](#6-class속성다루기)<br/>
+7. [tagNmae속성이용하기](#7-tagNmae속성이용하기)<br/>
+8. [style속성을 이용해서 태그스타일변경하기](#8-style속성을-이용해서-태그스타일변경하기)<br/>
+9. [특정태그의 주변태그확인하기](#9-특정태그의 주변태그확인하기)<br/>
+
+
 
 
 
@@ -348,28 +354,291 @@
 ```
 
 
+<br/>
+
+# 6. class속성다루기
+
+- 클래스로 선언된걸을 찾아서 삭제나 추가를 할수가있다.
+- className을이용해서 이름을찾고
+- classList를 이용해서 class들을 찾는다.
+- 배열방식으로 저장된다.
+
+```javascript
+
+<style>
+        .a {
+            font-size: 30px;
+            color: lime;
+        }
+
+        .b {
+            font-size: 20px;
+            color: magenta;
+        }
+
+        .test {
+            background-color: cornflowerblue;
+        }
+    </style>
+    <!-- 부트스트립 이용 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <h2>class속성다루기</h2>
+    <div id="container">
+        <!-- 배열이랑 이름으로나뉜다 -->
+        <!-- 부트스트립 적용 사이트에 클래스이름이 나와있다. -->
+        <p class="test font text-primary">속성</p>
+        <ul>
+            <li>html</li>
+            <li class="a">css</li>
+            <li>javascript</li>
+        </ul>
+        <h2 class="a">h2 태그</h2>
+        <p class="test">p태그</p>
+    </div>
+    <button onclick="classChange();">변경하기</button>
+    <button onclick="classRemove();">삭제하기</button>
+    <button onclick="addAclass();">a클래스 적용하기</button>
+
+    <script>
+        const addAclass = () => {
+            const allchild = document.querySelectorAll("#container>*");
+            console.log(allchild);
+            allchild.forEach(e => {
+                if (e.className.includes("a")) e.classList.remove("a");
+                else e.classList.add("a");
+            });
+        }
+        const testElement = document.querySelector("#container>p");
+        const classChange = () => {
+            const $p = document.querySelector("#container>p");
+            //className변경하기 -> 기존에 설정된 클래스가 사라진다.
+            //class를 더넣을려면 += a를 해야한다 띄어쓰기를 사용해야한다. 띄어쓰기를 기준으로 클래스를 찾기떄문이다.
+            //$p.className+=" a";
+            console.log($p.classList);
+            //배열 방식이기때문에 add를 사용해서 추가한다.
+            //중복된 클래스는 안들어간다.
+            $p.classList.add("a");
+        }
+        const classRemove = () => {
+            const $p = document.querySelector("#container>p");
+            $p.classList.remove("test");
+        }
+    </script>
+```
+
+<br/>
+
+# 7. tagNmae속성이용하기
+- 태그 이름을 저장하는 속성, 대문자로 저장
+- 
+
+```javascript
+
+<button onclick="tagNameTest();">태그분리하기</button>
+    <script>
+        const tagNameTest=()=>{
+            const container=document.querySelectorAll("body *");
+            console.log(container);
+            //for이치는 노드리스트만사용가능
+            container.forEach(e=>{
+                console.log(e.tagName);
+                if(e.tagName=="P"||e.tagName=="H2") e.classList.add("text-danger");
+            })
+        }
+    </script>
 
 
+```
+- 태그이름을 e.tagName으로 찾아서 그것들만 add해준거다.
+
+<br/>
+
+# 8. style속성을 이용해서 태그스타일변경하기
+
+- element의 style속성에는 CSSStyle객체가 저장되어있음.
+- css속성을 설정할수 있는 객체
+- css속성명 - 기준으로 구분되어있다. js 변수명 -를 사용하지않기때무에 style객체에 속성은
+- css명과 동일하나 -를 생략하고 낙타봉표기법을 사용했다.
+- )예 font-size -> fontSize <- 자바스크립트표기법 , text-decoration -> textDecoration <- js스타일
+
+```javascript
+
+ <div id="stylecontainer">
+        <p>style속성변경하기</p>
+    </div>
+    <button onclick="changeStyle();">스타일변경하기</button>
+    <button onclick="removeStyle();">스타일삭제하기</button>
+    <script>
+        const changeStyle=()=>{
+           const $p=document.querySelector("#stylecontainer>p");
+           console.dir($p);
+           $p.style.fontSize="20px";
+           $p.style.textDecoration="overline";
+           $p.style.backgroundColor="magenta";
+           $p.style.color="lime";
+        }
+        const removeStyle=()=>{
+            const $p=document.querySelector("#stylecontainer>p");
+            $p.style.backgroundColor="";
+        }        
+    </script>
+
+```
+
+<br/>
+
+# 9. 특정태그의 주변태그확인하기
+
+- 특정태그를 기준으로 원하는 태그를 가져올때 사용
+- 이벤트객체와 연결해서 많이 사용함.  
+- children : 자손태그들을 저장하고 있는 속성
+- parentElement : 바로 위에 있는 부모태그를 저장한 속성
+- previousElementSibling : 같은레벨에 있는 (위)앞에있는 태그를 저장한 속성
+- nextElementSibling : 같은레벨에 있는 뒤(밑)에 있는 태그를 저장한 속성
 
 
+```javascript
 
 
+  <div id="searchTag">
+        <h2>난 h2야</h2>
+        <ul>
+            <li>html</li>
+            <li>css</li>
+            <li>javascript</li>
+            <li>jquery</li>
+        </ul>
+        <h2>난 h2 2</h2>
+        <p>나는 p태그야</p>
+        <h3>나는 h3야!!</h3>
+    </div>
+
+    <button onclick="searchTagFunc();">태그 탐색하기</button>
+    <script>
+        const searchTagFunc=()=>{
+            const container=document.getElementById("searchTag");
+            console.dir(container);
+            const containerChildren=container.children;
+            console.log(containerChildren);
+            
+            for(let i=0;i<containerChildren.length;i++){
+                console.log(containerChildren[i]);
+                if(containerChildren[i].tagName=='H2'){
+                    containerChildren[i].classList.add("text-danger");
+                    containerChildren[i].style.textShadow="3px 3px 5px yellow";
+                }else if(containerChildren[i].tagName=='P'){
+                    containerChildren[i].classList.add("text-muted");
+                    containerChildren[i].style.textShadow="3px 3px 5px lime";
+                }
+                console.log(containerChildren[i].parentElement);
+                console.log(containerChildren[i].children);
+
+                console.log(containerChildren[i].previousElementSibling);
+                console.log(containerChildren[i].nextElementSibling);
+            }
+
+        }      
+        
+```
+
+- 배열가져온것들은 반복문으로 돌려서 가져올수가있다.
+
+<br/>
 
 
+## 테이블 row추가
+```javascript
+
+ <div id="tablecontainer">
+        <table class="table" width="500" >
+            <tr>
+                <td>1</td>
+                <td>2</td>
+                <td><button onclick="addRow(this);">row생성1</button></td>        
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>4</td>
+                <td><button onclick="addRow(this);">row생성2</button></td>
+            </tr>
+            <tr>
+                <td>5</td>
+                <td>6</td>
+                <td><button onclick="addRow(this);">row생성3</button></td>
+            </tr>
+        </table>
+    </div>
+    <script>
+        const addRow=(e)=>{
+            const $tr=document.createElement("tr");
+            for(let i=0;i<3;i++){
+                const td=document.createElement("td");
+                td.innerText="우와신기해"
+                if(i==2){
+                    td.innerHTML="<button onclick=addRow(this);>row생성</button>"
+                }
+                $tr.appendChild(td)
+            }
+            console.log(e.parentElement.parentElement);
+            e.parentElement.parentElement.insertAdjacentElement("afterend", $tr);
+
+        }
+    </script>        
+        
+````
+
+<br/>
 
 
+## 테이블 td변경
+```javascript
 
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+ <div id="menu">
+        <table>
+            <tr>
+                <td>
+                    100
+                </td>
+                <td><button onclick="changeColor(this)">변경</button></td>
+            </tr>
+            <tr>
+                <td>
+                    200
+                </td>
+                <td><button onclick="changeColor(this)">변경</button></td>
+            </tr>
+            <tr>
+                <td>
+                    300
+                </td>
+                <td><button onclick="changeColor(this)">변경</button></td>
+            </tr>
+        </table>
+    </div>
+    
+    
+<script>     
+const changeColor=(e)=>{
+const target=e.parentElement.previousElementSibling;
+let color,background;
+switch(target.innerText){
+    case "100" : background="red";color="white";break;
+     case "200" : background="orange";color="white";break;
+    case "300" : background="yellow";color="black";break;
+ }
+target.style.backgroundColor=background;
+ target.style.color=color;
+}
+
+}
+</script>
+
+<br/>
+
+
         
         
