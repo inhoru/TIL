@@ -21,7 +21,7 @@
 - return : 생성된 창의 window객체를 반환
         
 
-```
+```javascript
 <button onclick="createWin();">새창</button>
     <script>
         const createWin=()=>{
