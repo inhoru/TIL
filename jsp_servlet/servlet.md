@@ -103,7 +103,7 @@ post
 - <servlet-class> : 클래스를 등록 * 패키지명까지 모두 작성
   
 
-```java
+```servlet
 <servlet>
     <servlet-name>basicservlet</servlet-name>
     <servlet-class>com.servlet.controller.BasicServletController</servlet-class>
