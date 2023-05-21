@@ -62,6 +62,56 @@ post
 - 서버에서 요청을 받을 수 있게 등록해야한다. -> web.xml파일이용, @어노테이션이
   - 생성한 서블릿클래스는 서버에 등록
   - 서블릿을 실행할 주소를 매핑(연결)시켜준다.
+  
+  ```java
+  public class BasicServletController extends HttpServlet{
+
+	private static final long serialVersionUID = 5412475190290065154L;
+	
+	
+	public BasicServletController() {
+		
+	}
+	
+	//throws 두개의 예외처리를 던져줘야한다.
+	@Override
+	public void  doGet(HttpServletRequest request,HttpServletResponse response)
+			throws ServletException,IOException{
+		System.out.println("서블릿의 doGet메소드가 실행됨");
+	}
+	@Override
+	public void doPost(HttpServletRequest request,HttpServletResponse response)
+		throws ServletException, IOException{
+		System.out.println("서블릿의 doPost메소드가 실행됨");
+	}
+  
+  ```
+  
+  - 이런식으로 일반클래스를 서블릿 클래스로 만들어줄수가있다.
+  - 반드시 HttpServlet 상속을 받아야한다.
+  
+  
+  <br/>
+  
+## 생성한 서블릿 등록
+  
+  
+- 서블릿을 생성햇다면 등록을해야한다.
+- <servlet>태그를 이용해서 생성한 서블릿클래스를 등록함
+- <servlet>태그의 자식으로 
+- <servlet-name> : 서버내에서의 서블릿클래스의 이름 등록
+- <servlet-class> : 클래스를 등록 * 패키지명까지 모두 작성
+  
+
+```java
+<servlet>
+    <servlet-name>basicservlet</servlet-name>
+    <servlet-class>com.servlet.controller.BasicServletController</servlet-class>
+</servlet>
+```
+  
+ 
+
 
 
 
