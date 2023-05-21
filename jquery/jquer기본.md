@@ -41,3 +41,60 @@
         $(".second").css("color", "green").text("내가변경한것2");
     </script>
 ```
+
+<br/>
+
+
+# 2. jquery선택자 활용하기
+
+- first : 선택자로 선택된 Element 중 0번인덱스에 있는것
+- last : 선택자로 선택된 Element 중 마지막인덱스에 있는것
+- odd : 선택자로 선택된 Element 중 홀수인덱스에 있는것
+- even : 선택자로 선택된 Element 중 짝수인덱스에 있는것
+- eq(인덱스) : 매개변수 인덱스와 일치하는 인덱스 Element
+- gt(인덱스) : 매개변수 인덱스보다 인덱스가 큰 Element들
+- lt(인덱스) : 매개변수 인덱스보다 인덱스가 작은 Element들
+
+```javascript
+
+<div id="container">
+        <p id="pTag">p태그</p>
+        <p class="test">p.test</p>
+        <p></p>
+        <h3 class="test">h3.test</h3>
+        <span class="test">span.test</span>
+        <ul>
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ul>
+    </div>
+    <button onclick="testSelector();">선택자테스트하기</button>
+    <script>
+        const testSelector = () => {
+            //1. 선택자:first
+            $("#container>*:first").css("backgroundColor", "gold");
+            $("#container li:first").css("backgroundColor", "gold");
+            //2. 선택자:last
+            $("#container>*:last").css("backgroundColor", "silver");
+            $("#container>.test:last").css("color", "tomato");
+            //3. 선택자:odd
+            $("#container li:odd").css("backgroundColor", "orangered");
+            //4. 선택자:even
+            $("#container li:even").css("backgroundColor", "cornflowerblue");
+            //5. 선택자:eq()
+            $("#container>*:eq(2)").text("새로추가하자");
+            //6. 선택자:gt()
+            $("#container>*:gt(3)").text("난 3보다 크다").css("backgroundColor", "crimson");
+            //7. 선택자:lt()
+            $("#container>*:lt(3)").text("난 3보다 작다");
+
+
+        }
+    </script>
+    ````
+    
+    <br/>
+    
+    
