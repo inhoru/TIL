@@ -1,7 +1,6 @@
 # 🔖 목차
-1.
-2.
-3.
+1. [jquery 사용하기](#1-jquery-사용하기)<br/>
+2. [jquery선택자 활용하기](#2-jquery선택자-활용하기)<br/>
 
 ## jquery 사용
 - 페이지에 jquery를 사용하기 위해서는 jquery.js파일을 불러와야한다. 
