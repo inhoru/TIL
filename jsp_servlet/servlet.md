@@ -1,5 +1,5 @@
 # 🔖 목차
-1.
+1. [데이터 전송](#1-데이터-전송)<br/>
 2.
 3.
 
@@ -40,16 +40,14 @@
   - URL창에 “?” 뒤에 데이터를 입력하는 방법(쿼리스트링)
   - 데이터가 여러 개일 경우 &로 묶어서 보냄
   - 데이터 검색에 많이 사용하고 데이터 크기에 한계가 있으며 보안 취약하다는 단점이있다.
-
-post
+- post
   - BODY에 내용을 보내는 방식으로 데이터 크기에 제한이 없고보안이 뛰어남-
   - Servlet이 두 방식 중 하나로 전달 받으면 해당하는 메소드 호출
 
 
 - html의 <form>에서 method속성을 이용해 방식 결정(default : get)
-  
-<br/>
-  
+	
+	
   
   
 ## 서블릿만들기
@@ -126,7 +124,42 @@ post
 </servlet-mapping>	
 
 ```
+	
+- do. 은써도 되고 안써도된다.
+	
+	
+<br/>
+	
+## 서블릿객체이용
+- 이제 객체를 이용해보자
+	
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>서블릿다루기</title>
+</head>
+<body>
+	<h2>서블릿객체 이용하기</h2>
+	<h4>클라이언트 요청응답하기</h4>
+	<!--local/host:8080이 앞에 생략이되어있다.
+	그래서 href에 /02_servletdata를 적는다. -->
+	<h5><a href="/02_servletdata/basicrequest.do">서블릿으로 기본요청처리하기</a></h5>
+	<p>
+		<form action="/02_servletdata/basicrequest.do" method="post">
+			<input type="submit" value="전송">
+		</form>
+	</p>
+</body>
+</html>
+```
+	
+[tq](https://user-images.githubusercontent.com/126074577/239745668-f9b36b9f-147b-4cea-aab3-005dd4369d6f.png)
 
+[tq1](https://user-images.githubusercontent.com/126074577/239745680-cfb9b7c7-c5e8-4b15-95d3-368996d0e19b.png)
+	
+<br/>
 
 
 
