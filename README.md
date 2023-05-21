@@ -71,7 +71,7 @@
 - [객체조작](https://github.com/inhoru/TIL/blob/main/jquery/%EA%B0%9D%EC%B2%B4%EC%A1%B0%EC%9E%91.md)
 - [객체속성설정](https://github.com/inhoru/TIL/blob/main/jquery/%EA%B0%9D%EC%B2%B4%EC%86%8D%EC%84%B1%EC%84%A4%EC%A0%95.md)
 - [이벤트](https://github.com/inhoru/TIL/blob/main/jquery/%EC%9D%B4%EB%B2%A4%ED%8A%B8.md)
-- [https://github.com/inhoru/TIL/blob/main/jquery/effect.md)
+- [effect](https://github.com/inhoru/TIL/blob/main/jquery/effect.md)
 
 <br/>
 
