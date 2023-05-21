@@ -110,9 +110,22 @@ post
 </servlet>
 ```
   
- 
+<br/>
 
+## 매핑
+- 등록된 서블릿을 실행할 주소를매핑
+- <servlet-mapping>태그를 이용
+- 자식태그로
+- <servlet-name> : 연결할 서블릿 이름
+- <url-pattern> : 매핑주소 *주소작성시에는 반드시 /로 시작
 
+```jsp
+<servlet-mapping>
+    	<servlet-name>basicservlet</servlet-name>
+    	<url-pattern>/basicrequest.do</url-pattern>
+</servlet-mapping>	
+
+```
 
 
 
