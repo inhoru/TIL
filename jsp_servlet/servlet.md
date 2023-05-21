@@ -97,10 +97,10 @@ post
   
   
 - 서블릿을 생성햇다면 등록을해야한다.
-- <servlet>태그를 이용해서 생성한 서블릿클래스를 등록함
-- <servlet>태그의 자식으로 
-- <servlet-name> : 서버내에서의 서블릿클래스의 이름 등록
-- <servlet-class> : 클래스를 등록 * 패키지명까지 모두 작성
+- \<servlet>태그를 이용해서 생성한 서블릿클래스를 등록함
+- \<servlet>태그의 자식으로 
+- \<servlet-name> : 서버내에서의 서블릿클래스의 이름 등록
+- \<servlet-class> : 클래스를 등록 * 패키지명까지 모두 작성
   
 
 ```jsp
@@ -114,10 +114,10 @@ post
 
 ## 매핑
 - 등록된 서블릿을 실행할 주소를매핑
-- <servlet-mapping>태그를 이용
+- \<servlet-mapping>태그를 이용
 - 자식태그로
-- <servlet-name> : 연결할 서블릿 이름
-- <url-pattern> : 매핑주소 *주소작성시에는 반드시 /로 시작
+- \<servlet-name> : 연결할 서블릿 이름
+- \<url-pattern> : 매핑주소 *주소작성시에는 반드시 /로 시작
 
 ```jsp
 <servlet-mapping>
