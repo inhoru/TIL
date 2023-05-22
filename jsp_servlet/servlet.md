@@ -1,7 +1,9 @@
 # 🔖 목차
 1. [데이터 전송](#1-데이터-전송)<br/>
-2.
-3.
+2. [HttpServletRequest](#2-HttpServletRequest)<br/>
+3. [어노테이션](#3-어노테이션)<br/>
+4. [데이터가져오는 여러방법](#4-데이터가져오는-여러방법)<br/>
+5. [post](#5-post)<br/>
 
 
 <br/>
@@ -465,6 +467,60 @@ Map<String,String[]> param=req.getParameterMap();
 
 <br/>
 		
+# 5. post
+		
+- 위에처럼 get방식으로 보낸다면 정보가 전부노출되기때문에
+- post방식으로 보내야한다 
+- 그렇다면 doPost에 get에썻던걸 그대로 써야한다
+- 하지만  this do.get을 호출한다면 
+- get으로 보내든 post로보내든 get에있는 메소드들이 구별해서 보내준다.
+
+```java
+
+@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		String id= req.getParameter("id");
+		String password= req.getParameter("password");
+		String name=req.getParameter("name");
+		String nickname=req.getParameter("nickname");
+		String email=req.getParameter("email");
+		String[] hobby=req.getParameterValues("hobby");
+		String marriage=req.getParameter("marriage");
+		
+		System.out.println(id);
+		System.out.println(password);
+		System.out.println(name);
+		System.out.println(nickname);
+		System.out.println(email);
+		System.out.println(Arrays.toString(hobby));
+		System.out.println(marriage);
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		//자기자신의 doGet를 불러온다. 
+		//post로보내나 get으로보내나 doGet이실행된다.
+		this.doGet(req,resp);
+	}
+```
+
+<br/>
+
+## 인코딩
+- get방식으로 보내는건 글자가 깨지지않고 잘나오지만
+- post방식으로 보내면 영문을 숫자를제외한 글씨들이 깨져서나온다.
+- 그렇기때문에 인코딩함수를 이용해서 인코딩을해줘야한다.
+
+```java
+//post방식으로 보냇을떄 영어랑 숫자를 제외한 글자는 꺠진다.
+//인코딩처리하자!
+//HttpServletRequest.setCharacterEncoding()메소드 이용
+req.setCharacterEncoding("UTF-8");
+```
+
+<br/>
+		
 
 
 
@@ -482,7 +538,7 @@ Map<String,String[]> param=req.getParameterMap();
 
 
 
-# 5. HttpServletResponse
+# 6. HttpServletResponse
 - 요청에 대한 처리 결과를 작성하기 위해 사용하는 객체
 
 - setContentType(String) :  응답한데이터가 뭘의히하는지 알려준다.   MIME type을정하는알려준다.
