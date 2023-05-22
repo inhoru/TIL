@@ -511,6 +511,8 @@ Map<String,String[]> param=req.getParameterMap();
 - get방식으로 보내는건 글자가 깨지지않고 잘나오지만
 - post방식으로 보내면 영문을 숫자를제외한 글씨들이 깨져서나온다.
 - 그렇기때문에 인코딩함수를 이용해서 인코딩을해줘야한다.
+- request 방식으로 가져올때 가져오기전에 setCharacterEncoding()를해줘야한다.
+- 맨위에!		
 
 ```java
 //post방식으로 보냇을떄 영어랑 숫자를 제외한 글자는 꺠진다.
@@ -521,6 +523,119 @@ req.setCharacterEncoding("UTF-8");
 
 <br/>
 		
+
+# 6. 클라이언트 응답 작성
+- **응답데이터를 작성하기위해서는 HttpServletResponse객체가 제공하는 메소드를 이용한다.**
+
+- 1. 응답데이터를 작성하기 위해 contentType을 설정 MIMETYPE설정
+	- 맨위에작성해야 하위있는것들이 적용이된다.
+- setContentType("MIMETYPE설정");
+- 2. 응답데이터 보내기
+	- 1)문자열데이터 : 문자열 스트림으로 전송 -> getWriter();
+	- 2)바이너리데이터 : 파일 스트림으로 전송 -> getOutputStream();
+- 3. 원하는 데이터 전송하기
+
+```java
+// setContentType("MIMETYPE설정");
+resp.setContentType("text/html;charset=utf-8");
+
+// PrintWriter을 이용한다.
+PrintWriter out=resp.getWriter();
+
+out.write("<h3>내가 만든 첫 응답페이지</h3>");
+String html="<html>";
+		html+="<head>";
+		html+="<title>개인취향테스트</title>";
+		html+="</head>";
+		html+="<body>";
+		html+="<h3>개인취향결과</h3>";
+		html+="<h4>"+name+"님의 개인취향 확인결과</h4>";
+		html+="<h4>당신의 이름은"+name+"이고 나이는"+age+"살 이고, ";
+		html+="키는 "+height+"cm입니다.</h4>";
+		html+="<h4>좋아하는 색은 <span style='color:"+color+"'>"+color+"</span>";
+		html+="입니다.</h4>";
+		html+="<ul>좋아하는 동물";
+		for(String animal:animals2) {
+			String src="";
+			switch(animal) {
+			case "강아지" :src="https://image.dongascience.com/Photo/2020/03/5bddba7b6574b95d37b6079c199d7101.jpg";break;
+			case "고양이" :src="https://i.namu.wiki/i/PdTjBRRO3itMFTmxOK9OpV6RF-Awabg2Re6I3D2BJy6eSMwE41B7WhvRZ0j_7rbNcogNsNUxkZlAHiVGuHjb9w.webp";break;
+			case "펭귄" :src="https://i1.sndcdn.com/artworks-cDzKQJGISQrJvOrp-xc9rnA-t500x500.jpg";break;
+			case "기린" :src="https://ichef.bbci.co.uk/news/1024/branded_korean/10814/production/_115540676_photocredit-ishaqbini.jpg";break;
+			}
+			html+="<li><img src='"+src+"' width=200 height=200></li>";
+		}
+		html+="</ul>";
+		html+="<P>오늘의 점심은 "+lunch+"입니다.</p>";
+		html+="<h3>당신은 "+info+"</h3>";
+		html+="</body>";
+		html+="</html>";
+		out.write(html);
+	}
+```
+
+<br/>
+
+# 7. 다른서블릿 페이지 요청
+		
+- RequestDispatcher객체를 이용해서 전환하기 -> forward()
+- HttpServletResponse객체의 sendRedirect()메소드 이용하기
+		
+<br/>
+		
+## forward
+- 요청내용을 다른 서블릿으로 전환할때 사용을한다.
+- RequestDispatcher객체를 이용한 서블릿 이동하기
+- HttpServletRequest.getRequestDispathcher("(서블릿||jsp)주소"); 를 이용
+		
+```servlet
+WebServlet("/requestdispatchertest.do")
+public class RequestDispatcherTestServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+		
+RequestDispatcher rd=request.getRequestDispatcher("/dispatcherView.do");
+rd.forward(request, response);
+```
+		
+		
+- requestdispatchertest.do 로요청받은걸 dispatcherView.do로 보냇다
+- 이렇게되면 두개의 서블릿 이 같은 내용을 사용할수가있다.
+- 왜냐하면 주소가 바뀌지않았기 때문이다.		
+
+<br/>
+		
+		
+# 8. setAttribute
+- setAttribute() 함수를 이용해서 데이터를 저장할수도 저장된데이터를 가져올수도있다.
+- HttpServletRequest.getAttribute("key값")메소드를 이용
+
+```servlet
+//HttpServletRequest객체가 제공하는 setAttribute()메소드를 이용한다.
+		//key:value형식으로 저장함.
+		//setAttribute("key",value:object);
+		request.setAttribute("testData","개인취향테스트에 오신걸 환영합니다.");
+```
+		
+- 다른 서블릿에서 getAttribute를 이용해서 set에저장한 값을 가져와서 사용할수가있다.
+```servlet
+String data=(String)request.getAttribute("testData");//반환값은 Object(형변환이가능하다.)
+```
+<br/>
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
 
 
 
