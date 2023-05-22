@@ -419,7 +419,21 @@ public class ParameterDataServlet extends HttpServlet {
 		System.out.println("점심메뉴 : "+lunch);
 		System.out.println("소개 : "+info);
 ```
+		
+## 데이터를 입력하지않앗을때
+- 데이터를 입력하지않고 데이터를 전송하면
+- input을 값을 보내지않으면 공백으로 넘어간다.
+- check박스나 radio는 null로 보내버린다.
+- **정리하자면 key값이 의 데이터가없으면 에러가 발생하는게아니라 null값을 반환해준다.**
 
+
+```java
+String test =req.getParameter("test"); 
+// 키값도 없다면 null을 반환한다.
+String name = req.getParameter("name");
+// 키값은 있지만 값을넣지않앗다면 공백으로 반환해준다.
+```
+		
 <br/>
 
 ## 클라이언트가 보낸 데이터의 key를 모를때..
@@ -450,6 +464,8 @@ Map<String,String[]> param=req.getParameterMap();
 ```
 
 <br/>
+		
+
 
 
 
