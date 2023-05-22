@@ -4,6 +4,10 @@
 3. [어노테이션](#3-어노테이션)<br/>
 4. [데이터가져오는 여러방법](#4-데이터가져오는-여러방법)<br/>
 5. [post](#5-post)<br/>
+6. [HttpServletResponse](#6-HttpServletResponse)<br/>
+7. [다른서블릿 페이지 요청](#7-다른서블릿-페이지-요청)<br/>
+8. [setAttribute](#8-setAttribute)<br/>
+9. [sendRedirect](#9-sendRedirect)<br/>
 
 
 <br/>
@@ -523,8 +527,22 @@ req.setCharacterEncoding("UTF-8");
 
 <br/>
 		
+		
+# 6. HttpServletResponse
+- 요청에 대한 처리 결과를 작성하기 위해 사용하는 객체
 
-# 6. 클라이언트 응답 작성
+- setContentType(String) :  응답한데이터가 뭘의히하는지 알려준다.   MIME type을정하는알려준다.
+- setCharacterEncoding(String) : 인코딩 타입을 정해준다. 내가보내는 데이터에따라 브라우저가 뭘로 코딩했는지 를 알려준다.
+- getWriter() : 문자열을 전송할때쓴다. 일반적으로html,css ,제이슨 등등 을전송할때 writer을 이용한다.
+- getOutputStream() : byte단위로 페이지에 전송을 위한 Stream을가져온다.
+- sendRedirect(String) : client가 매개변수의 페이지를 다시 서버에요청하게 하는 메소드
+
+![response](https://user-images.githubusercontent.com/126074577/239776764-d3aa6dc5-6477-453e-9735-3027fd647f0d.png)
+
+<br/>
+		
+##클라이언트 응답 작성
+		
 - **응답데이터를 작성하기위해서는 HttpServletResponse객체가 제공하는 메소드를 이용한다.**
 
 - 1. 응답데이터를 작성하기 위해 contentType을 설정 MIMETYPE설정
@@ -623,48 +641,74 @@ String data=(String)request.getAttribute("testData");//반환값은 Object(형�
 <br/>
 
 		
+# 9. sendRedirect
+- 리다이렉트는 웹 서버 측에서 웹 브라우저에게 어떤 페이지로 이동하라고 지정하는 것이다. 리다이렉트는 아래 모양으로 사용할 수있다.
+- 먼저 주의할점부터 알아보겟다.
+```java
+<h3><a href="/02_servletdata/views/persontest3.html">서버내에서 다른 서블릿 재요청시키기-sendRedirect</a></h3>
+
+-----------------------------------------------------------------------------------------------------
+<form action="/02_servletdata/sendredirect.do">
+		<ul>
+-------------------------------------------------------------------------------------------------			
+@WebServlet("/sendredirect.do")
+public class SendRedirectTestServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+    /**
+     * @see HttpServlet#HttpServlet()
+     */
+    public SendRedirectTestServlet() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//HttpServeltReponse객체가 제공하는 sendRedirect() 메소드 이용하기
+		System.out.println("sendredirectTestServlet실행!");
+		// 슬러쉬(/)를사용하지않으면 상대경로가나온다.
+		//페이지전환 
+		response.sendRedirect("dispatcherView.do");
 		
+	}		
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# 6. HttpServletResponse
-- 요청에 대한 처리 결과를 작성하기 위해 사용하는 객체
-
-- setContentType(String) :  응답한데이터가 뭘의히하는지 알려준다.   MIME type을정하는알려준다.
-- setCharacterEncoding(String) : 인코딩 타입을 정해준다. 내가보내는 데이터에따라 브라우저가 뭘로 코딩했는지 를 알려준다.
-- getWriter() : 문자열을 전송할때쓴다. 일반적으로html,css ,제이슨 등등 을전송할때 writer을 이용한다.
-- getOutputStream() : byte단위로 페이지에 전송을 위한 Stream을가져온다.
-- sendRedirect(String) : client가 매개변수의 페이지를 다시 서버에요청하게 하는 메소드
-
-![response](https://user-images.githubusercontent.com/126074577/239776764-d3aa6dc5-6477-453e-9735-3027fd647f0d.png)
-
+--------------------------------------------------------------------------------------------------------------		
 <br/>
+- 이렇게 	sendredirect.do 로이동하자마자 dispatcherView.do로 이동해버리기때문에
+- dispatcherView.do가 없으면 500에러가 발생한다.
+- 사실 아직잘모르겟다 좀더 공부해야할거같다..			
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
   
