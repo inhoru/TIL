@@ -686,7 +686,8 @@ public class SendRedirectTestServlet extends HttpServlet {
 ## 메인화면으로돌아가기
 
 		
-- sendRedirect()안에 request.getContextPath()를 넣으면 메인index페이지로간다.
+- sendRedirect()안에 request.getContextPath() 를 넣으면 프로젝트의 path 로이동한다
+- index페이지로이동한다.			
 ```java
 response.sendRedirect(request.getContextPath());
 ```
