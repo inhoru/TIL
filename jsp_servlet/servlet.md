@@ -682,9 +682,18 @@ public class SendRedirectTestServlet extends HttpServlet {
 			
 - 이렇게 	sendredirect.do 로이동하자마자 dispatcherView.do로 이동해버리기때문에
 - dispatcherView.do가 없으면 500에러가 발생한다.
-- 사실 아직잘모르겟다 좀더 공부해야할거같다..			
+
+## 메인화면으로돌아가기
+
 		
-		
+- sendRedirect()안에 request.getContextPath()를 넣으면 메인index페이지로간다.
+```java
+response.sendRedirect(request.getContextPath());
+```
+
+
+<br/>
+
 		
 		
 		
