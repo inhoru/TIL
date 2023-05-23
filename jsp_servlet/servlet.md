@@ -696,7 +696,437 @@ response.sendRedirect(request.getContextPath());
 <br/>
 
 		
+# 10. 서버에 데이터를 저장하는 객체
+
+## 종류
+
+- HttpServletRequest
+  - 1회용 데이터를 저장하는 저장소 ->  요청하고 응답이 완료될때까지 유지된다.
+- HttpSession
+  - 원하는시점에 생성해서 원하는 시점까지 저장할 수 있는 저장소
+- ServletContext
+  - 서버가 실행되고 종료될때까지 유지하는 저장소
+
+
+
+<br/>
+
+
+
+## 각 객체 데이터를 저장하는 방법
+
+- 객체저장
+  - 객체명.setAttribute("key",value:Object);
+- 저장된 값 가져오기
+  - 객체명.getAttribute("key"); //반환형 Object 형변환해서사용
+- 저장된 값 삭제하기
+  - 객체명.removeAttribute("key");
+
+<br/>
+
+
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//각 객체에 데이터 저장하기
+		// HttpServletRequest객체에 데이터 저장하기
+		request.setAttribute("requestdata","requestDataTest");
 		
+		//HttpSession객체 이용하기
+		//1. HttpSession객체를 생성 -> HttpServlerRequest제공하는 getSession()메소드 이용
+		HttpSession session=request.getSession();
+		// 2. HttpSession.setAttribute()메소드를 이용해서 저장
+		session.setAttribute("sessiondata", "sessionDataTest");
+		
+		//ServletContext객체이용하기
+		//1. ServletContext객체생성 -> HttpSerletRequest제공하는 				 		getServletContext()메소드 이용,
+		// getServletContext()
+		ServletContext context=request.getServletContext();
+		//request에접근해도되고 그냥해도된다.
+		context=getServletContext();
+		context.setAttribute("contextdata", "contextDataTest");
+		
+		RequestDispatcher rd=request.getRequestDispatcher("/checkData.do");
+		rd.forward(request, response);
+		
+	}
+```
+
+
+
+<br/>
+
+
+
+# 11. request 추가정보 활용
+
+- ttpServletRequest객체가 제공하는 정보제공하는 메소드들이있다.
+  - **request.getContextPath();** : path의 이름을가져온다.
+  - **request.getHeader("User-Agent")** : header의정보를 가져온다. 예) 어떤브라우저를 사용하는지 
+  - **request.getHeader("Referer")** : 이전페이지 정보를 가져온다.
+  - **equest.getRequestURI()** : 요청한 주소에 uri를 가져온다.
+  - **request.getRequestURL()** : 요청한 주소에 url을 가져온다.
+
+<br/>
+
+
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		// HttpServletRequest객체가 제공하는 정보
+		// 1. ContextRoot가져오기
+		// path 이름을 가져옴
+		String contextPath = request.getContextPath();
+		System.out.println(contextPath);
+		// 2. HttpRequest의 header정보 가져오기
+		// 어떤브라우저를 사용하는지 header정보가져옴
+		String userAgent = request.getHeader("User-Agent");
+		System.out.println(userAgent);
+		//이전페이지 정보
+		String prevPage=request.getHeader("Referer");
+		System.out.println(prevPage);
+		// 3. 요청한 주소에 대한 정보를 가져오기
+		String uri = request.getRequestURI();
+		System.out.println(uri);
+		StringBuffer url = request.getRequestURL();
+		System.out.println(url);
+```
+
+
+
+<br/>
+
+
+
+# 12. 로그인 구현
+
+- 지금까지 배웟던것들로 간단한 로그인을 구현할수가있다.
+- 아이디와 비밀번호가 맞는다면 로그인성공이뜨면서 session에 값이 저장이되게해보자
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String userId=request.getParameter("userId");
+		String password=request.getParameter("password");
+		
+		if(userId.equals("admin")&&password.equals("1234")) {
+			System.out.println("로그인 성공");
+			HttpSession session=request.getSession();
+			session.setAttribute("loginId", userId);
+		}else {
+			System.out.println("로그인 실패");
+		}
+		
+		response.sendRedirect(request.getContextPath()+"/mainView.do");
+	}
+```
+
+- 로그인 성공시 maView.do 로이동하여 로그인성공 이라는 문구가뜬다.
+- 그리고 session에 userId가 저장되어있어 사용자가 원하는 시점까지 저장이가능하다.
+
+
+
+<br/>
+
+
+
+# 13. filter
+
+- 필터란 클라이언트가 보낸 요청에 을 검토하는 기능이다.
+- 예를 들면 이용권환 확인, 로그인여부확인, 인코딩처리, 필요 log출력등등에 사용이된다.
+- 서블릿(서비스)이용시 필요한 공통로직에 대해 설정하는 객체이다.
+- 설정에 따라서 해당 서블릿이 요청하기전에 필터를 걸치고 서블릿으로 요청을 한다
+
+<br/>
+
+
+
+## 필터구현하기
+
+- 일반클래스를 생성하고 Filter인터페이스를 구현해야한다.
+
+- 생성한 클래스를 filter로 등록을 먼저한다.
+
+  - web.xml방식
+  - 어노테이션 방식
+
+- 등록된 필터 클래스를 어디에 적용해야할지 설정을한다
+
+  - urlpattern으로설정한다
+  - servletName으로 설정을한다.
+
+  
+
+<br/>
+
+## web.xml방식
+
+-  자주사용하지않앗지만 web.xml방식부터 설명하겟다.
+- 먼저 web.xml설정부터해줘야한다.
+
+```java
+<display-name>03_filter_listener</display-name>
+	<!-- 필터등록하가 -->
+	<filter>
+		<filter-name>basicfilter</filter-name>
+		<filter-class>com.filtertest.common.filter.BasicFilter</filter-class>
+	</filter>
+	<!-- pattern에 요청을하면 filter을실행해라  -->
+	<filter-mapping>
+		<filter-name>basicfilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 리스너등록 -->
+	<listener>
+		<listener-class>com.filtertest.common.listener.ContextListenerTest</listener-class>
+	</listener>
+```
+
+- url-pattern : 경로에 /*는 전체 전부 적용한다는뜻이다.
+- 그말은 뭘하든 전부 필터를 거친다는 이야기다
+- 물론 /* 대신 서블릿주소를 적으면 그 서블릿만 적용이될수가있다.
+- <**url-pattern**>/basicfilter.do</**url-pattern**> 이런식으로 가능하다.
+
+
+
+<br/>
+
+
+
+## 필터클래스 
+
+- web.xml에 설정했으면 이제 필터클래스를 만들어준다.
+- Filter인터페이스를 사용하기때문 implements Filter 해줘야한다.
+- 그리고 필수 메소드를 작성해줘야한다.
+- 여러가지가있지만 **doFilter()** 만해줘도 상관이없다.
+
+```java
+@Override
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+			throws IOException, ServletException {
+		System.out.println("BasicFilter실행함!");
+```
+
+
+
+- 이렇게까지 설정했으면 이제 어디에 요청을 할때마다 필터를 걸처서 BasicFilter실행함이 실행된다.
+
+<br/>
+
+
+
+## 어노테이션
+
+- 또다른 방식인 어노테이션방식으로도 필터를 설정을 할수가이있다.
+- servletName으로 설정을한다.
+- 서블릿을 어노테이션방식으로 name과 urlPatterns를 정한후 필터에서 이름으로 설정한다.
+
+```java
+@WebServlet(name="encoding",urlPatterns="/data.do")
+public class EncodingFilterTestServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    
+-----------------------------------------------------
+WebServlet(name="memberManager",urlPatterns ="/admin/membermanaget.do")
+public class MemberManageServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;        
+   
+```
+
+- 먼저 서블릿들을 어노테이션방식으로 설정한다.
+
+
+
+<br/>
+
+
+
+- 그후 필터에서 **WebFilter(servletNames){}** 을이용해서 서블릿 이름을 적어준다.
+
+```java
+//서블릿이름을 반드시등록하고 이름으로 연결할수가있다.
+@WebFilter(servletNames={
+		"memberManager","encoding"
+})
+public class AdminCheckFilter extends HttpFilter implements Filter {
+```
+
+- 이렇게 어노테이션방식으로 필터를 설정할수가있다.
+
+<br/>
+
+# 필터 전체적용
+
+- 필터를 전체에 적용하고싶을때는
+- *@WebFilter*("/*") 이런식으로 어노테이션을 적용하면된다.
+
+```java
+@WebFilter("/*")
+public class EncodingFilter extends HttpFilter implements Filter {
+       
+    /**
+     * @see HttpFilter#HttpFilter()
+     */
+    public EncodingFilter() {
+        super();
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+	 * @see Filter#destroy()
+	 */
+	public void destroy() {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
+	 */
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		// place your code here
+		request.setCharacterEncoding("UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		// pass the request along the filter chain
+		chain.doFilter(request, response);
+	}
+```
+
+- 이런식으로 전체 에 utf-8을설정해준다.
+- 그런후 **chain.doFilter()**을이용해서 다음로직이 실행될수있게 보내준다.
+
+<br/>
+
+
+
+## doFilter
+
+- 필터안에 doFilter() 라는 메소드가존재한다.
+- doFilter메소드를 재정의해서 공통의 로직을 구현한다
+- doFilter메소드는 세개의 매개변수를 가지고 있다
+  - ServletRequest : HttpServletRequest의 부모로 request가 제공하는 메소드를 가지고 있음
+    - HttpServletRequest로 형변환이 가능한다
+  - ServletResponse : HttpServlerResponse의 부모로 response에 제공하는 메소드를 가지고있다.
+    - HttpServletResponse로 형변환이 가능하다
+  - FilterChain :  다른필터 또는 연결된 서블릿을 가지고 있는 객체
+    - 다음 필터 또는 서블릿호출할때 사용한다.(doFilter()메소드호출)
+
+<br/>
+
+
+
+## 관리자 인지확인하는 필터
+
+ 
+
+- 필터를 이용해서 관리자아이디로 로그이되어있는지 아닌지 를 확인한다
+- 아닐시에는 메인으로돌아가는 로직이다.
+
+
+
+```java
+public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		// place your code here
+		HttpSession session=((HttpServletRequest)request).getSession();
+		String loginId=(String)session.getAttribute("loginId");
+		System.out.println(loginId);
+		if(loginId!=null&&loginId.equals("admin")) {			
+			chain.doFilter(request, response);
+		}else {
+			((HttpServletResponse)response).sendRedirect("/03_filter_listener");
+		}
+
+		// pass the request along the filter chain
+	}
+```
+
+<br/>
+
+
+
+# 14. 서블릿 래퍼
+
+- 필터 클래스로부터 전달받은 데이터를 가공하여 다시 필터에게반환하는 클래스다
+- 데이터 가공이 필요한 시점이 요청일 경우 HttpServletRequestWrapper클래스를 통해 구현하고
+- 응답일 경우 HttpServletResponseWrapper클래스를 통해 구현한다
+
+- 비밀번호 암호화로직을 구현할때 사용한다거나
+- 사용자 인증 로직을 구현할때 사용한다거나한다.
+
+
+
+<br/>
+
+
+
+## 데이터가공
+
+- 먼저 MyRequestWrapper클래스를 생성해준다.
+- HttpServletRequestWrapper 를 상속받기때문 extends을 해줘야한다.
+
+```java
+public class MyRequestWrapper extends HttpServletRequestWrapper{
+
+	public MyRequestWrapper(HttpServletRequest request) {
+		super(request);
+		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public String getParameter(String name) {
+		String oriData=super.getParameter(name);
+		
+		return oriData+"-bs-";		
+	}
+	
+```
+
+-  getParmeter()이 오버라이딩이되었기때문에
+- 사용할때 마다 뒤에 -bs-가 붙는다.
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+String data=request.getParameter("data");
+System.out.println(data);
+    
+// input내용-bs-
+```
+
+<br/>
+
+## 서블릿에 바로 객체생성해서 사용하는방법
+
+- 바로 객체를 생성해서 사용하는방법도있다.
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		MyRequestWrapper mrw=new MyRequestWrapper(request);
+		
+		
+		String mydata=mrw.getParameter("data");
+		
+		System.out.println(mydata);
+    //input내용-bs--bs-
+```
+
+- 이런식으로 두번이 들어간다.
+
+<br/>
+
+
+
+# 15. 서블릿 리스너
+
+- 서블릿 리스너란, 웹 컨테이너가 관리하는 라이프 사이클 사이에 발생하는이벤트를 감지하여 
+- 해당 이벤트가 발생 시 해당 이벤트에 대한 일련의 로직을 처리하는 인터페이스를 말한다.
+
+- 대표적인 예를 들자면
+  - 서버가 시작할때
+  - 서버를 종료했을때
+  - 세션이 생기거나 소멸이될경우
+  - 요청 정보의 속성이 바뀌거나 수정 삭제 추가될경우이다.		
 		
 		
 		
