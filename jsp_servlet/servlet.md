@@ -8,6 +8,14 @@
 7. [다른서블릿 페이지 요청](#7-다른서블릿-페이지-요청)<br/>
 8. [setAttribute](#8-setAttribute)<br/>
 9. [sendRedirect](#9-sendRedirect)<br/>
+10. [서버에 데이터를 저장하는 객체](#10-서버에-데이터를-저장하는-객체)<br/>
+11. [request 추가정보 활용](#11-request-추가정보-활용)<br/>
+12. [로그인 구현](#12-로그인-구현)<br/>
+13. [filter](#13-filter)<br/>
+14. [서블릿 래퍼](#14-서블릿-래퍼)<br/>
+15. [서블릿 리스너](#15-서블릿-리스너)<br/>
+16. [cookie](#16-cookie)<br/>
+17. [session](#17-session)<br/>
 
 
 <br/>
@@ -1129,15 +1137,238 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
   - 요청 정보의 속성이 바뀌거나 수정 삭제 추가될경우이다.		
 		
 		
+<br/>
+
+## 리스너 클래스
+- 리스너 클래스는 ServletContextListener 인터페이스를사용한다
+```java
+public class ContextListenerTest 
+			implements ServletContextListener{
+
+	@Override
+	public void contextDestroyed(ServletContextEvent sce) {
+		//톰켓의 servletContext객체가 소멸됐을때 실행
+		//톰켓종료시
+		System.out.println("서버죽음");
+	}
+
+	@Override
+	public void contextInitialized(ServletContextEvent sce) {
+		//톰켓의 servletContext객체가 생성됐을때 실행
+		//톰켓실행시 
+		System.out.println("서버실행");
+	}
+```
+			
+- 이런식으로 서버가 켜졋다 껏다 할때 마다 실행할 로직을 넣을수가있다.
+<br/>
+
+			
+- 인터페이스는 여러개를 선언할수있다.
+- 마찬가지도 리스너도 여러개를 선언할수가있다.			
+```java
+@WebListener
+public class RequestListenerTest implements ServletRequestListener, ServletRequestAttributeListener {
+
+    /**
+     * Default constructor. 
+     */
+    public RequestListenerTest() {
+        // TODO Auto-generated constructor stub
+    }
+
+	/**
+     * @see ServletRequestListener#requestDestroyed(ServletRequestEvent)
+     */
+    public void requestDestroyed(ServletRequestEvent sre)  { 
+         System.out.println("요청이 왔다!");
+         String uri=((HttpServletRequest)sre.getServletRequest()).getRequestURI();
+         System.out.println(uri);
+    }
+
+	/**
+     * @see ServletRequestAttributeListener#attributeRemoved(ServletRequestAttributeEvent)
+     */
+    public void attributeRemoved(ServletRequestAttributeEvent srae)  { 
+       
+        
+    }
+
+	/**
+     * @see ServletRequestListener#requestInitialized(ServletRequestEvent)
+     */
+    public void requestInitialized(ServletRequestEvent sre)  { 
+         // TODO Auto-generated method stub
+    }
+
+	/**
+     * @see ServletRequestAttributeListener#attributeAdded(ServletRequestAttributeEvent)
+     */
+    public void attributeAdded(ServletRequestAttributeEvent srae)  { 
+    	 System.out.println("setAttribute()메소드로 데이터 추가");
+         String key=srae.getName();
+         Object value=srae.getValue();
+         System.out.println(key+" "+value);
+    }
+
+	/**
+     * @see ServletRequestAttributeListener#attributeReplaced(ServletRequestAttributeEvent)
+     */
+    public void attributeReplaced(ServletRequestAttributeEvent srae)  { 
+         // TODO Auto-generated method stub
+    }			
 		
+```
+- 요청이들어올때 마다 실행할수있는 requestDestroyed()메소드와
+- setAttribute()추가할때마다실행하는 attributeAdded()메소드 등등이있다.
+			
+<br/>			
+			
+
+
+
+
+
+
+# 16. cookie
+
+- 서버이용시 필요한 데이터를 저장하는 기술이다
+- 클라이언트 컴퓨터에 필요한 데이터를 저장하고 서버이용시에 가져오는 구조이다
+- key:value형식의 구조로 문자열만 저장이 가능하다.
+- 하지만 용량제한이있다는 단점이있다.
+- 문자열만 저장이가능하다는 단점과
+- 객체가 저장이불가능하다는 단점들이있다.
+
+<br/>
+
+
+
+## 쿠키사용
+
+- 서버에서 Cookie객체를 생성해서 저장할 key,value를 설정한다
+- 개변수있는 생성자를 이용한다.
+-  HttpServletResponse.addCookie(생성한쿠키)메소드를 이용한다.
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//쿠키생성 후 저장시키기
+		Cookie c=new Cookie("cookiedata","choijooyoung");
+		c.setMaxAge(60*60*24);//쿠키유지기한
+		response.addCookie(c);
 		
-		
-		
+		//메인으로 이동한다.
+		response.sendRedirect(request.getContextPath());
+```
+
+- 이렇게 간단하게 쿠키를 만들수가있다.
+- c.setMaxAge는 쿠키가 유지기간을 정한다 위에서는 24시간을정한거다
+- 그렇게되면 24시간동안 쿠키는 웹사이트가 닫혀도 서버에저장이되어 사라지지않는다
+- 하지만 24시간이지나면 사라진다.
+
+<br/>
+
+
+
+## 쿠키사용
+
+- 위에서 만든 쿠키를 이용해서 여러가지로직을만들수가있다.
+- 한가지 알아야할점은 쿠키를 생성할때 배열로 만들기때문에 
+- 쿠키를 이용할때 배열을 이용할때 사용하는 함수들을사용해야한다.
+
+```java
+//쿠키값 가져오기
+		Cookie[] cookies=request.getCookies();
+		if(cookies!=null) {
+			for(Cookie c: cookies) {
+				System.out.println(c.getName());
+				System.out.println(c.getValue());
+```
+
+- forEach로 배열을 돌려서 키값과 벨류를 찾을수가있다.
+
+<br/>
+
+## 쿠키삭제
+
+- 쿠키를 삭제할때는 따로 메소드가없고
+- 쿠키에 키값을 기존에있던 값을 정하고 벨류에 공백을넣으면된다.
+- 쿠키가 키값이같을 경우 덮어쓰기를 한다.
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//쿠키 삭제하기
+		//삭제할 쿠키와 동일한 key의 cookie객체를 생성하고
+		//setMaxAge(0)으로 설정
+		Cookie c= new Cookie("cookiedata","");
+		c.setMaxAge(0);
+		response.addCookie(c);
+```
+
+
+
+<br/>
+
+# 17. session
+
+- 개발자가 원하는 시점까지 저장해주는 객체이다
+- 서버 컴퓨터에 저장을 하는객체
+- 크기에제한이없다.
+- 보통 로그인 할때 아이디를저장할때 사용한다.
+
+<br/>
 
 
 
 
 
+## 사용
+
+- 먼저 서블릿에서 HttpSession에잇는 session를가져와야한다.
+
+
+
+```java
+HttpSession session=request.getSession(true);
+```
+
+- false 를 주면 없으면 아예안가져오고 true를 주면 없으면 생성해서가져와라 라는뜻이다.
+
+
+
+```java
+session.setAttribute("data", "sessionData");
+```
+
+- 이렇게 session에 키와벨류를 저장할수가있다.
+
+
+
+```java
+session.setMaxInactiveInterval(5);
+```
+
+- session활동이 (초)5초이상없으면 session을지워버려라는 함수이다.
+
+<br/>
+
+
+
+- 이제 저장된 session을 다른서블릿에서 사용할려면 
+- 똑같이 HttpSession get으로가져와야한다.
+
+```java
+HttpSession session=request.getSession(false);
+```
+
+- 그후 getAttribute(키값)으로 벨류를 가져와서 사용할수가있다.
+
+```java
+String data =(String)session.getAttribute("data");
+```
+
+
+
+<br/>
 
 
 
