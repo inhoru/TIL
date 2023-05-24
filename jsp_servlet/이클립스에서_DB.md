@@ -17,7 +17,7 @@
 - show view에서 
 - Databasc Navigator 을 만든다.
 
-![)](C:\Users\GDC10\AppData\Roaming\Typora\typora-user-images\image-20230524101338779.png)
+![돼지코2]([C:\Users\GDC10\AppData\Roaming\Typora\typora-user-images\image-20230524101338779.png](https://user-images.githubusercontent.com/126074577/240455135-6c6cd775-c9dc-42e2-bcaa-c39329c7c2d2.png))
 
 <br/>
 
