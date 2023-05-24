@@ -16,6 +16,11 @@
 15. [서블릿 리스너](#15-서블릿-리스너)<br/>
 16. [cookie](#16-cookie)<br/>
 17. [session](#17-session)<br/>
+18. [context](#18-context)<br/>
+19. [서블릿 초기화데이터](#19-서블릿-초기화데이터)<br/>
+20. [실제컨트롤러로 servlet이용하기](#20-실제컨트롤러로-servlet이용하기)<br/>
+
+
 
 
 <br/>
@@ -1227,9 +1232,6 @@ public class RequestListenerTest implements ServletRequestListener, ServletReque
 
 
 
-
-
-
 # 16. cookie
 
 - 서버이용시 필요한 데이터를 저장하는 기술이다
@@ -1367,6 +1369,383 @@ String data =(String)session.getAttribute("data");
 ```
 
 
+
+<br/>
+			
+			
+# 18. context
+
+- 서버에서 공통으로 사용하는 값에 대한 설정을할때
+- context를 사용한다.
+- web.xml에서 등록을하면된다.
+
+
+
+```java
+<context-param>
+  	<param-name>admin</param-name>
+  	<param-value>admin@admin.com</param-value>
+  </context-param>
+  <servlet>
+  	<servlet-name>contextdata</servlet-name>
+  	<servlet-class>com.cookie.controller.ContextDataServlet</servlet-class>
+```
+
+- param 에 키값과 벨류값을 적어주면된다.
+- 나머지는 다른것과같다.
+
+<br/>
+
+
+
+## context-param으로 등록된 데이터 가져오기
+
+- param에 등록된 값을 가져올려면 일단 생성을해줘야한다.
+- ServletContext에있는 getInitParameter(키값); 으로 가져올수가있다.
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//context-param으로 등록된 데이터 가져오기
+		ServletContext context=getServletContext();
+		String contextdata=context.getInitParameter("admin");
+```
+
+
+
+<br/>
+
+
+
+# 19. 서블릿 초기화데이터
+
+
+
+- 서블릿값을 초기화할때 사용하는 방법이있다.
+- 이것도마찬가지로 web.xml에 기술한다.
+
+```java
+<init-param>
+  		<param-name>servletdata</param-name>
+  		<param-value>tsrsts</param-value>
+  	</init-param>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>contextdata</servlet-name>
+  	<url-pattern>/contextdata.do</url-pattern>
+  </servlet-mapping>
+```
+
+
+
+- tsrsts로 초기화한다는뜻이다.
+
+<br/>
+
+
+
+## 사용하기
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    
+String servletdata=getInitParameter("servletdata");
+		System.out.println(servletdata);    
+```
+
+- getInitParameter(이름)으로 초기화된값을 사용할수가있다.
+
+<br/>
+
+
+
+
+
+# 20. 실제컨트롤러로 servlet이용하기
+
+- 이제 지금까지배운것들로 실제로 mvc패턴을 적용해서 서블릿을 이용해보겟다.
+- m 에는 Member이라는 vo가들어간다
+- v 에는 원래는 jsp가들어가지만 배우기전이기때문에 view서블릿이들어간다.
+- c 에는 서블릿이 들어갈것이다.
+
+<br/>
+
+
+
+## m
+
+```java
+package com.member.model.vo;
+
+import java.io.Serializable;
+import java.sql.Date;
+import java.util.Objects;
+
+public class Member implements Serializable{
+	
+	private static final long serialVersionUID = 7353094784069660434L;
+	private String memberId;
+	private String memberPwd;
+	private String memberName;
+	private String gender;
+	private int age;
+	private String email;
+	private String phone;
+	private String address;
+	private String hobby;
+	private Date enrollDate;
+	
+	public Member() {
+		// TODO Auto-generated constructor stub
+	}
+
+	public Member(String memberId, String memberPwd, String memberName, String gender, int age, String email,
+			String phone, String address, String hobby, Date enrollDate) {
+		super();
+		this.memberId = memberId;
+		this.memberPwd = memberPwd;
+		this.memberName = memberName;
+		this.gender = gender;
+		this.age = age;
+		this.email = email;
+		this.phone = phone;
+		this.address = address;
+		this.hobby = hobby;
+		this.enrollDate = enrollDate;
+	}
+
+	public String getMemberId() {
+		return memberId;
+	}
+
+	public void setMemberId(String memberId) {
+		this.memberId = memberId;
+	}
+
+	public String getMemberPwd() {
+		return memberPwd;
+	}
+
+	public void setMemberPwd(String memberPwd) {
+		this.memberPwd = memberPwd;
+	}
+
+	public String getMemberName() {
+		return memberName;
+	}
+
+	public void setMemberName(String memberName) {
+		this.memberName = memberName;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getHobby() {
+		return hobby;
+	}
+
+	public void setHobby(String hobby) {
+		this.hobby = hobby;
+	}
+
+	public Date getEnrollDate() {
+		return enrollDate;
+	}
+
+	public void setEnrollDate(Date enrollDate) {
+		this.enrollDate = enrollDate;
+	}
+
+	@Override
+	public String toString() {
+		return "Member [memberId=" + memberId + ", memberPwd=" + memberPwd + ", memberName=" + memberName + ", gender="
+				+ gender + ", age=" + age + ", email=" + email + ", phone=" + phone + ", address=" + address
+				+ ", hobby=" + hobby + ", enrollDate=" + enrollDate + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(address, age, email, enrollDate, gender, hobby, memberId, memberName, memberPwd, phone);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Member other = (Member) obj;
+		return Objects.equals(address, other.address) && age == other.age && Objects.equals(email, other.email)
+				&& Objects.equals(enrollDate, other.enrollDate) && Objects.equals(gender, other.gender)
+				&& Objects.equals(hobby, other.hobby) && Objects.equals(memberId, other.memberId)
+				&& Objects.equals(memberName, other.memberName) && Objects.equals(memberPwd, other.memberPwd)
+				&& Objects.equals(phone, other.phone);
+	}
+	
+}
+
+```
+
+
+
+- 우리가 자주사용햇던 vo객체다 
+
+<br/>
+
+
+
+## c
+
+- 컨트롤러 부분이다.
+- db에서  Member테이블에있는 데이터를 가져와 화면에출력해주는 서블릿이다.
+- 이클립스에서 db를 가져오는방법은 다른 md파일에 있다.
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//자바코드
+		//DB의 Member테이블에 있는 데이터를 가져와 화면에 출력해주기
+		Connection conn=null;
+		PreparedStatement pstmt=null;
+		ResultSet rs=null;
+		String sql="SELECT * FROM MEMBER";
+		List<Member> members=new ArrayList();
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			conn=DriverManager.getConnection(
+					//14.36.141.71:8877
+					"jdbc:oracle:thin:@localhost:1521:xe",
+					"student","student");
+			conn.setAutoCommit(false);
+			pstmt=conn.prepareStatement(sql);
+			rs=pstmt.executeQuery();
+			while(rs.next()) {
+				Member m=new Member();
+				m.setMemberId(rs.getString("member_id"));
+				m.setMemberPwd(rs.getString("member_pwd"));
+				m.setMemberName(rs.getString("member_name"));
+				m.setGender(rs.getString("gender"));
+				m.setAge(rs.getInt("age"));
+				m.setEmail(rs.getString("email"));
+				m.setPhone(rs.getString("phone"));
+				m.setAddress(rs.getString("address"));
+				m.setHobby(rs.getString("hobby"));
+				m.setEnrollDate(rs.getDate("enroll_date"));
+				members.add(m);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}finally {
+			try {
+				if(rs!=null) rs.close();
+				if(pstmt!=null) pstmt.close();
+				if(conn!=null) conn.close();
+			}catch(SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	
+//		System.out.println("회원정보출력");
+//		members.stream().forEach(System.out::println);
+//		
+		request.setAttribute("members",members );
+		RequestDispatcher rd=request.getRequestDispatcher("memberView.do");
+		rd.forward(request, response);
+	
+	
+	}
+```
+
+- 필요정보만 가져와서 forward로 view로 보낸다.
+
+<br/>
+
+## v
+
+- jsp를사용하면 이것보다 더욱더간결해지지만
+- 아직배우지않앗기에 서블릿방식으로 하겟다.
+
+```java
+protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out=response.getWriter();
+		List<Member> members=(List)request.getAttribute("members");
+		
+		String html="<table>";
+		html+="<tr>";
+		html+="<th>아이디</th>";
+		html+="<th>패스워드</th>";
+		html+="<th>이름</th>";
+		html+="<th>나이</th>";
+		html+="<th>성별</th>";
+		html+="<th>이메일</th>";
+		html+="<th>전화번호</th>";
+		html+="<th>주소</th>";
+		html+="<th>취미</th>";
+		html+="<th>가입일</th>";
+		html+="</tr>";
+		for(Member m:members) {
+			html+="<tr>";
+			html+="<td>"+m.getMemberId()+"</td>";
+			html+="<td>"+m.getMemberPwd()+"</td>";
+			html+="<td>"+m.getMemberName()+"</td>";
+			html+="<td>"+m.getAge()+"</td>";
+			html+="<td>"+m.getGender()+"</td>";
+			html+="<td>"+m.getEmail()+"</td>";
+			html+="<td>"+m.getPhone()+"</td>";
+			html+="<td>"+m.getAddress()+"</td>";
+			html+="<td>"+m.getHobby()+"</td>";
+			html+="<td>"+m.getEnrollDate()+"</td>";
+			html+="</tr>";
+		}
+		html+="</table>";
+		
+		out.print(html);
+	
+	}
+
+```
+
+- mvc패턴으로 서블릿을 이용해서 서비스를 구현하는 방법을 배워봣다.
 
 <br/>
 
