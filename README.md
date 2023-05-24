@@ -15,7 +15,7 @@
 * [Database](#Database)
 * [javascript](#javascript)
 * [jquery](#jquery)
-* [jsp_servlet](#jsp servlet)
+* [jsp_servlet](#jsp-servlet)
 
 
 
@@ -78,7 +78,7 @@
 
 <br/>
 
-## [jsp_servlet](https://github.com/inhoru/TIL/tree/main/jsp_servlet)
+## [jsp servlet](https://github.com/inhoru/TIL/tree/main/jsp_servlet)
 - [basic](https://github.com/inhoru/TIL/blob/main/jsp_servlet/basic.md)
 - [servlet](https://github.com/inhoru/TIL/blob/main/jsp_servlet/servlet.md)
 - [jsp](https://github.com/inhoru/TIL/blob/main/jsp_servlet/jsp.md)
