@@ -1,7 +1,7 @@
 # 🔖 목차
 
-1. [lombok jar](#1.-lombok-jar)<br/>
-2. [lombok사용](#2.-lombok사용)<br/>
+1. [lombok jar](#1-lombok-jar)<br/>
+2. [lombok사용](#2-lombok사용)<br/>
 
 <br/>
 
