@@ -19,9 +19,10 @@
 
 <br/>
 
+![image](https://github.com/inhoru/TIL/assets/126074577/a8a97a26-3808-4049-8f68-50fc51d4a4a9)
 
 
-![image-20230703204510618](C:\Users\inho\AppData\Roaming\Typora\typora-user-images\image-20230703204510618.png)
+
 
 
 
@@ -29,8 +30,7 @@
 
 # 1. 표준 액션 태그
 
-![image-20230703204540677](C:\Users\inho\AppData\Roaming\Typora\typora-user-images\image-20230703204540677.png)
-
+![image](https://github.com/inhoru/TIL/assets/126074577/ba7729e1-db71-4cf1-87e8-86e3751a98f7)
 
 
  
