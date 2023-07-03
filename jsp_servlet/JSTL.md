@@ -5,7 +5,7 @@
 3. [반복문](#3-반복문)<br/>
 4. [forTokens](#4-forTokens)<br/>
 5. [그외 코어태그 활용](#5-그외-코어태그-활용)<br/>
-6. [fmt](#6- fmt)<br/>
+6. [fmt](#6-fmt)<br/>
 7. [date](#7-date)<br/>
 8. [Function](#8-Function)<br/>
 
