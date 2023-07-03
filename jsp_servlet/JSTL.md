@@ -27,6 +27,7 @@
 - https://tomcat.apache.org/download-taglibs.cgi 
 - jar파일을 다운후 사용가능하다.
 
+![image](https://github.com/inhoru/TIL/assets/126074577/09a421af-92d0-4b7a-b631-b16aef9023ee)
 
 
 <br/>
@@ -35,6 +36,7 @@
 
 ## JSTL태그 종류
 
+![image](https://github.com/inhoru/TIL/assets/126074577/7fd3b1a2-028c-4777-878b-8023bda1cb28)
 
 
 - Core , Formattiong ,Function 을 사용하고 나머지는 사용하지않는다.
