@@ -1,9 +1,9 @@
-## :bookmark:목차
-
-1.
-
-2.
-
+## 🔖목차
+1. [동작 구조](#1-동작-구조)<br/>
+2. [config](#2-config)<br/>
+3. [mapper](#3-mapper)<br/>
+4. [mapper사용](#4-mapper-사용)<br/>
+5. [select](#5-select)<br/>
 
 
 <br/>
@@ -36,7 +36,7 @@ https://mybatis.org/mybatis-3/ko/index.html
 
 
 
-# 1.  동작 구조
+# 1. 동작 구조
 
 - MyBatis는 전용 라이브러리를 이용해서 동작을한다.
 
@@ -54,7 +54,7 @@ https://mybatis.org/mybatis-3/ko/index.html
 
 
 
-# 2 . config
+# 2. config
 
 - mybatis 를사용하기위해서는 먼저 config.xml파일을 생성후 설정해야한다.
 - ‘resources’라는 Source Folder를 생성하고 mybatis-config.xml 파일 등록
@@ -150,7 +150,7 @@ https://mybatis.org/mybatis-3/ko/index.html
 
 
 
-# 2. **mapper**
+# 3. mapper
 
 - 사용하고자 하는 쿼리문이 정의된 mapper파일 등록하는 태그이다.
 
@@ -204,7 +204,7 @@ https://mybatis.org/mybatis-3/ko/index.html
 
 
 
-# 3. mapper 사용
+# 4. mapper 사용
 
 - 이제설정을 끝마쳣으니 사용법에대해 알아보자
 - mapper을 사용하기전에 mybatis만의 내장별칭이있는데
@@ -409,7 +409,7 @@ public int insertStudentAll(SqlSession session,Student s) {
 
 
 
-# 4. select
+# 5. select
 
 - select문도 사용이가능하지만 살짝다르다
 
