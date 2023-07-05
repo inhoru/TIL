@@ -4,6 +4,8 @@
 3. [mapper](#3-mapper)<br/>
 4. [mapper사용](#4-mapper-사용)<br/>
 5. [select](#5-select)<br/>
+6. [Map](#6-Map)<br/>
+
 
 
 <br/>
@@ -564,8 +566,8 @@ public Student selectStudent(SqlSession session,int no) {
 - 다수의데이터를 받을때는 List를 사용하는데 어떻게 Map을보내지?
 - List<Map>으로 제네릭선언을해주면 된다.
 
-
 ```java
+    //controller
     List<Map> data=new StudentService().selectStudentListMap();
     		
     		data.stream().forEach(System.out::println);
@@ -574,8 +576,47 @@ public Student selectStudent(SqlSession session,int no) {
     		
     		request.getRequestDispatcher("/views/student.jsp")
     		.forward(request, response);
+    
+    //service
+    public List<Map> selectStudentListMap(){
+    		SqlSession session=getSession();
+    		List<Map> result=dao.selectStudentListMap(session);
+    		session.close();
+    		return result;
+    	}
+    
+    //dao
+    public List<Map> selectStudentListMap(SqlSession session){
+    		return session.selectList("student.selectStudentListMap");
+    	}
+    
+    //mapper
+    
+    <select id="selectStudentListMap" resultType="map">
+    	 SELECT * FROM STUDENT
+    </select>
+    
+    //jsp
+    <c:forEach var="s" items="${list }">
+    				<tr>
+    					<td>${s['STUDENT_NO'] }</td>
+    					<td>${s['STUDENT_NAME'] }</td>
+    					<td>${s['STUDENT_TEL'] }</td>
+    					<td>${s['STUDENT_EMAIL'] }</td>
+    					<td>${s['STUDENT_ADDR'] }</td>
+    					<td>${s['REG_DATE'] }</td>
+    				</tr>
+    
+    </c:forEach>
+    	 	
+```    
 
-```
+- 제네릭을 map으로 설정해서 vo객체없이 리스트를 출력해줄수있다
+
+
+<br/>
+
+
 
 
 
