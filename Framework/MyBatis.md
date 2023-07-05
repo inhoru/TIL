@@ -557,7 +557,8 @@ public Student selectStudent(SqlSession session,int no) {
 
 
 
-다수의 데이터를 받을때
+## 다수의 데이터를 받을때
+
 
 - 다수의 데이터를 받을때도 객체없이 사용할수있다.
 - 다수의데이터를 받을때는 List를 사용하는데 어떻게 Map을보내지?
