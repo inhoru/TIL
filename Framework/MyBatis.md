@@ -501,8 +501,77 @@ public Student selectStudent(SqlSession session,int no) {
 
 
 
+<br/>
+
+# 6. Map
+  - vo 객체를 만들어 두고 MyBatis 에서 맵핑을 해서 쓸수도 있지만
+  - vo 객체를 만들지않고도 사용할수가있다.
+  - 그렇게된다면 컬럼명과 맵핑이되어 컬럼명이 key값으로 사용을한다.
 
 
+
+    //controller
+    Map data=new StudentService().selectStudentMap(no);
+    request.setAttribute("s", data);
+    	
+    request.getRequestDispatcher("/views/student.jsp")
+      .forward(request, response);
+    
+    //service
+    public Map selectStudentMap(int no) {
+      SqlSession session=getSession();
+      Map result=dao.selectStudentMap(session,no);
+      session.close();
+      return result;
+    }
+    
+    //dao
+    public Map selectStudentMap(SqlSession session,int no) {
+      return session.selectOne("student.selectStudentMap",no);
+    }
+    
+    //mapper
+    <select id="selectStudentMap" resultType="map" 
+      parameterType="_int">
+    	   		SELECT * FROM STUDENT WHERE STUDENT_NO=#{no}
+    </select>
+    
+    //JSP
+    <li>학생이름 : <c:out value="${s.STUDENT_NAME }"/></li>
+    <li>학생전화번호 : <c:out value="${s.STUDENT_TEL }"/></li>
+    <li>학생이메일 : <c:out value="${s.STUDENT_EMAIL }"/></li>
+    <li>학생주소 : <c:out value="${s.STUDENT_ADDR }"/></li>
+    <li>등록일 : <c:out value="${s.reg_date }"/></li>
+    
+
+
+
+- Map을사용하면 vo객체 생성하지않고 데이터들을 가져올수가있다.
+- 여기서는 SELECT * FROM STUDENT 의 컬럼명들이 키값이된다.
+- JSP에서 데이터들을 출력할때 키값인 컬럼명으로 불러올수가있다.
+
+
+
+<br/>
+
+
+
+다수의 데이터를 받을때
+
+- 다수의 데이터를 받을때도 객체없이 사용할수있다.
+- 다수의데이터를 받을때는 List를 사용하는데 어떻게 Map을보내지?
+- List<Map>으로 제네릭선언을해주면 된다.
+
+
+
+    List<Map> data=new StudentService().selectStudentListMap();
+    		
+    		data.stream().forEach(System.out::println);
+    		
+    		request.setAttribute("list", data);
+    		
+    		request.getRequestDispatcher("/views/student.jsp")
+    		.forward(request, response);
 
 
 
