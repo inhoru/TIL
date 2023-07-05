@@ -295,18 +295,19 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
 
 
+
 - service
 
-  ```java
-  public int insertStudentAll(Student s) {
-  		SqlSession session=getSession();
-  		int result=dao.insertStudentAll(session,s);
-  		if(result>0)session.commit();
-  		else session.rollback();
-  		session.close();
-  		return result;
-  	}
-  ```
+```java
+public int insertStudentAll(Student s) {
+	SqlSession session=getSession();
+	int result=dao.insertStudentAll(session,s);
+	if(result>0)session.commit();
+	else session.rollback();
+	session.close();
+	return result;
+}
+```
 
   
 
@@ -509,7 +510,7 @@ public Student selectStudent(SqlSession session,int no) {
   - 그렇게된다면 컬럼명과 맵핑이되어 컬럼명이 key값으로 사용을한다.
 
 
-
+```java
     //controller
     Map data=new StudentService().selectStudentMap(no);
     request.setAttribute("s", data);
@@ -543,7 +544,7 @@ public Student selectStudent(SqlSession session,int no) {
     <li>학생주소 : <c:out value="${s.STUDENT_ADDR }"/></li>
     <li>등록일 : <c:out value="${s.reg_date }"/></li>
     
-
+```
 
 
 - Map을사용하면 vo객체 생성하지않고 데이터들을 가져올수가있다.
@@ -563,7 +564,7 @@ public Student selectStudent(SqlSession session,int no) {
 - List<Map>으로 제네릭선언을해주면 된다.
 
 
-
+```java
     List<Map> data=new StudentService().selectStudentListMap();
     		
     		data.stream().forEach(System.out::println);
@@ -573,7 +574,7 @@ public Student selectStudent(SqlSession session,int no) {
     		request.getRequestDispatcher("/views/student.jsp")
     		.forward(request, response);
 
-
+```
 
 
 
