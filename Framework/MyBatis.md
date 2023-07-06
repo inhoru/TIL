@@ -6,6 +6,12 @@
 5. [select](#5-select)<br/>
 6. [Map](#6-Map)<br/>
 7. [페이징 처리](#7-페이징-처리)<br/>
+8. [properties](#8-properties)<br/>
+9. [typeAliases](#9-typeAliases)<br/>
+10. [map이용해서 객체보내기](#10-map이용해서-객체보내기)<br/>
+11. [동적쿼리](#11-동적쿼리)</br>
+12. [인터페이스](#12-인터페이스)<br/>
+
 
 
 
@@ -816,6 +822,446 @@ public List<Student> selectStudentPage(SqlSession session, int cPage, int numPer
 
 
 <br/>
+
+# 8. properties
+
+
+
+- 우리가 config 설정을할때 property에 DB정보를 일일이 적어줫는데
+- properties 태그를 이용한다면 driver.properties를 불러와서 사용할수가있다.
+
+
+
+```xml
+<configuration>
+	<properties resource="driver.properties"></properties>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+	</settings>
+	<typeAliases>
+		<typeAlias type="com.employee.model.vo.Employee" alias="emp" />
+	</typeAliases>
+	<environments default="BS">
+		<environment id="BS">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">   
+				<property name="driver" value="${driver}" />
+				<property name="url" value="${url}" />
+				<property name="username" value="${user}" />
+				<property name="password" value="${pw}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	
+</configuration>
+
+// driver.properties
+driver=oracle.jdbc.driver.OracleDriver
+url=jdbc:oracle:thin:@localhost:1521:xe
+user=BS
+pw=BS
+```
+
+
+
+- driver.properties 파일은 resources폴더아래에 존재한다.
+- property의 value에 드라이버 키값을 적어주면된다.
+
+
+
+<br/>
+
+
+
+# 9. typeAliases
+
+- 원래  객체를 타입을 적을 때 패키지명부터 끝까지 적어줫어야하는데
+- typeAliases를 이용하면 하나의 단어로 저장해서 사용할수가있다.
+
+
+
+```xml
+<typeAliases>
+		<typeAlias type="com.employee.model.vo.Employee" alias="emp" />
+</typeAliases>
+
+
+```
+
+- 이렇게 패키지명을 대신 emp로 적으면 끝난다.
+
+
+
+<br/>
+
+
+
+# 10. map이용해서 객체보내기
+
+- 우리가 dao에 파라미터값을보낼때 객체를 보낸다고했다.
+- 그럴때마다 각자다른 객체들을 일일이 모아서 또다른객체를 만들고 그러면 굉장히
+  비효율적이다
+- 그럴때 map을이용해서 파라미터값을 넣어서 key값으로 불러와서 쓸수가있다.
+- 파라미터값을 가져올때 #{} : setType()값을 대입 한다
+- 자료형에 맞는 리터럴을 대입 ${} : 문자열을 처리하는 표현이다.
+
+
+
+<br/>
+
+
+
+```java
+String type=request.getParameter("type");
+String keyword=request.getParameter("keyword");
+String gender =request.getParameter("gender");
+
+Map<String,Object> param=new HashMap<>();
+    param.put("type", type);
+    param.put("keyword", keyword);
+    param.put("gender", gender);
+
+List<Employee> employee=service.searchEmp(param);
+
+request.setAttribute("employee", employee);
+
+//service
+public List<Employee> searchEmp(Map<String, Object> param) {
+	SqlSession session=getSession();
+	List<Employee> list=dao.searchEmp(session, param);
+	session.close();
+	return list;
+	}
+
+//dao
+	public List<Employee> searchEmp(SqlSession session, Map<String, Object> param) {
+		return session.selectList("employee.searchEmp",param);
+	}
+
+
+//mapper
+<!-- 파라미터값을 가져올때 #{} : setType()값을 대입 
+    -> 자료형에 맞는 리터럴을 대입 ${} : 문자열을 처리하는 
+		표현 -->
+<select id="searchEmp" resultMap="employeeMap"
+    parameterType="map">
+
+SELECT * FROM EMPLOYEE WHERE ${type} LIKE '%'||#{keyword}||'%' AND GENDER = #{gender}    
+    
+</select>    
+```
+
+- 이런식으로 List로 출력할때 map에 파라미터값을넣어서 보내주면 훨신 간편해진다.
+
+
+
+<br/>
+
+# 11. 동적쿼리
+
+- 위에 방식대로 쿼리문을 쓴다면 한가지문제점이있다.
+- keyword값이나 gender값이없다면 오류가발생한다.
+- 그렇다면 어떻게 해야 값이 있을때랑 없을때를 분기처리를할까?
+- 그럴떄 동적쿼리를 사용하면된다.
+
+<br/>
+
+## 동적 sql
+
+- 일반적으로 검색 기능이나 다중 입력 처리 등을 수행해야 할 경우
+- SQL을 실행하는 DAO를 여러 번 호출하거나 batch기능을 이용하여버퍼에 담아 한 번에 실행시키는 방식으로
+-  쿼리 구현MyBatis에서는 이를 동적으로 제어할 수 있는 구문을 제공하여 좀 더 쉽게쿼리를 구현할 수 있도록 기능 지원한다.
+
+<br/>
+
+- if
+- choose(when,otherwise)
+- trim(where,set)
+- foreach
+
+<br/>
+
+
+
+## if구문
+
+- 동적 쿼리를 구현할 때 가장 기본적으로 사용되는 구문으로특정 조건을 만족할 경우 안의 구문을 쿼리에 포함 시킴
+
+```xml
+<select id="searchEmp" resultMap="employeeMap"
+    parameterType="map">
+
+SELECT * FROM EMPLOYEE WHERE 
+    <if test="keyword!=null and keyword!=''"> AND ${type} LIKE '%'||#{keyword}||'%' </if>
+		<if test="gender!=null and gender!=''"> AND GENDER = #{gender} </if>
+    
+</select>  
+```
+
+- 만약에 keyword가 null이거나 공백이면 발동하는 쿼리문과
+- gender이 null이면 발동하는 쿼리문으로 나눠서 분기처리를 할수가있다.
+
+<br/>
+
+## choose
+
+- 자바의 if-else, switch, JSTL의 choose 구문과 유사하며 주어진 구문 중한 가지만 수행하고자 할 때 사용한다
+
+```xml
+<select id="searchEmp" resultMap="employeeMap"
+    parameterType="map">
+
+SELECT * FROM EMPLOYEE WHERE 
+<choose>
+        <when test="salFlag == 'le'"> AND SALARY &lt; #{salary} </when>
+            <otherwise> AND SALARY >= #{salary} </otherwise>
+</choose>  
+    
+</select>      
+```
+
+
+
+<br/>
+
+
+
+## 동적쿼리 안좋은예
+
+- 우리가동적쿼리를 사용할때
+- where까지 쓰고 동적쿼리를 사용했을때 if문어느하나도 만족하지못했을경우
+- 오류가발생할수가있다.
+- 이때 whrer , trim을 사용하면된다. 
+- 둘다 비슷한기능이니 편한걸 쓰면된다.
+
+
+
+![image](https://github.com/inhoru/TIL/assets/126074577/9dbc90b5-ad25-415a-ac9a-609ab8af9a0d)
+
+
+
+
+<br/>
+
+
+
+## where
+
+- 기존 쿼리의 WHERE절을 동적으로 구현할 때사용한다.
+- 단순히 WHERE만을 추가하지만 만일 태그 안의 내용이 AND나 OR로시작할 경우 ‘AND’ 또는 ‘OR’ 제거한다.
+
+```xml
+<select id="searchEmp" resultMap="employeeMap"
+    parameterType="map">
+
+SELECT * FROM EMPLOYEE
+<where>
+<if test="keyword!=null and keyword!=''"> AND ${type} LIKE '%'||#{keyword}||'%'
+    </if>
+<if test="gender!=null and gender!=''"> AND GENDER = #{gender} 
+    </if>
+</where>
+    
+</select>      
+```
+
+
+
+- 이렇게 where를 동적으로 생성할수가있다.
+- 이렇게한다면 두개다실행하지못해도 오류가나지않는다.
+
+
+
+<br/>
+
+
+
+## trim
+
+- where 와같은 기능이다
+- 자주쓸거같지않으니 알고만있자
+
+
+
+```xml
+<select id="searchEmp" resultMap="employeeMap"
+    parameterType="map">
+
+SELECT * FROM EMPLOYEE
+<trim prefix="WHERE" prefixOverrides="AND|OR">
+<if test="keyword!=null and keyword!=''"> AND ${type} LIKE '%'||#{keyword}||'%'
+    </if>
+<if test="gender!=null and gender!=''"> AND GENDER = #{gender} 
+    </if>
+</trim>
+    
+</select> 
+```
+
+
+
+<br/>
+
+
+
+## **foreach**
+
+- 동적 쿼리를 구현할 때 collection에 대한 반복처리 제공한다
+- DEPT_CODE IN (D1,D2,D3) 이렇게 여러개의 배열을받을때 사용한다.
+- collection : 배열방식의 데이터
+- item : 배열의 데이터를 저장하는 변수명
+- open : 반복을 시작할때 출력할 값을 설정
+- close : 반복을 끝냈을때 출력할 값을 설정
+- separator : 반복할때마다 출력할 값을 설정
+- index : 배열의 인덱스번호를 저장하는 변수
+
+<br/>
+
+```xml
+<select id="searchEmp" resultMap="employeeMap"
+    parameterType="map">
+
+SELECT * FROM EMPLOYEE
+<where>
+    
+</where>   
+  <if test="deptCodes!=null and deptCodes!=''">
+			AND DEPT_CODE IN 
+			<foreach collection="deptCodes" open="(" close=")"
+				separator="," item="d"> #{d} </foreach>
+		</if>  
+</select> 
+```
+
+
+
+<br/>
+
+
+
+# 12. 인터페이스
+
+-  mybatis 에서도 인터페이스를 이용할수가있다
+- 인터페이스를 이용하는 이유는
+  - DAO 단계의 구현객체의 메소드 안의 로직(업무로직)이 바뀌어도, DAO 인터페이스는 그대로이다.
+  - Service 단계, Service의 구현객체는 DAO 인터페이스 타입으로 선언하고, 이 때, Spring에서는 자동으로 객체를 생성하여 선언한 변수에 주입시킨다.
+  - Service 구현객체에서 DAO 인터페이스의 메소드를 호출할 때, 구현객체에서 오버라이딩된 로직을 이용하게 된다.
+  - 이는 DAO 구현객체에서 업무로직이 아무리 바뀐다고 할 지라도, 다음단계인 Service에서는 전혀 로직을 수정할 필요가 없다는 것을 의미한다.
+  - DAO와 Service 부분이 완전히 분리되고, 분업을 가능하게 해준다.  마찬가지로, Controller와 Service도 완전히 분리되어있다.
+
+
+
+<br/>
+
+
+
+## 사용법
+-  먼저 클래스와 인터페이스를나눈다
+
+![image](https://github.com/inhoru/TIL/assets/126074577/0b493395-8d7f-427d-b653-26a085564233)
+
+<br/>
+
+## service
+- 인터페이스
+```java
+public interface EmpService {
+	List<Employee> selectAllemp(int cPage,int numPerpage);
+	
+	List<Employee> searchEmp(Map<String,Object> param);
+	
+	int selectEmployeeCount();
+}
+```
+- 클래스
+
+```java
+public class EmpServiceImpl implements EmpService {
+	private EmpDao dao=new EmpDaoImpl();
+
+	@Override
+	public List<Employee> selectAllemp(int cPage,int numPerpage) {
+		SqlSession session=getSession();
+		List<Employee> result=dao.selectAllemp(session,cPage,numPerpage);
+		session.close();
+		return result;
+		
+	}
+	
+
+	@Override
+	public List<Employee> searchEmp(Map<String, Object> param) {
+	SqlSession session=getSession();
+	List<Employee> list=dao.searchEmp(session, param);
+	session.close();
+	return list;
+	}
+
+
+	@Override
+	public int selectEmployeeCount() {
+		SqlSession session=getSession();
+		int result=dao.selectEmployeeCount(session);
+		session.close();
+		return result;
+	}
+
+	
+}
+```
+
+<br/>
+
+## dao
+- 인터페이스
+  ```java
+  public interface EmpDao {
+	List<Employee> selectAllemp (SqlSession session,int cPage,int numPerpage);
+	
+	List<Employee> searchEmp (SqlSession session,Map<String,Object> param);
+	
+	int selectEmployeeCount(SqlSession session);
+
+	
+}
+```
+
+- 클래스
+```java
+public class EmpDaoImpl implements EmpDao {
+
+	@Override
+	public List<Employee> selectAllemp(SqlSession session,int cPage,int numPerpage) {
+		
+		return session.selectList("employee.selectAllemp",null,new RowBounds((cPage-1)*numPerpage,numPerpage));
+	}
+
+	@Override
+	public List<Employee> searchEmp(SqlSession session, Map<String, Object> param) {
+		return session.selectList("employee.searchEmp",param);
+	}
+
+	@Override
+	public int selectEmployeeCount(SqlSession session) {
+		return session.selectOne("employee.selectEmployeeCount");
+	}
+	
+	
+	
+}
+```
+
+<br/>
+
+
+- 이런식으로 dao와 service를 인터페이스를 설정해서
+- DAO, Service, Controller 를 완전히 분리시킬 수 있다.
+
+
+<br/>
+
+
 
 
 
