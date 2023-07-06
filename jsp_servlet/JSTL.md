@@ -143,8 +143,8 @@ applicationData
 
 
 
-- xml을 이용해서 ture면은 이동시키고
-- false면 코드를 출력한다.
+- xml을 이용해서 true면 text
+- false면 html를 출력한다.
 
 
 
