@@ -487,7 +487,8 @@ public Student selectStudent(SqlSession session,int no) {
 	 	<result property="studentAddress" column="student_addr"/>
 	 </resultMap>
 ```
-
+- pk값은 id로 설정해줘야하고
+- 나머지 컬럼들은 result로 설정을해준다.
 - column이 실제 컬럼값
 - property가 필드이름이다.
 
