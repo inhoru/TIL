@@ -5,6 +5,8 @@
 4. [mapper사용](#4-mapper-사용)<br/>
 5. [select](#5-select)<br/>
 6. [Map](#6-Map)<br/>
+7. [페이징 처리](#7-페이징-처리)<br/>
+
 
 
 
@@ -613,6 +615,204 @@ public Student selectStudent(SqlSession session,int no) {
 ```    
 
 - 제네릭을 map으로 설정해서 vo객체없이 리스트를 출력해줄수있다
+
+
+<br/>
+
+
+
+
+# 7. 페이징 처리
+
+- mybatic에서 페이징처리도 지원을한다.
+- 페이지처리할때는 마이바티스가 제공하는 페이징처리 클래스를 이용한다
+- RowBounds클래스 이용
+- selectList호출시 세번째 매개변수에 RowBounds클래스를 생성해서 전달해주면 된다.
+- 매개변수있는 생성자를 이용한다.
+  - 1. 매개변수 : offset -> 시작 row번호 (cPage-1)*numPerpage
+  - 2. 매개변수 : 범위 -> numPerpage
+
+
+
+<br/>
+
+
+
+- controller Servlet
+
+```java
+//controller
+
+int cPage, numPerpage;
+		
+        try {
+            cPage = Integer.parseInt(request.getParameter("cPage"));
+        } catch (NumberFormatException e) {
+            cPage = 1;
+        }
+        try {
+            numPerpage = Integer.parseInt(request.getParameter("numPerpage"));
+        } catch (NumberFormatException e) {
+            numPerpage = 5;
+        }
+	
+		int totalData=new StudentService().selectStudentCount();
+		int totalPage=(int) Math.ceil((double)totalData/numPerpage);
+		int pageBarSize=5;
+		int pageNo=((cPage-1)/pageBarSize)*pageBarSize+1;
+		int pageEnd=pageNo+pageBarSize-1;
+		
+		String pageBar="<ul class='pagination justify-content pagination'>";
+		
+		if(pageNo==1) {
+			pageBar+="""
+					<li class='page-item disabled'>
+						<a class='page-link' href='#'>이전</a>
+					</li>
+					""";
+		}else {
+			pageBar+="<li class='page-item'>";
+			pageBar+="<a class='page-link' href='"+request.getRequestURI() +"?cPage="+(pageNo-1)+"'>이전</a>";
+			pageBar+="</li>";
+			
+		}
+		while(!(pageNo>pageEnd||pageNo>totalPage)) {
+			if(cPage==pageNo) {
+				pageBar+="<li class='page-item disabled'>";
+				pageBar+="<a class='page-link' href='#'>"+pageNo+"</a>";
+				pageBar+="</li>";
+			}else {
+				pageBar+="<li class='page-item'>";
+				pageBar+="<a class='page-link' href='"+request.getRequestURI()
+						+"?cPage="+(pageNo)+"'>"+pageNo+"</a>";
+				pageBar+="</li>";
+			}
+			pageNo++;
+		}
+		
+		if(pageNo>totalPage) {
+			pageBar+="""
+					<li class='page-item disabled'>
+						<a class='page-link' href='#'>다음</a>
+					</li>
+					""";
+		}else {
+			pageBar+="<li class='page-item'>";
+			pageBar+="<a class='page-link' href='"+request.getRequestURI()
+					+"?cPage="+(pageNo)+"'>다음</a>";
+			pageBar+="</li>";
+		}
+		pageBar+="</ul>";
+		List<Student> list=new StudentService().selectStudentPage(cPage,numPerpage);
+		request.setAttribute("student", list);
+		request.setAttribute("pageBar", pageBar);
+		
+		request.getRequestDispatcher("/views/studentPage.jsp")
+		.forward(request, response);
+		
+		
+		
+	}
+
+```
+
+
+
+<br/>
+
+
+
+- Service
+
+```java
+// List
+public List<Student> selectStudentPage(int cPage,int numPerpage){
+		SqlSession session=getSession();
+		List<Student> result=dao.selectStudentPage(session,cPage,numPerpage);
+		session.close();
+		return result;
+	}
+
+//totalData
+public int selectStudentCount() {
+		SqlSession session=getSession();
+		int count=dao.selectStudentCount(session);
+		session.close();
+		return count;
+	}
+
+```
+
+ 
+
+<br/>
+
+
+
+- Dao
+
+```java
+public List<Student> selectStudentPage(SqlSession session, int cPage, int numPerpage){
+    RowBounds rb=new RowBounds((cPage-1)*numPerpage,numPerpage);
+		return session.selectList("student.selectStudentPage",null,rb);
+	}
+	
+```
+
+- RowBounds 클래스를 이용
+- 매개변수값을 반드시넣어줘야한다 
+- 매개변수자리에 RowBounds를 넣어주면 매개변수로 인식하기때문에
+- 없다면 null이라도 넣어주자
+
+
+
+<br/>
+
+- xml
+
+```xml
+<select id="selectStudentPage" resultMap="studentMap">
+		<!-- SELECT * FROM (SELECT ROWNUM AS RNUM, S.* FROM ()) -->
+		SELECT * FROM STUDENT
+</select>
+
+<select id="selectStudentCount" resultType="_int">
+		SELECT COUNT(*) FROM STUDENT
+</select>
+```
+
+- mybatis를 이용하면 sql도 위에처럼 짧게할수 있다.
+
+
+
+
+
+<br/>
+
+- jsp
+
+```jsp
+<h2>학생조회결과</h2>
+	<table>
+		<c:forEach var="s" items="${student }">
+				<tr>
+					<td><c:out value="${s.studentNo }"/></td>
+					<td><c:out value="${s.studentName }"/></td>
+					<td><c:out value="${s.studentTel }"/></td>
+					<td><c:out value="${s.studentEmail }"/></td>
+					<td><c:out value="${s.studentAddress }"/></td>
+					<td><fmt:formatDate value="${s.reg_date }"/></td>
+				</tr>
+			</c:forEach>
+	</table>
+	<c:out value="${pageBar}" escapeXml="false" />
+```
+
+
+
+- c:out으로 출력할때는 escapeXml을 false로줘서 태그로 출력해주자
+- true면은 텍스트로 출력한다.
+
 
 
 <br/>
