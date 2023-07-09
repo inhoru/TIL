@@ -11,6 +11,8 @@
 10. [map이용해서 객체보내기](#10-map이용해서-객체보내기)<br/>
 11. [동적쿼리](#11-동적쿼리)</br>
 12. [인터페이스](#12-인터페이스)<br/>
+13. [1대1 다대다관계](#13-1대1-다대다관계)<br/>
+
 
 
 
@@ -1261,6 +1263,150 @@ public class EmpDaoImpl implements EmpDao {
 
 <br/>
 
+
+# 13. 1대1 다대다관계
+
+- 1:1관계 -> association 사용한다.
+- 1:다 관계일때 -> collection 을사용한다.
+
+<br/>
+
+## 1:1 관계
+
+- association 태그 result태그 마지막에사용한다. id태그가 설정되어있어야 한다.
+- has-a관계처럼 vo를 설정해준다.
+
+```java
+public class Employee {
+	private int empId;
+	private String empName;
+	private String empNo;
+	private String email;
+	private String phone;
+	private String deptCode;
+	private Department dept;
+	private String jobCode;
+	private String salLevel;
+	private int salary;
+	private double bonus;
+	private String managerId;
+	private Date hireDate;
+	private Date entDate;
+	private String entYn;
+	private String gender;
+	
+}
+```
+
+<br/>
+
+- 그런후 xml설정
+
+
+
+```xml
+//mapper
+<resultMap id="employeeMap" type="emp">
+		
+		<id property="empId" column="emp_id" />
+		<result property="empName" column="emp_name" />
+		<result property="empNo" column="emp_no" />
+		<result property="jobCode" column="job_code" />
+		<result property="salLevel" column="sal_level" />
+		<result property="managerId" column="manager_id" />
+		<result property="hireDate" column="hire_date" />
+		<result property="entDate" column="ent_date" />
+		<result property="entYn" column="ent_yn" />
+		<result property="email" column="email" />
+		<result property="phone" column="phone" />
+		<result property="bonus" column="bonus" />
+		<result property="salary" column="salary" />
+
+		<association property="dept" resultMap="departmentMap" />
+
+</resultMap>
+
+//mybatis-config
+<typeAlias type="com.employee.model.vo.Department" alias="department" />
+
+//mapper	
+<resultMap id="departmentMap" type="department">
+	<id property="deptId" column="dept_id" />
+	<result property="deptTitle" column="dept_title" />
+	<result property="locationId" column="location_id" />
+</resultMap>
+
+```
+
+- 이런식으로 1:1관계를 설정할수가있다.
+
+
+<br/>
+
+## 1:다 관계
+
+```java
+public class Employee {
+	private int empId;
+	private String empName;
+	private String empNo;
+	private String email;
+	private String phone;
+	private String deptCode;
+	private Department dept;
+	private String jobCode;
+	private String salLevel;
+	private int salary;
+	private double bonus;
+	private String managerId;
+	private Date hireDate;
+	private Date entDate;
+	private String entYn;
+	private String gender;
+	
+}
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@ToString(exclude= {"employees"})
+public class Department {
+	private String deptId;
+	private String deptTitle;
+	private String locationId;
+	
+	private List<Employee> employees;
+}
+
+
+```
+
+```xml
+<resultMap id="departmentMap" type="department">
+		<id property="deptId" column="dept_id" />
+		<result property="deptTitle" column="dept_title" />
+		<result property="locationId" column="location_id" />
+		<!-- 1:다 관계일때 -->
+		<collection property="employees" resultMap="employeeMap" />
+</resultMap>
+
+<select id="selectAllDept" resultMap="departmentMap">
+		SELECT * FROM DEPARTMENT LEFT JOIN EMPLOYEE ON DEPT_CODE=DEPT_ID
+</select>
+
+```
+
+- 이렇게 employee에서 1:1을 하고
+- department에서 1:1관계를 employee를 했을때
+- 서로 호출을하기때문에 스택오버플로우가 발생한다.
+- 그렇기때문에 @ToString(exclude= {"employees"}) 통해 호출을안해줄수있다.
+
+  
+
+
+	
 
 
 
