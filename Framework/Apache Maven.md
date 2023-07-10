@@ -1,10 +1,7 @@
 ## :bookmark: 목차
 
-1.
+1. [pom](#1-pom)<br/>
 
-2.
-
-3.
 
 
 
@@ -18,6 +15,7 @@
 - 프로그램 버전 정보와 라이브러정보 통합 관리를해준다.
 
 - 쉽게말하자면 lib에 넣엇던 라이브러르들(jar) 들을 xml이넣어서 관리를 할수있다.
+- spring 에서 자주사용하니 알아두자
 
 
 
@@ -62,6 +60,68 @@
 
 ## pom.xml설정
 
-- dependencies
-- 
+- 지금까지 라이브러리를 사용할때 lib에 jar파일을 넣어서 사용했지만
+- pom.xml 문서 하나만으로 필요한 라이브러리를 자동으로 설치하고 관리할 수 있다.
+![image](https://github.com/inhoru/TIL/assets/126074577/5b4e3cbc-3cf3-49a1-abc3-b2b959499c68)
+
+
+```xml
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.bs</groupId>
+	<artifactId>maventest</artifactId>
+	<version>0.1</version>
+	<name>maventest</name>
+	<packaging>jar</packaging>
+	<properties>
+		<java-version>17</java-version>
+		<org.springframwork-version>5.3.28</org.springframwork-version>
+	</properties>
+	
+	<!--라이브러리가져오기  -->
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.28</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframwork-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${org.springframwork-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${org.springframwork-version}</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.11.0</version>
+				<configuration>
+					<source>${java-version}</source>
+					<target>${java-version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+```
+
+
 
