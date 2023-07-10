@@ -43,3 +43,25 @@
 
 
 ![image](https://github.com/inhoru/TIL/assets/126074577/b88c2a46-2439-41f6-aae1-75425b00ea4f)
+
+<br/>
+
+# 2. 프로젝트생성
+- Maven project로 생성해준다.
+
+![image](https://github.com/inhoru/TIL/assets/126074577/84a28c4f-b9dd-46cc-920d-36c83b6fdbb4)
+
+- 심플프로젝트는 아무것도없는상태에서 내가만들겟다라는뜻
+
+![image](https://github.com/inhoru/TIL/assets/126074577/543f3552-4b29-4e30-8851-90c1864b0be9)
+
+- 이렇게 생성할수가있다.
+
+<br/>
+
+
+## pom.xml설정
+
+- dependencies
+- 
+
