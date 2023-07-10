@@ -136,21 +136,9 @@
 - webapp아래에있  jsp파일은 외부에서 접근이불가능하다 그렇기때문에 이제부터 맵핑주소로 접속을해야한다.
 
 
-```java
-@Controller
-public class HomController {
-	@RequestMapping("/")
-	public String home() {
-		return "index";
-	}
-
-}
-```
 
 <br/>
 
-- 위에처럼 index를  잘모르겟데ㅏㅣ;;
-- 
 # 6. pom.xml
 - maven 프로젝트 설정을해줘야한다.
 - 각종 라이브러리 들을 설정해줄수있다.
