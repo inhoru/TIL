@@ -1,4 +1,13 @@
 ## 🔖 목차
+1. [특징](#1-특징)<br/>
+2. [spring 다운](#2-spring-다운)<br/>
+3. [프로젝트 생성](#3-프로젝트-생성)<br/>
+4. [log4j](#4-log4j)<br/>
+5. [폴더구조](#5-폴더구조)<br/>
+6. [pom.xml](#6-pom.xml)<br/>
+7. [스프링 실행 구조](#7-스프링-실행-구조)<br/>
+8. [spring di](#8-spring-di)<br/>
+
 
 
 <br/>
@@ -437,16 +446,62 @@ public class HomController {
 
 	
 
-# 5. spring di
+# 8. spring di
 - 사용자가 객체를 직접 생성하는게아니라 컨테이너가 빈을 가져와서 객체를 연결해줌
 - 이렇게 의존성을 주입할수가 있다.
 - 로컬변수에 집어 넣지않고 필드에 집어넣는다
+- 내가쓸 객체들을 bean에넣어서 필요할때마다 가져와서 사용할수가있다.
 
 ![image](https://github.com/inhoru/TIL/assets/126074577/b4709eaa-cf10-41bc-8333-7b6b60a2fab6)
 
 <br/>
 
 ![image](https://github.com/inhoru/TIL/assets/126074577/e343765c-ea0a-458c-ac30-3e9b916330d2)
+
+- 객체를 스프리에서 동작시키기위해서는 2가지방법이있다. 그걸 pojo라고한다.
+- xml방식
+- 어노테이션방식
+
+<br/>
+
+## xml방식등록
+- pojo 클래스 bean으로 등록하기
+- <beans:bean>태그를 이용해서등록
+- 속성 
+- id : context내에서 사용하는 bean이름
+- class: 대상이 되는 클래스 지정(패키지명.클래스명) 
+	
+- Animal 클래스를 default생성자로 생성해서 bean으로 생성
+	
+- <beans:bean id="bbo" class="com.bs.spring.beantest.Animal"></beans:bean>
+- pojo생성시 setter를 이용해서 데이터를 넣어서 생성시키기
+
+
+```xml
+<beans:bean id="bbo" class="com.bs.spring.beantest.Animal">
+		<beans:property name="name" value="뾰송"/>
+		<beans:property name="age"	value="3"/>
+		<beans:property name="height" value="50.4"/>
+</beans:bean>
+```
+- beans에 setter에 넣는 과정이다.
+- 이제 가져와보자
+
+<br/>
+
+```java
+//springbean으로 등록된 객체는 필드로 가져와 사용할 수 있음
+@Autowired
+private Animal a;
+```
+
+- @Autowired 을사용해서 필드값을 가져와서 사용할수있다.
+- 이제 new 를 사용하지않고 객체를 가져와서 사용할수가있다.
+
+<br/>
+
+
+
 
 
 
