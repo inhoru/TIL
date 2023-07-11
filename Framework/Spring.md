@@ -7,6 +7,11 @@
 6. [pom.xml](#6-pom)<br/>
 7. [스프링 실행 구조](#7-스프링-실행-구조)<br/>
 8. [spring di](#8-spring-di)<br/>
+9. [Configuration](#9-Configuration)<br/>
+10. [Component](#10-Component)<br/>
+
+
+
 
 
 
@@ -665,6 +670,91 @@ Employee(name=최후, age=27, address=경기도 안양시, salary=200, dept=Depa
 
 <br/>
 
+## ComponentScan
+- Configuration 안에서 사용할수있는 ComponentScan어노테이션이다.
+- 어노테이션표시가 없더라도 해당이되면 bean으로 등록할수있다.
+
+```xml
+@ComponentScan(basePackages = "com.bs.spring",includeFilters = {@ComponentScan.Filter(type = FilterType.REGEX,pattern = {"com.bs.spring.include.*"} )}
+,excludeFilters = {})
+
+```
+
+## order
+- 객체를 리스트에 넣어서 가져올수도있다.
+
+```java
+@Autowired
+List<Animal> animals;
+
+@Bean
+@Order(1)//bean우선순위를 설정할 수 있다.
+public Animal ani() {
+	return Animal.builder().name("킥킥").age(5).height(80).build();
+}
+//출력결과
+nimal(name=킥킥, age=5, height=80.0)
+Animal(name=뾰송, age=3, height=0.0)
+Animal(name=뽀삐, age=0, height=0.0)
+```
+<br/>
+- 이때 @Order을 사용하면 리스트출력시 우선순위를 정할수가있다.
+
+<br/>
+
+# 10. Component
+- pojo클래스를 생성하고 선언부에서 bean으로 등록할수가있다,
+- 종류에는 @Component, @Controller, @Service, @Repository 등이있다.
+- @Component : 기본 spring bean으로 등록할 때 사용
+- @Controller,@Service,@Repository : mvc패턴에 의해 역할 지정된 클래스를 bean으로 등록할때 사용한다.
+
+- 사용할떈 메소드 선언부에 어노테이션을 작성해주면된다.
+
+
+```java
+@Component
+public class FuntionalTest {
+	
+	private String name="test";
+	
+	//필드에Autowired하는 경우는 거의없다
+	//@Autowired
+	private Animal a;
+	
+	//생성자를 이용한 DI
+	 public FuntionalTest(@Qualifier("dog") Animal a) { this.a=a; }
+	 
+	@Autowired
+	public void setA(@Qualifier("dog") Animal a) {
+		this.a=a;
+	}
+	//setter을 이용한 DI
+	
+	public Animal getA() {
+		return this.a;
+	}
+```	
+
+<br/>
+
+## basepackage 외부에 있는 @Component
+- spring에서 파일을 불러올 수 있는 Resource객체를 제공한다.
+- ![image](https://github.com/inhoru/TIL/assets/126074577/671f8bf1-6527-4754-8063-158a8256a898)
+
+
+```java
+Resource resource = new ClassPathResource("mydata.properties");
+	try {			
+		Properties prop=PropertiesLoaderUtils.loadProperties(resource);
+		System.out.println(prop);
+		resource=new FileSystemResource("C:\\Users\\inho\\git\\Academy_framework\\spring\\spring\\src\\main\\resources\\test.txt");
+		Files.lines(Paths.get(resource.getURI()),Charset.forName("UTF-8")).forEach(System.out::println);
+		
+	}catch(IOException e) {
+		e.printStackTrace();
+	}
+
+```
 
 
 
