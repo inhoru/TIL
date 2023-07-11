@@ -500,7 +500,170 @@ private Animal a;
 
 <br/>
 
+## 매개변수 생성자 이용
 
+- beans:constructor-arg 태그를 이용해서 index번호로 매개변수값을 넣을수가있다.
+
+
+```xml
+<beans:bean id="bbo" class="com.bs.spring.beantest.Animal">
+		<beans:constructor-arg index="0" value="뾰송"/>
+		<beans:constructor-arg index="1" value="3"/>
+		<beans:constructor-arg index="2" value="50.4"/>
+</beans:bean>
+```
+
+<br/>
+
+## 같은 객체를 빈에 등록하기
+- 같은 객체를 필드값만 다르게해서 빈에 등록할수가있다.
+- 그럴땐 구분자를 주기위해서 Qualifier 어노테이션을사용한다.
+- 사용하지않으면 autowired type을보고 매칭을한다. type이 두개라면  NoUniqueBeanDefinitionException 을발생시킨다.
+
+```xml
+<beans:bean id="bbo" class="com.bs.spring.beantest.Animal">
+		<beans:constructor-arg index="0" value="뾰송"/>
+		<beans:constructor-arg index="1" value="3"/>
+		<!-- <beans:constructor-arg index="2" value="50.4"/> -->
+</beans:bean>
+
+<beans:bean id="dog" class="com.bs.spring.beantest.Animal">
+	<beans:property name="name" value="뽀삐"/>
+</beans:bean>
+```
+```java
+@Autowired
+//중복된 타입이 있는 경우 @Qualifier어노테이션 이용해서 특정 bean을 선택할 수 있음
+@Qualifier("dog")
+private Animal a;
+
+@Autowired
+@Qualifier("bbo")
+private Animal b;
+```
+
+- springBean 으로 등록되지않은 객체는 autowired 을사용을할수가없다.
+- 그럴때required=false를 준다면 에러가발생하지않는다.
+
+```java
+//springBean으로 등록되지않는 객체를 Autowired를하면? 에러방생 
+@Autowired(required=false)
+private  Employee emp;
+```
+
+## 참조관계
+- 등록하는 bean이 다른클래스와 연관관계(참조)가 설정되어 있을 다른 bean을 등록해야한다.
+- ref속성을 이용해서 설정한다.
+
+```xml
+//클래스
+public class Employee {
+	private String name;
+	private int age;
+	private String address;
+	private int salary;
+	private Department dept;
+
+public Employee(Department dept) {
+		this.dept=dept;
+	}
+
+//xml
+<beans:bean id="emp" class="com.bs.spring.beantest.Employee">
+	<beans:property name="name" value="초주영"/>
+	<beans:property name="age" value="24"/>
+	<beans:property name="address" value="경기도 안양시"/>
+	<beans:property name="salary" value="100"/>
+	<beans:property name="dept" ref="dept"/> 
+</beans:bean>
+	dept" class="com.bs.spring.beantest.Department">
+	<beans:constructor-arg index="0" value="1"/>
+	<beans:constructor-arg index="1" value="개발부"/>
+	<beans:constructor-arg index="2" value="판교"/>
+</beans:bean>
+
+<beans:bean id="emp2" class="com.bs.spring.beantest.Employee">
+		<beans:constructor-arg index="0" ref="dept"/>
+</beans:bean>
+
+
+//출력결과
+Employee(name=초주영, age=24, address=경기도 안양시, salary=100, dept=Department(deptCode=1, deptTitle=개발부, deptLocation=판교))
+
+Employee(name=null, age=0, address=null, salary=0, dept=Department(deptCode=1, deptTitle=개발부, deptLocation=판교))
+```
+
+ 
+<br/>
+
+## 객체 생성소멸
+- 객체가 생성햇을때와 소멸했을때 자기가 뭔가를 하고싶다면
+- 메소드를 생성해서 사용하면된다.
+- 생성: init-method ="메소드명", 소멸 : destroy-method="메소드명"
+
+```xml
+<beans:bean id="emp" class="com.bs.spring.beantest.Employee"
+init-method="initalMethod" destroy-method="destroyMethod">
+
+
+public void initalMethod() {
+	System.out.println(this.getClass().getName()+"클래스생성");
+}
+public void destroyMethod() {
+	System.out.println("객체 으악");
+}
+```
+
+
+<br/>
+
+# 9. Configuration
+- spring에서 bean에 자바코드를 등록할때 어노테이션으로 등록할수가있다.
+- springbeanconfiguration.xml과 동일한 기능을가진다.
+- @Bean어노테이션 이용하고 메소드를 통해 등록한다.
+
+```java
+@Bean
+public Animal ani() {
+	return Animal.builder().name("킥킥").age(5).height(80).build();
+}
+
+//java로 등록한 bean가져오기
+@Autowired
+@Qualifier("ani")
+private Animal c;
+```
+
+- 위에방식처럼 Qualifier로 메소드명을 찾아서 bean에서 가져온다.
+
+
+<br/>
+
+## 등록된 bean에 특정 id값 부여하기
+- 메소드에 @Qualifier() 를이용해서 특정 id값을 부여해서 사용할수가있다.
+
+```java
+@Bean
+//등록된 bean에 특정 id값 부여하기
+@Qualifier("sol")
+public Employee getEmployee(@Qualifier("sal") Department d) {
+	return Employee.builder().name("최후").age(27).address("경기도 안양시").salary(200).dept(d).build();	}
+
+@Bean
+public Department sal() {
+	return Department.builder().deptCode(2L).deptTitle("영업부").deptLocation("서울").build();
+}
+
+
+@Autowired
+@Qualifier("sol")
+private Employee sol;
+
+//출력결과
+Employee(name=최후, age=27, address=경기도 안양시, salary=200, dept=Department(deptCode=2, deptTitle=영업부, deptLocation=서울))
+```
+
+<br/>
 
 
 
