@@ -48,12 +48,10 @@ https://mybatis.org/mybatis-3/ko/index.html
 
 ## 카탈로그
 - 카탈로그를 설정해서 쉽게생성가능
-
 - config
-![image](https://github.com/inhoru/TIL/assets/126074577/9008dac4-12b1-451b-bed1-253a9d409b8b)
+- ![image](https://github.com/inhoru/TIL/assets/126074577/9008dac4-12b1-451b-bed1-253a9d409b8b)
 - http://mybatis.org/dtd/mybatis-3-config.dtd
 - \//mybatis.org//DTD Config 3.0//EN
-
 
 <br/>
 
