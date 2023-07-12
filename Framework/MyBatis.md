@@ -46,6 +46,23 @@ https://mybatis.org/mybatis-3/ko/index.html
 
 <br/>
 
+## 카탈로그
+- 카탈로그를 설정해서 쉽게생성가능
+
+- config
+![image](https://github.com/inhoru/TIL/assets/126074577/9008dac4-12b1-451b-bed1-253a9d409b8b)
+- http://mybatis.org/dtd/mybatis-3-config.dtd
+- \//mybatis.org//DTD Config 3.0//EN
+
+
+<br/>
+
+- mapper
+- ![image](https://github.com/inhoru/TIL/assets/126074577/5ed3ac38-f376-4fb2-ba4b-d845ff48bd79)
+- http://mybatis.org/dtd/mybatis-3-mapper.dtd
+- -//mybatis.org//DTD Mapper 3.0/EN
+
+
 
 
 # 1. 동작 구조
