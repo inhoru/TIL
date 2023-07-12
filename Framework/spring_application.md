@@ -130,5 +130,17 @@ public class DemoController {
 	}
 ```
 
+<br/>
+
+## jstl.jsp 탬플릿
+- jsp에 작성해야하는 것들을 미리 탬플릿에 적어놓고 불러올수가있다.
+
+- jstl
+![image](https://github.com/inhoru/TIL/assets/126074577/be7b239c-7b26-46f9-b42a-bd24a0043cfe)
+
+<br/>
+
+
+
 
 
