@@ -146,5 +146,21 @@ public class DemoController {
 - spring에서 사용하는법을 알아보겟다.
 
 
+<br/>
+
+
+## spring 비밀번호 암호화
+
+- 스프링에서 암호화 모듈을 제공한다.
+- spring-security모듈을 이용해서 암호화처리를한다.
+- 단 단방향 암호화만 지원을한다.
+- Meven Repository 에서  <string>spring security core</string>, <string>spring security web</string> , <string>spring security confing</string> 를받는다.
+![image](https://github.com/inhoru/TIL/assets/126074577/62ba56a7-b05a-4321-9876-db65ac84cce5)
+- spirng프레임워크랑 버전을 맞춰주면좋다.
+
+  
+
+
+
 
 
