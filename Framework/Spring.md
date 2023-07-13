@@ -706,7 +706,7 @@ Animal(name=뽀삐, age=0, height=0.0)
 - pojo클래스를 생성하고 선언부에서 bean으로 등록할수가있다,
 - 종류에는 @Component, @Controller, @Service, @Repository 등이있다.
 - @Component : 기본 spring bean으로 등록할 때 사용
-- @Controller,@Service,@Repository : mvc패턴에 의해 역할 지정된 클래스를 bean으로 등록할때 사용한다.
+- @Controller,@Service,@Repository : mvc패턴에 의해 역할 지정된 클래스를 bean으로 등록할때 사용한다. 역할은 Component랑 같다 이름만 mvc패턴에맞게 다르다.
 
 - 사용할떈 메소드 선언부에 어노테이션을 작성해주면된다.
 
