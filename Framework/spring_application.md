@@ -154,9 +154,111 @@ public class DemoController {
 - 스프링에서 암호화 모듈을 제공한다.
 - spring-security모듈을 이용해서 암호화처리를한다.
 - 단 단방향 암호화만 지원을한다.
-- Meven Repository 에서  <string>spring security core</string>, <string>spring security web</string> , <string>spring security confing</string> 를받는다.
+- Meven Repository 에서 spring security core, spring security web , spring security confing 를받는다.
+
+<br/>
+
 ![image](https://github.com/inhoru/TIL/assets/126074577/62ba56a7-b05a-4321-9876-db65ac84cce5)
+- pom.xml에 jar파일 설정하듯이 dependency 에적어주면된다.
 - spirng프레임워크랑 버전을 맞춰주면좋다.
+
+## security-context.xml
+- 위와같이 설정을했다면  security-context.xml 파일을만들어준다.
+- bean configuration 파일을 만들었다면
+- web.xml에 아래처럼 설정을 해줘야한다.
+![image](https://github.com/inhoru/TIL/assets/126074577/41962d26-2935-4614-8d58-019144114f6d)
+- 그럼이제 controller 에서 사용할준비가 된거다
+
+<br/>
+
+
+## Controller
+- Controller 에서 비밀번호 암호화를 사용해주기위해서는
+- 먼저 @Autowired private BCryptPasswordEncoder passwordEncoder; 을선언해준다.
+- 그후 password값을 가져와서 passwordEncoder.encode에 넣어주면 끝난다.
+
+
+```java
+
+@Autowired
+private MemberService service;
+
+@Autowired
+private BCryptPasswordEncoder passwordEncoder;
+
+@RequestMapping("/enrollMember.do")
+public String enrollMemberMove() {
+	return "member/member";
+}
+
+@RequestMapping(value="/insertMember.do",method=RequestMethod.POST) 
+public String insertMember(Member m,Model md) {
+	//패스워드를 암호화해서 처리하자.
+	String oriPassword=m.getPassword();
+	System.out.println(oriPassword);
+	String encodePassword=passwordEncoder.encode(oriPassword);
+	System.out.println(encodePassword);
+	m.setPassword(encodePassword);
+	
+	
+	int result=service.insertMember(m);
+	md.addAttribute("msg", result>0?"회원가입성공":"회원가입실패");
+	return "common/msg"; 
+}
+```
+
+![image](https://github.com/inhoru/TIL/assets/126074577/9a82e646-be43-4447-b476-258347cbf69d)
+- 이런식으로 비밀번호를 암호화할수가있다.
+- 여기서 하나 주의할점은 같은 비밀번호의 회원이 회원가입을했을 비밀번호 암화한 값 같을거라 생각하지만 다르게나온다 sort값때문에 암호화처리한값이 달라진다.
+- 그렇다면 로그인할때 어떻게 구별해서 로그인을 할까?
+
+<br/>
+
+## 암호화된값 비교
+- 암호화된값을 비교하기 위해서는 BCrptPasswordEncoder가 제공하는 메소드를 이용해햐한다.
+
+
+
+
+<br/>
+
+## log
+
+
+- import 는slf4j를쓴다.
+- ![image](https://github.com/inhoru/TIL/assets/126074577/d35e5842-38f6-4b28-acf8-d77c2303d28e)
+
+
+
+
+
+
+## log4j패턴
+- 기본 패턴설정 : %-5p: %c - %m%n
+- 이벤트명, 카테고리명, 로그전달메세지 개행
+* %c : 카테고리명(logger이름)을 표시
+	* 카테고리명이 a.b.c일때, %c{2}는 b.c를 출력
+* %C : 클래스명을 표시함.	
+	* 풀 클래스 명이 com.kh.logger일때, %C{2}는 kh.logger를 출력
+* %d : 로그 시간을 출력한다. java.text.SimpleDateFormat에서 적절한 출력 포맷을 지정할 수 있다. 
+	* %d{HH:mm:ss, SSS}
+	* %d{yyyy MMM dd HH:mm:ss, SSS}
+	* %d{ABSOLUTE} 
+	* %d{DATE} 
+	* %d{ISO8601}
+* %F : 파일명을 출력. 로그시 수행한 메소드, 라인번호가 함께 출력된다.
+* %l : 로깅이 발생한 caller의 위치정보. 자바파일명:라인번호(링크제공) 
+* %L : 라인 번호만 출력한다(링크없음)
+* %m : 로그로 전달된 메시지를 출력한다.
+* %M : 로그를 수행한 메소드명을 출력한다. 
+* %n : 플랫폼 종속적인 개행문자가 출력. rn 또는 n
+* %p : 로그 이벤트명등의 priority 가 출력(debug, info, warn, error, fatal )
+* %r : 로그 처리시간 (milliseconds)
+* %t : 로그이벤트가 발생된 쓰레드의 이름을 출력
+* %% : % 표시를 출력. escaping
+* %r : 어플리케이션 시작 이후 부터 로깅이 발생한 시점의 시간(milliseconds)
+* %X : 로깅이 발생한 thread와 관련된 MDC(mapped diagnostic context)를 출력합니다. %X{key} 형태.
+
 
   
 
