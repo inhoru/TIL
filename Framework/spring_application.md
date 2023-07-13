@@ -149,7 +149,128 @@ public class DemoController {
 - 이유는 String은 값이없으면 null이나오는데 spring null값은 처리해주기때문에 오류가발생하지않는다.
 - int타입은 값이 없다면 0이나오기때문에  java.lang.NumberFormatException 오류가발생한다.
 
+```java
+@RequestMapping("/demo/demo2.do")
+	public String demo2(String devName, int devAge, String devGender, String devEmail, String[] devLang, Model model) {
+		System.out.println(devName +devAge + devGender + devEmail + Arrays.toString(devLang));
+		// 페이지에 생성한 데이터를 전송하려면....request, session, servletcontext
+		// Spring 에서 데이터전송하는 객체를 제공함. -> Model
+		// Model에 데이터저장하기 -> model.addAttribute("key",balue);
+		Demo d = Demo.builder().devName(devName).devAge(devAge).devGender(devGender).devEmail(devEmail).devLang(devLang)
+				.build();
+		model.addAttribute("demo", d);
+
+		return "demo/demoResult";
+	}
+```
+
 <br/>
+
+- Model 을사용하면 데이터를 저장해서jsp에서 데이터를 사용할수있다.
+  
+
+<br/>
+
+## 매개변수
+- 선언된 매개변수의 이름과 파라미터값이 일치해야한다.
+- 하지만@RequestParma 쓰면상관없다.
+-  파라미터데이터를 받을때 @RequestParma어노테이션을 이용해서 옵션을 설정할 수 있다.
+
+
+```java
+@RequestMapping("/demo/demo3.do")
+	public String requestParmuse(@RequestParam(value = "devName", defaultValue = "아무개") String name,
+			@RequestParam(value = "devAge", defaultValue = "10") int age,
+			@RequestParam(value = "devGender", defaultValue = "M") String gender,
+			// 필수값이아니라 선택적으로 넘오오는 값이야 false를주면 필수값x
+			@RequestParam(value = "devEmail", required = true) String devEmail, String[] devLang, Model model) {
+
+		System.out.println(name + age + gender + devEmail + Arrays.toString(devLang));
+
+		Demo d = Demo.builder().devName(name).devAge(age).devGender(gender).devEmail(devEmail).devLang(devLang).build();
+		model.addAttribute("demo", d);
+
+		return "demo/demoResult";
+	}
+```
+- 원래는 매개변수를 넣었으면 String값말고는 다른타입은 매개변수값이없을시 오류가나는데
+- required = false 을사용한다면 선택적이기때문에 값이없어도 오류가발생하지않는다.
+
+<br/>
+
+## DTO/VO 객체로 직접 parameter값 받기
+- 매개변수로 전달된 parameter이름과 동일한 필드를 갖는 객체를 선언함.
+- 주의할점은 클래스타입 주의 Date를 전달받을때는 java.sql.Date로 하자.
+
+
+```java
+
+	@RequestMapping("/demo/demo4.do")
+	public String commangMapping(Demo demo, Model m) {
+		System.out.println(demo);
+		m.addAttribute("demo", demo);
+		return "demo/demoResult";
+	}
+```
+
+<br/>
+
+## Map으로 parameter데이터 받아오기
+- @RequestParam어노테이션 설정한다
+- Map은 단일값을 받을때사용 배열을 불가능하다
+- 배열을 사용할려면 따로 매개변수를 받아서 사용해야한다.
+- form태그에 name값이 키값이된다.
+```java
+@RequestMapping("/demo/demo5.do")
+	public String mapPapping(@RequestParam Map<String, Object> param, String[] devLang, Model m) {
+		System.out.println(param);
+		param.put("devLang", devLang);
+		m.addAttribute("demo", param);
+		return "demo/demoResult";
+	}
+```
+
+<br/>
+
+## 추가데이터받기
+- Cookie, Header, Session 값도 받을수가있다.
+- Cookie : @CookieValue(value="key") String data
+- Header : @RequestHeader(value="헤더이름") String header
+- Session : @SessionAttribute(value="세션key값)String id
+
+```java
+@RequestMapping("/demo/demo6.do")
+	public String extraData(@CookieValue(value = "testData",required=false,defaultValue = "rest-time") String data,
+			@RequestHeader(value = "User-agent") String userAgent,
+			@SessionAttribute(value = "sessionId") String sessionId,
+			@RequestHeader(value="Referer")String referer) {
+		System.out.println("쿠키 : "+ data);
+		System.out.println("헤더 : "+ userAgent);
+		System.out.println("세션 : "+ sessionId);
+		System.out.println("이전페이지 : "+ referer);
+			
+		return "index";
+	}
+```
+
+<br/>
+
+## ModelAndView 객체를 이용해서 반환하기
+- ModelAndView view설정과, Model설정은 같이 할 수 있는 객체다
+- view : setViewName()메소드를 이용해서 저장한다.
+- data : addObject("key",value)메소드이용해서 저장한다.
+
+```java
+@RequestMapping("/demo/demo7.do")
+	public ModelAndView modelAndViewReturn(Demo d, ModelAndView mv) {
+		
+		mv.addObject("demo", d);
+		mv.setViewName("demo/demoResult");
+		
+		return mv;
+	}
+```
+
 
 
   
