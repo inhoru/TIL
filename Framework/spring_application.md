@@ -140,6 +140,10 @@ public class DemoController {
 
 <br/>
 
+# 2. 배열db저정
+- 배열을 그대로 db에저장할수는 없다.
+- 그렇기때문에 배열자체를 String로 변환후 db에저장하고 꺼내올때는 String를 파싱해서 List로 담아서 보내는 방법이있다.
+- spring에서 사용하는법을 알아보겟다.
 
 
 
