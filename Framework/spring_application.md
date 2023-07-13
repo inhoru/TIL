@@ -224,14 +224,10 @@ public String insertMember(Member m,Model md) {
 
 ## log
 
-
 - import 는slf4j를쓴다.
-- ![image](https://github.com/inhoru/TIL/assets/126074577/d35e5842-38f6-4b28-acf8-d77c2303d28e)
+![image](https://github.com/inhoru/TIL/assets/126074577/d35e5842-38f6-4b28-acf8-d77c2303d28e)
 
-
-
-
-
+<br/>
 
 ## log4j패턴
 - 기본 패턴설정 : %-5p: %c - %m%n
