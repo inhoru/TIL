@@ -1,5 +1,12 @@
 ## 🔖 목차
 1. [spring 서블릿처럼 사용](#1-spring-서블릿처럼-사용)<br/>
+2. [1대1매칭](#2-1대1매칭)<br/>
+3. [Request요청](#3-Request요청)<br/>
+4. [배열db저정](#4-배열db저정)<br/>
+5. [spring 비밀번호 암호화](#5-spring-비밀번호-암호화)<br/>
+6. [session](#6-session)<br/>
+7. [log](#7-log)<br/>
+
 
 
 <br/>
@@ -271,20 +278,196 @@ public class DemoController {
 	}
 ```
 
+<br/>
+
+## @ResponseBody
+- 자료형에 대해 반환하기-> Data만 응답할 때 사용 -> jackson라이브러리를 이용해서 처리
+- 메소드선언부에 @ResponseBody 어노테이션 사용
+- Restful메소드를 구현했을 때 사용	
+```
+@RequestMapping("/demo/demo8.do")
+	@ResponseBody
+	public String dataReturn(){
+		return "유병승, 최주영, 조장흠, 최솔, 조윤진";
+	}
+```
+
+<br/>
+
+# 3. Request요청
+- 서블릿에서 doget과 do post메소드라고생각하면된다.
+- @RequestMapping(value = "url", method = RequestMethod.Get || RequestMethod.POST)
+- @RequestMapping(value = "/demo/demo9.do", method = RequestMethod.POST) // 프론트에서 post로 설정되어 있는데 GET으로 설정하면 405 에러 뜸(반대도 동일)
+```java
+ @RequestMapping(value = "/demo/demo9.do", method = RequestMethod.POST)
+public String methodCheck(Demo d, Model m) {
+		m.addAttribute("demo", d);
+		return "demo/demoResult";
+	}
+```
+
+<br/>
+
+## 간편하게 사용할 수 있게 Mapping 어노테이션을 지원
+- RequestMapping(value = "url", method = RequestMethod.Get || RequestMethod.POST) 이렇게 쓰면 너무길기때문에
+- 간단하게 쓸수잇는 어노테이션들이 있다.
+- @GetMapping
+- @PostMapping
+- @DeleteMapping
+- @PutMapping
+
+
+```java
+@PostMapping("/demo/demo9.do")
+	public String methodCheck(Demo d, Model m) {
+		m.addAttribute("demo", d);
+		return "demo/demoResult";
+	}
+-------------------------------------------------------
+
+@GetMapping("/demo/demo9.do")
+public String methodCheck(Demo d, Model m) {
+		m.addAttribute("demo", d);
+		return "demo/demoResult";
+	}
+```
+
+<br/>
+
+## mapping 주소를 설정할 때 {}를 사용할 수 있음
+- 주소에있는 값을 가져와서 사용가능하다.
+- board/boardView?no=1
+- {no}를 하면 1을 가져와서 사용가능
+
+```java
+@GetMapping("/demo/{no}")
+	public String searchDemo(@PathVariable(value = "no") int no) {
+		System.out.println(no);
+		return "demo/demoResult";
+	}
+```
+
+<br/>
+
+## 서버에서 데이터가져오기
+- 지금까지배운걸로 DB에서 조회된값을 서버에가져와보자
+
+```java
+@RequestMapping(value="/demo/insertDemo.do", method=RequestMethod.POST)
+	public String insertDemo(Demo demo, Model m) {
+		int result = service.insertDemo(demo);
+		m.addAttribute("msg", result>0 ? "저장성공" : "저장실패");
+		m.addAttribute("loc", "/demo/demo.do");
+		
+		return "common/msg";
+	}
+```
+
+<br/>
+
+## sendRedirect
+- 만약에 회원가입을한다고치자 근대 주소값이변경이되지않고 새로고침을 계속한다면 같은 값이 계속들어간다.
+- 그럴땐 주소값을 바꿔줘야하는데 이때 sendRedirect를 사용할수가있다.
+- prefix redirect:요청할 주소(맵핑주소) -> jsp 호출 불가(WEB-INF에 들어있어서 직접 접근 불가능하다.)
+
+```java
+@RequestMapping(value="/demo/insertDemo.do", method=RequestMethod.POST)
+	public String insertDemo(Demo demo, Model m) {
+		int result = service.insertDemo(demo);
+		
+		
+		// sendRedirect로 변경하는 방법
+		// prefix redirect:요청할 주소(맵핑주소) -> jsp 호출 불가(WEB-INF에 들어있어서 직접 접근 불가)
+		// return "demo/demo";
+		return "redirect:/demo/demo.do";
+
+```
+
+<br/>
+
 
 
   
 
-## 배열db저정
+# 4. 배열db저정
 - 배열을 그대로 db에저장할수는 없다.
 - 그렇기때문에 배열자체를 String로 변환후 db에저장하고 꺼내올때는 String를 파싱해서 List로 담아서 보내는 방법이있다.
 - spring에서 사용하는법을 알아보겟다.
+- typeHandler를 이용하는방법이다.
+- 먼저 typeHandler 클래스를만들어준다.
+
+```java
+package com.bs.spring.common;
+
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.type.TypeHandler;
+
+public class StringArrayTypeHandler implements TypeHandler<String[]> {
+
+	@Override
+	public void setParameter(PreparedStatement ps, int i, String[] parameter, JdbcType jdbcType) throws SQLException {
+		if(parameter != null) {
+			ps.setString(i, String.join(",", parameter));
+		} else {
+			ps.setString(i, null);
+		}
+	}
+
+	@Override
+	public String[] getResult(ResultSet rs, String columnName) throws SQLException {
+		return rs.getString(columnName)!=null ? rs.getString(columnName).split(",") : null;
+	}
+
+	@Override
+	public String[] getResult(ResultSet rs, int columnIndex) throws SQLException {
+		return rs.getString(columnIndex)!=null ? rs.getString(columnIndex).split(",") : null;
+	}
+
+	@Override
+	public String[] getResult(CallableStatement cs, int columnIndex) throws SQLException {
+		return cs.getString(columnIndex)!=null ? cs.getString(columnIndex).split(",") : null;
+	}
+
+}
+```
+
+<br/>
+
+- 그후 mapper에서 속성에 추가해주면된다.
+
+```xml
+<mapper namespace="member">
+	<resultMap type="member" id="memberMap">
+		<result property="hobby" column="hobby" typeHandler="strArr"/>
+	</resultMap> 
+	
+
+	<insert id="insertMember" parameterType="member">
+		INSERT INTO MEMBER VALUES(#{userId}, #{password}, #{userName}, #{gender}, #{age}, #{email}, #{phone}, #{address},
+		#{hobby, typeHandler = strArr}, DEFAULT)
+	</insert>
+	
+	<select id="selectMemberById" resultMap="memberMap" parameterType="map">
+		SELECT * FROM MEMBER WHERE USERID = #{userId}
+	</select>
+</mapper>
+```
+- resultMap은 배열을 DB에서 List로 파싱해서 가져올때 설정해준다.
+
+<br/>
+
+
 
 
 <br/>
 
 
-## spring 비밀번호 암호화
+# 5. spring 비밀번호 암호화
 
 - 스프링에서 암호화 모듈을 제공한다.
 - spring-security모듈을 이용해서 암호화처리를한다.
@@ -352,12 +535,86 @@ public String insertMember(Member m,Model md) {
 ## 암호화된값 비교
 - 암호화된값을 비교하기 위해서는 BCrptPasswordEncoder가 제공하는 메소드를 이용해햐한다.
 
+```java
+@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	public String selectMemberById(@RequestParam Map member, Model model, HttpSession session) {
+		Member m = service.selectMemberById(member);
+		
+		// 암호화된 값을 비교하기 위해서는 BCryptPasswordEncoder가 제공하는 메소드를 이용해야 한다.
+		// passwordEncoder.matches(사용자 입력값, 암호화 값)
+		if(m!=null && passwordEncoder.matches((String)member.get("password"), m.getPassword())) {
+			// 로그인 성공
+			// session.setAttribute("loginMember", m);
+			
+			// Model을 이용한 로그인 처리하기
+			model.addAttribute("loginMember", m);
+			
+		} else {
+			// 로그인 실패
+			model.addAttribute("msg", "로그인 실패");
+			model.addAttribute("loc", "/");
+			return "common/msg";
+		}
+		
+		return "redirect:/";
+	}
+```
 
+<br/>
+
+# 6. session
+- 우리가 로그인했을때 로그인회원에 정보를 session에저장하곤하는데
+- spring에서도 가능하다.
+- 우리는 session에 저장할때 session.setAttribute("loginMember", m); 이렇게썻지만
+- spring에서는 어노테이션을이용해서 저장이가능하다.
+- @SessionAttributes({"loginMember"}) 을 클래스위에 선언해준다.
+
+```java
+@Controller
+@SessionAttributes({"loginMember"})
+public class MemberController {
+@RequestMapping(value = "/login.do", method = RequestMethod.POST)
+	public String selectMemberById(@RequestParam Map member, Model model, HttpSession session) {
+		Member m = service.selectMemberById(member);
+		if(m!=null && passwordEncoder.matches((String)member.get("password"), m.getPassword())) {
+			// Model을 이용한 로그인 처리하기
+			model.addAttribute("loginMember", m);
+			
+		} else {
+			// 로그인 실패
+			model.addAttribute("msg", "로그인 실패");
+			model.addAttribute("loc", "/");
+			return "common/msg";
+		}
+		
+		return "redirect:/";
+
+```
+- 이런식으로 model을 이용해서 로그인처리를할수가있다.
+- 방법은 여러가지니간 편한방법을쓰자.
 
 
 <br/>
 
-## log
+## session삭제
+- 원래우리는 세션을삭제할때
+- session.invalidate() 을사용해서 전체세션을 삭제할수있엇지만
+- @SessionAttributes로 등록된 내용 삭제할수도있다.
+
+```java
+public String logout(SessionStatus status) {
+		// @SessionAttributes로 등록된 내용 삭제하기
+		// SessionStatus객체를 이용해서 삭제
+		if(!status.isComplete()) status.setComplete(); // 세션 만료
+		return "redirect:/";
+	}
+```
+
+<br/>
+
+
+
+# 7. log
 
 - import 는slf4j를쓴다.
 ![image](https://github.com/inhoru/TIL/assets/126074577/d35e5842-38f6-4b28-acf8-d77c2303d28e)
