@@ -473,6 +473,19 @@ public Student selectStudent(SqlSession session,int no) {
 ```
 
 
+<br/>
+
+```xml
+<select id="selectMemo" resultType="memo">
+		SELECT * FROM MEMO
+	</select>
+<insert id="insertMemo" parameterType="memo">
+	INSERT INTO MEMO VALUES(SEQ_MEMONO.NEXTVAL,#{memo},#{password},DEFAULT)		
+</insert>
+
+```
+- select는 반드시resultType 나 resultMap를 써줘야한다.
+- 주의할점은 반환 되는타입(기본,클래스타입) 에맞는걸써줘야한다.
 
 
 
