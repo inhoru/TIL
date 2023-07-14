@@ -217,7 +217,9 @@ logger.error("error내용출력하기");
 	<appender-ref ref="fileAppender"/>
 </logger>
 ```
+
 ![image](https://github.com/inhoru/TIL/assets/126074577/1ed1c27d-7984-4b58-a487-67e719a4435d)
+
 - 이런식으로 로그가 파일로남는다.
 
 <br/>
