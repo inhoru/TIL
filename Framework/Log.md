@@ -210,13 +210,18 @@ logger.error("error내용출력하기");
 - appender의 class는 필요한것을 찾아서 사용하면된다.
 
 <br/>
+
 - 하나의 로고에서만 사용하고싶다면 아래처럼해주자
+
+
 ```xml
 <logger name="com.bs.spring">
 	<level value="error" />
 	<appender-ref ref="fileAppender"/>
 </logger>
 ```
+
+<br/>
 
 ![image](https://github.com/inhoru/TIL/assets/126074577/1ed1c27d-7984-4b58-a487-67e719a4435d)
 
