@@ -5,7 +5,6 @@
 4. [배열db저정](#4-배열db저정)<br/>
 5. [spring 비밀번호 암호화](#5-spring-비밀번호-암호화)<br/>
 6. [session](#6-session)<br/>
-7. [log](#7-log)<br/>
 
 
 
@@ -611,51 +610,3 @@ public String logout(SessionStatus status) {
 ```
 
 <br/>
-
-
-
-# 7. log
-
-- import 는slf4j를쓴다.
-![image](https://github.com/inhoru/TIL/assets/126074577/d35e5842-38f6-4b28-acf8-d77c2303d28e)
-
-<br/>
-
-## log4j패턴
-- 기본 패턴설정 : %-5p: %c - %m%n
-- 이벤트명, 카테고리명, 로그전달메세지 개행
-* %c : 카테고리명(logger이름)을 표시
-	* 카테고리명이 a.b.c일때, %c{2}는 b.c를 출력
-* %C : 클래스명을 표시함.	
-	* 풀 클래스 명이 com.kh.logger일때, %C{2}는 kh.logger를 출력
-* %d : 로그 시간을 출력한다. java.text.SimpleDateFormat에서 적절한 출력 포맷을 지정할 수 있다. 
-	* %d{HH:mm:ss, SSS}
-	* %d{yyyy MMM dd HH:mm:ss, SSS}
-	* %d{ABSOLUTE} 
-	* %d{DATE} 
-	* %d{ISO8601}
-* %F : 파일명을 출력. 로그시 수행한 메소드, 라인번호가 함께 출력된다.
-* %l : 로깅이 발생한 caller의 위치정보. 자바파일명:라인번호(링크제공) 
-* %L : 라인 번호만 출력한다(링크없음)
-* %m : 로그로 전달된 메시지를 출력한다.
-* %M : 로그를 수행한 메소드명을 출력한다. 
-* %n : 플랫폼 종속적인 개행문자가 출력. rn 또는 n
-* %p : 로그 이벤트명등의 priority 가 출력(debug, info, warn, error, fatal )
-* %r : 로그 처리시간 (milliseconds)
-* %t : 로그이벤트가 발생된 쓰레드의 이름을 출력
-* %% : % 표시를 출력. escaping
-* %r : 어플리케이션 시작 이후 부터 로깅이 발생한 시점의 시간(milliseconds)
-* %X : 로깅이 발생한 thread와 관련된 MDC(mapped diagnostic context)를 출력합니다. %X{key} 형태.
-
-
-## dl
-
-dsakjdklsajdkljasldjklasjdkjaskd dslajkld;skjal;dksal;kdl;ksa
-;dsa sakdjsakljdksajkldjskl
-ajdkjakdkjsakljdkljakljdklajdkljsakljdskljalkdjsakljdkljakl
-  
-
-
-
-
-
