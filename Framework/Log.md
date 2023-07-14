@@ -172,7 +172,77 @@ logger.error("error내용출력하기");
 * %t : 로그이벤트가 발생된 쓰레드의 이름을 출력
 * %% : % 표시를 출력. escaping
 * %r : 어플리케이션 시작 이후 부터 로깅이 발생한 시점의 시간(milliseconds)
-* %X : 로깅이 발생한 thread와 관련된 MDC(mapped
+* %X : 로깅이 발생한 thread와 관련된 MDC(mapped diagnostic context)를 출력합니다. %X{key} 형태.
 ```
+
+## 패턴이용
+- 패턴을이용해서 log를 출력해보자
+
+```xml
+<layout class="org.apache.log4j.PatternLayout">
+	<param name="ConversionPattern" 
+	value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p : [%l] - %m%n"/>
+	
+</layout>
+//출력결과
+[2023-07-14 18:57:03] INFO  : [org.springframework.web.servlet.FrameworkServlet.initServletBean(FrameworkServlet.java:547)] - Completed initialization in 2834 ms
+```
+- 이렇게 패턴을 사용해서 몇시몇분 언제 어디서 발생했는지알수도있다.
+
+
+<br/>
+
+## 파일로 로그등록
+- appender을 추가해서 파일로 로그를 출력하는 기능을 추가할수있다.
+
+```xml
+<appender name="fileAppender" class="org.apache.log4j.DailyRollingFileAppender">
+	<param name="file" value="c:/logs/spring-log.log"/>
+	<param name="append" value="true"/>
+	<param name="datePattern" value="yyyy-MM-dd"/>
+	<layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern" 
+		value="[%d{yyyy-MM-dd HH:mm:ss}] %-5p : [%l] - %m%n"/>
+	</layout>
+</appender>
+````
+- layout은 어떤형식으로 출력할지를 정하는 태그다.
+- appender의 class는 필요한것을 찾아서 사용하면된다.
+
+<br/>
+- 하나의 로고에서만 사용하고싶다면 아래처럼해주자
+```xml
+<logger name="com.bs.spring">
+	<level value="error" />
+	<appender-ref ref="fileAppender"/>
+</logger>
+```
+![image](https://github.com/inhoru/TIL/assets/126074577/1ed1c27d-7984-4b58-a487-67e719a4435d)
+- 이런식으로 로그가 파일로남는다.
+
+<br/>
+
+# 4. slf4j
+- 우리가 모든 controller에서 일일이 Logger을 선언하지않고 lombok에있는 @Slf4j를 클래스위에 어노테이션 설정해주면 자동으로 만들어준다.
+
+```java
+@Slf4j
+public class MemberController {
+	@PostMapping("/insertMember.do")
+	public String insertMember(@Validated Member m,BindingResult bindResult, Model model) {
+		String oriPassword=m.getPassword();
+		//System.out.println(oriPassword);
+		log.debug(oriPassword);
+```
+
+- log.debug로 출력할수가있다.
+
+<br/>
+
+
+
+
+
+
 
 
