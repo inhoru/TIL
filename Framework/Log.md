@@ -247,9 +247,73 @@ public class MemberController {
 <br/>
 
 
+# 5. 쿼리문 출력
+- 실행하는 쿼리문 및 결과 log로 출력해주는 라이브러리가 있다.
+![image](https://github.com/inhoru/TIL/assets/126074577/eec71303-8e47-4ca6-abed-f04415eaee33)
 
+```xml
+<dependency>
+    <groupId>org.lazyluke</groupId>
+    <artifactId>log4jdbc-remix</artifactId>
+    <version>0.2.7</version>
+</dependency>
+```
 
+<br/>
 
+- xml 을성정했다면  root에서가서 프록시 객체를 만들어야한다.
+
+```xml
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" 
+	 destroy-method="close">
+	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+	<property name="username" value="*****"/>
+	<property name="password" value="*****"/> 	
+ </bean>
+
+<bean id="proxyDataSource" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+	// dataSource 0번인덱스에 넣어준다는
+	<constructor-arg index="0" ref="dataSource"/>
+	<property name="logFormatter">
+		<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+			<property name="loggingType" value="MULTI_LINE"/>
+			<property name="sqlPrefix" value="[SQL]"/>
+		</bean>
+	</property>
+ </bean>
+
+<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	<property name="dataSource" ref="proxyDataSource"/>
+	<property name="configLocation" value="classpath:mybatis-config.xml"/>
+	<property name="mapperLocations" value="classpath:mappers/**/*.xml"/>
+ </bean>
+```
+
+- log4j라이브러에서 제공하는 log4jdbcproxyDataSource를 불러온것이다.
+- proxyDataSource는 중간매개체다.
+
+<br/>
+
+## logger등록
+- 이제 log4j 에 sql문을 출력하는 logger을 등록해주자
+
+```xml
+<appender name="sqlLogger" class="org.apache.log4j.ConsoleAppender">
+	<layout class="org.apache.log4j.PatternLayout">
+		<param name="ConversionPattern" value="%-5p : %m%n "/>
+	</layout>
+</appender>
+//sql구문 출력
+<logger name="jdbc.sqlonly" additivity="false">
+	<level value="info"/>
+	<appender-ref ref="sqlLogger"/>
+</logger>
+<logger name="jdbc.resultsettable" additivity="false">
+	<level value="info"/>
+	<appender-ref ref="sqlLogger"/>
+</logger>
+```
 
 
 
