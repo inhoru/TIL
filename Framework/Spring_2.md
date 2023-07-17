@@ -5,6 +5,7 @@
 4. [배열db저정](#4-배열db저정)<br/>
 5. [spring 비밀번호 암호화](#5-spring-비밀번호-암호화)<br/>
 6. [session](#6-session)<br/>
+7. [Hibernate Validator](#7-Hibernate-Validator)<br/>
 
 
 
@@ -610,3 +611,75 @@ public String logout(SessionStatus status) {
 ```
 
 <br/>
+
+# 7. Hibernate Validator
+우리가 회원가입을 할때 제약조건들로 유효성 검사를 할때 자바스크립트로 if문을 써서 유효성검사를 했지만
+
+
+Hibernate Validator 라이브러리를 사용해서 유효성검사를 할수가있다.
+
+![image](https://github.com/inhoru/TIL/assets/126074577/2de855a4-c02f-47a0-b5c8-49073be9f09c)
+- 6.2버전을 사용한다.
+- porm.xml에 의존성등록을 한다.
+
+```xml
+<!-- bean validator구현하기 -->
+  <dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.2.5.Final</version>
+  </dependency>
+```
+
+<br/>
+
+## EnableWebMvc 
+
+- Configuration 안에 EnableWebMvc 어노테이션을 설정해준다.
+- EnableWebMvc : springMVC을 구성할때 bean설정들을 자동으로 해주는 어노테이션이다.
+- Bean을 구성하고 제공하는 역할을 하는 Configuration에 설정해주면된다.
+
+<br/>
+
+## 필드에선언
+
+- 의존성 주입을 했다면 적용할객체에 가서
+- 각각에 유효성검사가 필요한 필드에 어노테이션을 설정해주면된다.
+
+```java
+public class Member {
+@NotEmpty(message = "이부분은 반드시 입력해주시요플레")
+	@Size(min=4,message = "4글자이상 써주세요루")
+	private String userId;
+	@Pattern(regexp= "(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[~!@#$%^&*()])[a-zA-Z~!@#$%^&*()]{8,}",message = "8글자이상 대,소,특수 다넣어주세요구르트")
+	private String password;
+	
+	private String userName;
+	
+	private String gender;
+	@Min(value = 14,message = "14살이상만가눙")@Max(value = 150,message = "늙은이는 나가")
+	private int age;
+	@Email
+	private String email;
+	
+	@NotEmpty(message = "핸드폰 없니?")
+	private String phone;
+	
+	private String address;
+	
+	private String[] hobby;
+	
+	@Past
+	private Date enrollDate;
+	
+```
+
+<br/>
+
+- 그후 jsp에서 springform:form 이라는 태그를이용해서 유효성검사를한다.
+- springform:errors 부분은 유효성검사에 부합하지않을때 나타나는 msg다 메세지내용은 dto객체에 어노테이션에서 message로 설정을할수가있다.
+
+<br/>
+
+
+
