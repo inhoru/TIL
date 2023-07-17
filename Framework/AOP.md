@@ -106,10 +106,15 @@ Hibernate Validator 라이브러리를 사용해서 유효성검사를 할수가
 
 <br/>
 
+## EnableWebMvc 
+
 - Configuration 안에 EnableWebMvc 어노테이션을 설정해준다.
-- 그이유는 이따가
+- EnableWebMvc : springMVC을 구성할때 bean설정들을 자동으로 해주는 어노테이션이다.
+- Bean을 구성하고 제공하는 역할을 하는 Configuration에 설정해주면된다.
 
+<br/>
 
+## 필드에선언
 
 - 의존성 주입을 했다면 적용할객체에 가서
 - 각각에 유효성검사가 필요한 필드에 어노테이션을 설정해주면된다.
