@@ -69,6 +69,77 @@
 - aspect-weav모듈을 등록을해줘야한다.
 - 그래야위에거들이 정상적으로 들어간다.
 
+<br/>
+
+
+# 2. execution
+- excution 표현식 예제를 모아둔 사이트가있다.
+- https://docs.spring.io/spring-framework/docs/5.3.29/reference/html/core.html#aop-pointcuts-examples
+- 5.4.3 Declaring a Pointcut에 Examples에 가보면 예제들이있다.
+
+<br/>
+
+# 3. 어노테이션
+- xml방식으로 aop를 사용할수가있다.
+
+
+
+
+# 4. Hibernate Validator
+우리가 회원가입을 할때 제약조건들로 유효성 검사를 할때 자바스크립트로 if문을 써서 유효성검사를 했지만
+
+
+Hibernate Validator 라이브러리를 사용해서 유효성검사를 할수가있다.
+
+![image](https://github.com/inhoru/TIL/assets/126074577/2de855a4-c02f-47a0-b5c8-49073be9f09c)
+- 6.2버전을 사용한다.
+- porm.xml에 의존성등록을 한다.
+
+```xml
+<!-- bean validator구현하기 -->
+  <dependency>
+    <groupId>org.hibernate.validator</groupId>
+    <artifactId>hibernate-validator</artifactId>
+    <version>6.2.5.Final</version>
+  </dependency>
+```
+
+<br/>
+
+- Configuration 안에 EnableWebMvc 어노테이션을 설정해준다.
+- 그이유는 이따가
+
+
+
+- 의존성 주입을 했다면 적용할객체에 가서
+- 각각에 유효성검사가 필요한 필드에 어노테이션을 설정해주면된다.
+
+```java
+public class Member {
+@NotEmpty
+@Size(min=4)
+private String userId;
+@Pattern(regexp= "(?=.*?[a-z])(?=.*?[A-Z])(?=.*?[~!@#$%^&*()])[a-zA-Z~!@#$%^&*()]{8,}")
+private String password;
+
+private String userName;
+
+private String gender;
+@Min(14)@Max(150)
+private int age;
+@Email
+private String email;
+@NotEmpty
+private String phone;
+
+private String address;
+
+private String[] hobby;
+
+@Past
+private Date enrollDate;
+```
+<br/>
 
 
 
