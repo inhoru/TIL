@@ -16,7 +16,8 @@
 
 페이징처리 클래스를 하나만들어서 불러오도록 만들수가 있다.
 
-- 페이징처리 클래스
+## 페이징처리 클래스
+
 ```java
 public class PageFactory {
 
@@ -85,9 +86,10 @@ public class PageFactory {
 ```
 
 위와 같은 방식으로 페이징처리 클래스를 만들어놓고 컨트롤러에서 불러오기만하면된다.
+
 <br/>
 
-- controller
+## controller
 
 ```java
 
