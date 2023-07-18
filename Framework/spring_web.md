@@ -264,3 +264,17 @@ Session이 종료되면 기본적으로 실행한 DML구문 commit 처리한다
 - rollback-for,rollbackfor : rollback의 기준을 재설정
 - no-rollback-for : 
 
+
+<br/>
+
+# 4. spring에서 ajax요청에대한 응답처리
+- 응답처리에 방식은 3가지가있다.
+	- 기존방식 : void response.writer() JSON으로 응답하는것.
+ 	- Resolver를 이용해서 처리하기 -> Jsonview라이브러리를 이용해서 처리하기
+  	- Jackson converter를 이용해서 처리하기 -> @ResponsBody를 이용해서 반환하는값을 JSON
+ 
+<br/>
+
+## 요청
+- 요청을 할때 지금까지는 $.ajax,$.get,$.post 라는 걸이용했는데
+- javascript 에서 fetch()라는 함수를 지원한다.
