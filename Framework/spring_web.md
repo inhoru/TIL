@@ -1,5 +1,9 @@
 ## 🔖 목차
 1. [페이징처리](#1-페이징처리)<br/>
+2. [파일업로드](#2-파일업로드)<br/>
+3. [트렌젝션](#3-트렌젝션)<br/>
+4. [spring에서 ajax요청에대한 응답처리](#4-spring에서-ajax요청에대한-응답처리)<br/>
+
 
 
 <br/>
@@ -245,7 +249,7 @@ Session이 종료되면 기본적으로 실행한 DML구문 commit 처리한다
 
 <br/>
 
-## 트렉젠션 설정 방법
+## 트렌젠션 설정 방법
 
 - xml방식 과 어노테이션 방식으로 두가지가있다.
 
@@ -256,13 +260,178 @@ Session이 종료되면 기본적으로 실행한 DML구문 commit 처리한다
 
 <br/>
 
-## 트렉젠션 옵션
+## 트렌젠션 옵션
 - propagation : 트렌젝션을 생성하는 방법에 대한 설정 default 이미 시작된값이 있으면 참여, 없으면 트렌젝션을 생성한다.
 - isolation : 트렌젝션에 수정내용을 다른 트렌제견에서 사용여부 설정
 - timout :
 - read-only : select문을 사용할때 사용 읽기전용
 - rollback-for,rollbackfor : rollback의 기준을 재설정
-- no-rollback-for : 
+
+
+<br/>
+
+## 여러개의파일업로드
+먼저 어노테이션 방식으로 설정해보겟다.
+
+root-context 에서   <tx:annotation-driven>태그를 설정 해줘야한다.
+
+```xml
+        DataSourceTransactionManager클래스를 bean으로 등록
+        1. 어노테이션 방식으로 설정하기
+        <tx:annotation-driven>태그를 설정 
+
+     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="proxyDataSource"/>
+     </bean>
+<tx:annotation-driven transaction-manager="transactionManager"/>
+```
+
+
+
+이제 여러개의 파일을 업로드하였을때 트렌젝션 처리에대해 알아보겟다.
+
+먼저 첨부파일을 클래스를 만들어줘야한다.
+
+
+```java
+Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Attachment {
+	private int attachmentNo;
+	private int boardNo;
+	private String originalFilename;
+	private String renamedFilename;
+	private Date uploadDate;
+	private int downloadCount;
+}
+```
+
+첨부파일은 여러개가올수가있기때문에 1:다관계를 설정을 게시판클래스에 해주자
+
+```java
+Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Board {
+	private int boardNo;
+	private String boardTitle;
+	private Member boardWriter;
+	private String boardContent;
+	private int boardReadCount;
+	private Date boardDate;
+	private List<Attachment> file=new ArrayList();
+	
+	
+}
+```
+
+첨부파일이 여러개가올수잇으니 ArrayList를 설정해주자
+
+
+하면서 boardWriter도 1:1관계이기에 Member로 설정해주자
+
+그후 controller에서 객체를 생성해서 사용해주자
+
+```java
+@RequestMapping("/boardWrite.do")
+	public String insertBoard(Board b, MultipartFile[] upFile, 
+			HttpSession session, Model m) {
+	      
+	      // MultipartFile에서 제공하는 메소드를 이용해서 파일을 저장할 수 있음 -> transferTo()메소드
+	      // 절대경로 가져오기
+	      String path = session.getServletContext().getRealPath("/resources/upload/board/");
+	      // 파일명에 대한 renamed 규칙을 설정
+	      // 직접 리네임 규칙을 만들어서 저장해보자.
+	      // yyyyMMdd_HHmmssSSS_랜덤값
+	      
+	      // *** 파일 여러개 등록하기 ***
+//	      List <Attachment> files = new ArrayList(); -> Board에서 new 선언해줌
+	      if(upFile != null) {
+	         for(MultipartFile mf : upFile) {
+	            if(!mf.isEmpty()) {
+	               // 파일 등록하기
+	               String oriName = mf.getOriginalFilename();
+	               String ext = oriName.substring(oriName.lastIndexOf(".")); // 확장자명
+	               Date today = new Date(System.currentTimeMillis());
+	               SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmssSSS");
+	               int rdn=(int)(Math.random()*10000) + 1; // 카카오톡처럼 랜덤값 부여
+	               String rename = sdf.format(today) + "_" + rdn + ext; // renamed 규칙
+	               
+	               try {
+	                  mf.transferTo(new File(path + rename));   
+	               } catch(IOException e) {
+	                  e.printStackTrace();
+	               }
+	               
+	               Attachment file = Attachment.builder()
+	                     .originalFilename(oriName)
+	                     .renamedFilename(rename)
+	                     .build();
+	               
+	               b.getFile().add(file);
+	            }
+	         }
+	      }
+	      try {
+	         service.insertBoard(b);
+	      } catch(RuntimeException e) {
+	         // DB 등록 실패 시 파일도 폴더에 저장되면 안됨(삭제해주기)
+	         for(Attachment a : b.getFile()) {
+	            File delFile = new File(path + a.getRenamedFilename());
+	            delFile.delete();
+	         }
+	         
+	         m.addAttribute("msg", "글쓰기 등록 실패! :(");
+	         m.addAttribute("loc", "/board/boardWriteMove.do");
+	         return "common/msg";
+	      }
+```
+
+board 클래스에서 미리  첨부파일을 new ArrayList(); 를 해줫기때문에 바로 빌더로 객체를 넣어줄수잇다.
+
+이제 service에서 트렌젝션처리를 해주자
+
+<br/>
+
+먼저 service에 @Transactional 선언해줘야 어노테이션방법으로 트렌젝션 처리가가능하다.
+
+```java
+public int insertBoard(Board b){
+		log.info("실행 전 {}", b.getBoardNo());
+	      int result = dao.insertBoard(session, b); // boardNo는 지금 생성됨 -> Attachment에 boardNo FK로 사용중이라 필요함
+	      log.info("실행 후 {}", b.getBoardNo());
+	      if(result > 0) {
+	         if(b.getFile().size() > 0) {
+	            for(Attachment a : b.getFile()) {
+	               a.setBoardNo(b.getBoardNo());
+	               result += dao.insertAttachment(session, a);
+
+  return result;
+```
+
+이런식으로 둘중하나가 실패한다면 바로rollback처리를 해줘서 간단하게 트렌젠셕 처리가 가능해진다.
+
+<br/>
+
+## xml 트렌젠셕
+xml방식으로 트렌젠셕처리를 할려면 간단하게 위에코드는 그대로쓰고 root-context에서 설정만바꿔주며된다.
+
+```xml
+<!-- 2. xml 방식으로 선언하기(선언적 방식) -->
+    <tx:advice id="txadvice" transaction-manager="transactionManager">
+       <tx:attributes>
+          <tx:method name="insert*"/>
+       </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+       <aop:pointcut expression="within(com.bs.spring..*ServiceImpl)" id="transpo"/>
+       <aop:advisor advice-ref="txadvice" pointcut-ref="transpo"/>
+    </aop:config>
+```
 
 
 <br/>
