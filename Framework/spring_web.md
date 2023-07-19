@@ -447,3 +447,134 @@ xml방식으로 트렌젠셕처리를 할려면 간단하게 위에코드는 그
 ## 요청
 - 요청을 할때 지금까지는 $.ajax,$.get,$.post 라는 걸이용했는데
 - javascript 에서 fetch()라는 함수를 지원한다.
+
+<br/>
+
+## json 파싱라이브러리
+
+- json 사용하기전에 파싱을할수있는 라이브러리가존재한다.
+
+![image](https://github.com/inhoru/TIL/assets/126074577/7a1dc65d-e493-4760-aaa0-85437c58b09d)
+
+- porm.xml 에 의존성을 주입해주면 사용이가능하다.
+
+```xml
+json 파싱 라이브러리 등록
+<dependency>
+	<groupId>com.fasterxml.jackson.core</groupId>
+	<artifactId>jackson-databind</artifactId>
+	<version>2.15.2</version>
+</dependency>
+```
+
+<br/>
+
+## ajax요청
+spring에 ajax도 우리가 기존에 쓰던방식이랑 크게다르지않다.
+
+controller에서만 다른점이있다고 생각하면된다.
+
+```html
+const basicAjax=()=>{
+	$.get('${pageContext.request.contextPath}/ajax/basicTest.do',(data)=>{
+		console.log(data)
+		$("#ajaxContainer").html("<h2>"+data+"</h2>");
+	});
+}
+```
+-  기본 ajax처리방식이다.
+
+```java
+@GetMapping("/basicTest.do")
+	public void basic(HttpServletRequest req, HttpServletResponse res) throws IOException, SerialException {
+		Board b = Board.builder().boardTitle("냉무").boardContent("냉무").build();
+		ObjectMapper mapper = new ObjectMapper();
+		res.setContentType("text/csv;charset=utf-8");
+		res.getWriter().write("test");
+		res.setContentType("application/json;charset=utf-8");
+		// json방식으로 변환해 보내준다는뜻
+		res.getWriter().write(mapper.writeValueAsString(b));
+	}
+```
+- ObjectMapper 클래스를 호출해서 사용할수가있다.
+- writeValueAsString메소드를 사용해서 json방식으로 반환해줄수있다.
+
+<br/>
+
+## json받기
+json 으로 반환할수있게 처리하기위해서 메소드위에  @ResponseBody 선언해줘야한다.
+
+```java
+// 리턴값에 반활할 객체를 선언
+// @ResponseBody -> json으로 반환할 수 있게 처리
+@GetMapping("/converter")
+@ResponseBody
+public Board converTest() {
+	return Board.builder().boardTitle("spring좋다").boardContent("하하").build();
+	
+}
+```
+
+![image](https://github.com/inhoru/TIL/assets/126074577/0ee8ea48-c00b-45e4-a12b-a004aec9ce3f)
+
+<br/>
+
+## jsp받아오기
+json으로 jsp자체를 받아올수있다 하지만추천하지않는다 왠만하면 데이터를 받아서 자바스크립트로 데이터를 파싱해서 사용하자
+
+```java
+@GetMapping("/basic2")
+	public String basic2() {
+		return "demo/demo";
+	}
+```
+
+<br/>
+
+## json으로받아서 파싱해서 사용하기
+json객체를 받아서 파싱해서 html로 만들어줄수가있다 권장하는방법이다.
+
+```html
+const selectAll=()=>{
+			$.get("${pageContext.request.contextPath}/ajax/selectAll",data=>{
+				console.log(data);
+				const table=$("<table>");
+				const header=["아이디","이름","나이","성별","이메일","전화번호","주소","취미","가입일"];
+				const tr=$("<tr>");
+				header.forEach(e=>{
+					const th=$("<th>").text(e);
+					tr.append(th);
+				})
+				table.append(tr);
+				data.forEach(e=>{
+					const bodyTr=$("<tr>");
+					const userId=$("<td>").text(e.userId);
+					const name=$("<td>").text(e.userName);
+					const age=$("<td>").text(e.age);
+					const gender=$("<td>").text(e.gender);
+					const email=$("<td>").text(e.email);
+					const phone=$("<td>").text(e.phone);
+					const address=$("<td>").text(e.address);	
+					const hobby=$("<td>").html(e.hobby.toString());
+					const enrollDate=$("<td>").text(new Date(e.enrollDate));
+					bodyTr.append(userId).append(name).append(age)
+					.append(gender).append(email).append(phone).append(address)
+					.append(hobby).append(enrollDate);
+					table.append(bodyTr);
+				});
+				$("#ajaxContainer").html(table);				
+			});
+		}
+```
+
+```java
+@GetMapping("/selectAll")
+	@ResponseBody
+	public List<Member> selectAll() {
+		return service.selectAll();
+	}
+```
+
+<br/>
+
+
