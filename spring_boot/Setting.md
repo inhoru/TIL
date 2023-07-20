@@ -9,11 +9,15 @@
 ## IDE 에서 strater프로젝트를 생성한다.
 
 - 프로젝트 생성
+
+
 ![image](https://github.com/inhoru/TIL/assets/126074577/051c0d75-43dd-4657-a1cb-33b296fcc862)
 
 <br/>
 
 - 프로젝트 설정
+
+
 ![image](https://github.com/inhoru/TIL/assets/126074577/eb63eb06-aa39-4cca-9397-93a08496cafc)
 
 - type : 빌드타입을 뜻한다.
