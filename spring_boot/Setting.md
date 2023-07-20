@@ -1,4 +1,4 @@
-## 🔖 목차
+![image](https://github.com/inhoru/TIL/assets/126074577/d217b792-b995-4fc7-b952-e954e0f7b2f1)## 🔖 목차
 
 
 <br/>
@@ -6,6 +6,14 @@
 # 1. boot프로젝트 생성하는 법
 
 ## spring.io 홈페이지에서 initializer기능을 이용한다 -> zip파일로 받아 import
+- https://start.spring.io/ 사이트에서 다운이가능하다.
+
+![image](https://github.com/inhoru/TIL/assets/126074577/bbcf94cd-f430-4ace-9261-259a8b4bb094)
+
+
+<br/>
+
+
 ## IDE 에서 strater프로젝트를 생성한다.
 
 - 프로젝트 생성
@@ -37,6 +45,15 @@
 
 
 <br/>
+
+
+## application.properties
+- 각종설정할수있는곳
+- ![image](https://github.com/inhoru/TIL/assets/126074577/1f7705c8-0a16-417a-a63a-9d321f397d6f)
+
+
+## boot서버관리
+![image](https://github.com/inhoru/TIL/assets/126074577/0d825f33-1dab-4b21-a027-fb7f38ea0e5f)
 
 
 
