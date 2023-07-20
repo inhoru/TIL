@@ -1,4 +1,4 @@
-## 🔖 목차
+![image](https://github.com/inhoru/TIL/assets/126074577/88364faf-5f10-403c-aec4-fa8995e39bc5)## 🔖 목차
 
 
 <br/>
@@ -10,7 +10,9 @@
 
 ![image](https://github.com/inhoru/TIL/assets/126074577/bbcf94cd-f430-4ace-9261-259a8b4bb094)
 
+<br/>
 
+-
 <br/>
 
 
@@ -31,6 +33,7 @@
 - type : 빌드타입을 뜻한다.
 
 
+
 <br/>
 
 
@@ -42,6 +45,12 @@
 - 사용자의 jdk에따라 버전을 설정해주자
 - Spring boot DevToole : 개발의에 필요한 유용한기능을 넣어둔 라이브러리다
 - 나중에 프로젝트만들떄 필요한 의존성 필요한 라이브러리가필요할떄 체크해서 넣어주면된다.
+
+<br/>
+
+- 자주쓰는 라이브러리
+
+![image](https://github.com/inhoru/TIL/assets/126074577/442c9d62-2635-4d7e-8357-896185471cac)
 
 
 <br/>
