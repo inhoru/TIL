@@ -65,5 +65,27 @@
 ![image](https://github.com/inhoru/TIL/assets/126074577/0d825f33-1dab-4b21-a027-fb7f38ea0e5f)
 
 
+<br/>
 
+## jasper
+- 프론트페이지를 jsp로 연결하려면 추가 의존성 등록을 해줘야한다.
+- tomcat-emded-jasper 모듈등록
+
+![image](https://github.com/inhoru/TIL/assets/126074577/1b0b348e-2dac-4025-9dfe-7c11a86fc4f9)
+
+- 버전은 아무거나상관없다 버전은 안쓸거기때문이다.
+- 의존성등록을 완료했다면 될거같지만 그게끝이아니다.
+
+
+<br/>
+
+## jsp연결을 위한 viewresolver설정하기
+- application.properties 에서 viewresolver에서 설정해줘야한다.
+
+```yml
+spring.mvc.view.prefix=/WEB-INF/views/
+spring.mvc.view.suffix=.jsp
+```
+
+<br/>
 
