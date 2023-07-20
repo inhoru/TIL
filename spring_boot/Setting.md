@@ -10,7 +10,6 @@
 
 ![image](https://github.com/inhoru/TIL/assets/126074577/bbcf94cd-f430-4ace-9261-259a8b4bb094)
 
-![image](https://github.com/inhoru/TIL/assets/126074577/d217b792-b995-4fc7-b952-e954e0f7b2f1)
 
 <br/>
 
