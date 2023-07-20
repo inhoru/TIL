@@ -1,4 +1,4 @@
-![image](https://github.com/inhoru/TIL/assets/126074577/88364faf-5f10-403c-aec4-fa8995e39bc5)## 🔖 목차
+## 🔖 목차
 
 
 <br/>
