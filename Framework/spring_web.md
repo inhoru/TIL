@@ -577,4 +577,44 @@ const selectAll=()=>{
 
 <br/>
 
+## fetch함수
+- javascript에서 fetch함수를 제공해준다. javascript에서 제공하기에 따로 라이브러리를 쓸필요가없다.
+
+- 사용방법
+
+```
+//fetch함수를 제공함. - > 다른라이브러리가 필요가없다.
+//fetch("URL주소",{요청에 대한 옵션})
+//method : 보내는방
+//headers:{} : 헤더에 보낼내용이있다면 이걸로 설정가능 세부적으로 옵션값을 줘서 만들어낼수가있음
+//body: JSON.stringify(객체) 
+// .then(response=>response.json())응답내용파싱,,에러처리 
+// .then(data=>{처리로직})//success함수
+```
+
+
+<br/>
+
+## json으로 데이터보내고 데이터 다시받기
+
+```script
+ fetch("${pageContext.request.contextPath}/ajax/insertData.do",{
+	method:"post",
+	headers:{
+		"Content-type":"application/json" // json으로보내겟다는
+	},body:JSON.stringify(data)//자바에 자바스크립트표현식을 보낼수없으니 변환해서 보내줌
+}).then(response=>{
+	if(!response.ok) new Error(""); 
+	return response.json()}//서버가 json으로 응답했을때
+	//일반 문자로 반환했을때 response.text()
+)
+.then(data=>{
+	console.log(data);
+}).catch(e=>{
+	
+});
+```				 
+
+
+
 
