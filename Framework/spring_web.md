@@ -624,6 +624,21 @@ const selectAll=()=>{
 
 ![image](https://github.com/inhoru/TIL/assets/126074577/9912fb7a-c873-4b6d-92c6-01b1bf0b9aca)
 
+- 의존성등록을 바로해주자
+
+
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-websocket</artifactId>
+    <version>${org.springframework-version}</version>
+</dependency>
+```
+- 버전은 framework버전을 따라서 써주자
+
+
+<br/>
+
 
 
 
