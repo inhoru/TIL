@@ -5,7 +5,7 @@
 
 # 1. boot프로젝트 생성하는 법
 
-
+## spring.io 홈페이지에서 initializer기능을 이용한다 -> zip파일로 받아 import
 ## IDE 에서 strater프로젝트를 생성한다.
 
 - 프로젝트 생성
@@ -41,6 +41,3 @@
 
 
 
-
-
-## spring.io 홈페이지에서 initializer기능을 이용한다 -> zip파일로 받아 import
