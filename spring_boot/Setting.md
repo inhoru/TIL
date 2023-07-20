@@ -82,10 +82,15 @@
 ## jsp연결을 위한 viewresolver설정하기
 - application.properties 에서 viewresolver에서 설정해줘야한다.
 
-```yml
+```
 spring.mvc.view.prefix=/WEB-INF/views/
 spring.mvc.view.suffix=.jsp
 ```
+
+<br/>
+
+## yml
+- yml은 띄어쓰기와  : 을 기준으로
 
 <br/>
 
