@@ -90,7 +90,16 @@ spring.mvc.view.suffix=.jsp
 <br/>
 
 ## yml
-- yml은 띄어쓰기와  : 을 기준으로
+- yml은 개행 , 띄어쓰기와  : 개행 을 기준으로 계층을 구분한다.
+- 불필요한 코드의 반복을 피할수가있다.
+
+![image](https://github.com/inhoru/TIL/assets/126074577/d7d95566-693d-478d-951b-5c489cb22cc2)
+
+
+
+- 왼쪽이 properties 오르쪽이 yml이다.
+- 왼쪽이 한눈에보기도좋고 가독성이좋다
+- 자기가 쓰기편한걸 사용하며된다.
 
 <br/>
 
