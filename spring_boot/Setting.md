@@ -52,6 +52,11 @@
 
 ![image](https://github.com/inhoru/TIL/assets/126074577/442c9d62-2635-4d7e-8357-896185471cac)
 
+- 프로젝트만들때 라이브러리를 설정하지못한게있다면
+- add starters 를눌러서 넣어줄수있다.
+
+![image](https://github.com/inhoru/TIL/assets/126074577/80cffaae-6c03-4868-8cc2-3c267f77f6ee)
+
 
 <br/>
 
