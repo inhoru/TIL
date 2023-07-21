@@ -1,4 +1,12 @@
 ## 🔖 목차
+1. [boot프로젝트 생성하는 법](#1-boot프로젝트-생성하는-법)<br/>
+2. [jasper](#2-jasper)<br/>
+3. [yml](#3-yml)<br/>
+4. [mybatis](#4-mybatis)<br/>
+
+
+
+
 
 
 <br/>
@@ -72,7 +80,7 @@
 
 <br/>
 
-## jasper
+# 2. jasper
 - 프론트페이지를 jsp로 연결하려면 추가 의존성 등록을 해줘야한다.
 - tomcat-emded-jasper 모듈등록
 
@@ -94,7 +102,7 @@ spring.mvc.view.suffix=.jsp
 
 <br/>
 
-## yml
+# 3. yml
 - yml은 개행 , 띄어쓰기와  : 개행 을 기준으로 계층을 구분한다.
 - 불필요한 코드의 반복을 피할수가있다.
 
@@ -107,4 +115,71 @@ spring.mvc.view.suffix=.jsp
 - 자기가 쓰기편한걸 사용하며된다.
 
 <br/>
+
+# 4. mybatis
+- spring에서 mybatis를 사용할려면 라이브러리를 pom.xml에 의존성등록을해줘야하지만
+- spring에서 제공하기때문에 위에서 프로젝트만들때 설정을해줫다면 의존성등록이되어있다.
+- 따라 설정만해주면된다.
+
+<br/>
+
+## mybatis설정
+- application.yml 에 먼mappers와 config를 설정해주자
+
+```
+#mybatis설정하기
+mybatis: 
+  mapper-locations: classpath:/mappers/**/*.xml
+  config-location: classpath:/config/mybatis-config.xml
+```
+
+<br/>
+
+- 설정을 마쳣다면 resources밑에 mppaers-xml과 config.xml 을만들어서 사용해주자
+
+
+<br/>
+
+- mybatis-config.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	
+	<typeAliases>
+		<typeAlias type="com.bs.hello.boot.dto.MemberDto" alias="memberDto"/>
+	</typeAliases>
+
+
+</configuration>
+
+ ```
+<br/>
+
+- mapper.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="member">
+
+	<select id="selectMemberAll" resultType="memberDto">
+		SELECT * FROM MEMBER
+	</select>
+</mapper>
+```
+
+<br/>
+
+![image](https://github.com/inhoru/TIL/assets/126074577/1f9172bc-453e-4775-8e55-fc66c5457ddb)
+
+<br/>
+
+
+
+ 
+
+
+
 
