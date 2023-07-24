@@ -40,7 +40,26 @@
 <br/>
 
 ## configuration.xml 설정
-- 인증관 권한처리에대한 설정을해준다.
-- 
+- security모듈로 클라이언트 인증처리하는 설정
 
+
+```xml
+<!--auto-config="true" : 자동으로 설정해주는 속성  -->
+<security:http auto-config="true">
+
+//로그인관련태그
+
+</security:http>	
+```
+- security:http 태그안에서 인증처리할 서비스를 등록 하면된다.
+
+<br/>
+
+## 로그인 인증처리 서비스
+
+- id, password를 입력받아서 DB나 저장소에 등록한것과 일치여부확인 session에 저장
+- security 이 위임받음 로그인에대한 처리는 security가알아서 처리해준다.
+- ecurity : form login태그를 이용한다. (login 로직을 만들지않아도된다.)
+- 속성을 이용해서 설정을해준다.
+		
 
