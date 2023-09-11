@@ -20,7 +20,13 @@
 
 <br/>
 
--
+![image](https://github.com/inhoru/TIL/assets/126074577/6a817435-1f79-486f-bbeb-bf2b9efaf297)
+
+- project 는 Gradle 를 많이 사용하는 추세이다.
+- Group 는 그룹이름 회사명같은걸 쓴다.
+
+
+
 <br/>
 
 
