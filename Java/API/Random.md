@@ -4,7 +4,7 @@
 <br/>
 
 # 1. Randoms
- - Random, Scanner API 대신 camp.nextstep.edu.missionutils에서 제공하는 Randoms 을활용해서 랜덤값을 가져온는 api다
+ - Random API 대신 camp.nextstep.edu.missionutils에서 제공하는 Randoms 을활용해서 랜덤값을 가져온는 api다
  - Random 값 추출은 camp.nextstep.edu.missionutils.Randoms의 pickNumberInRange()를 활용한다.
 
 <br/>
