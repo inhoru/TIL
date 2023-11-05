@@ -1,7 +1,3 @@
-## AssertJ 
-
-   
-<br/>
 
 
 # 1. assertj
