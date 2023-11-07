@@ -68,6 +68,8 @@ public class SomeTest{
 
 - @AfterClass 메소드 : static 메소드이며, 모든 테스트 메소드가 생행되고 난 후에 한번 실행하는 메소드
 
+- @DisplayName 메소드: 클래스, 메소드에 사용 가능, 테스트의 이름을 텍스트로 설정
+
 <br/>
 
 ## 반복테스트 어노테이션
@@ -114,3 +116,9 @@ public class AnotherTest{
         }
 }
 ```
+
+<br/>
+
+
+
+
