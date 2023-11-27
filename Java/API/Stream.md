@@ -1,4 +1,4 @@
-## stream
+<img width="644" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/367462f8-d85d-432d-8765-5e5f261a0abe">## stream
 
 <br/>
 
@@ -36,7 +36,7 @@
 
 
 ## 필터링
-- <code>filter()</code>,'''distinct()'''
+- <code>filter()</code>,<code>distinct()</code>
 <img width="628" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/de157bf1-5aea-4e53-b5a7-f0d1fe83be7a">
 
 
@@ -44,7 +44,95 @@
 
 ## 변환
 
-- Map(),flatMap()
+- <code>Map()</code>,<code>flatMap()</code>
+
+<img width="639" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/367d4736-2672-4fa1-a98b-4c9f2ab5706e">
+
+
+
+<br/>
+
+## 제한
+- <code>limit()</code>,<code>skip()</code>
+
+
+<img width="644" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/37fd4a9c-f016-4b23-b5ab-bb2682cd0336">
+
+
+<br/>
+
+## 정렬
+- <code>sorted()</code>
+
+<img width="639" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/947abd31-692e-409d-bd77-c624cbc53288">
+
+
+<br/>
+
+
+# 3. 최종연산
+- 최종연산은 앞서 중개 연산을 통해 만들어진 stream에있는 요소들에 대해 마지막으로 각 요소를 소모하며 최종 결과를 표시한다.
+- 이렇게 최종연산시에 모든 요소를 소모한 해당 stream은 더이상사용할수없다.
+
+<img width="683" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/431ec6d2-c964-4e9e-9785-4b03e09046d4">
+
+<br/>
+
+
+## 출력
+
+- <code>forEach()</code>
+
+<img width="393" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/e2f5e4f6-1071-4e73-a0bc-554ef890e8ab">
+
+<br/>
+
+## 소모
+
+- <code>reduce()</code>
+<img width="462" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/cbb3102c-04a6-48c1-8a6f-b00c23b81ece">
+
+</br>
+
+## 검색
+
+- <code>findFirst()</code>,<code>findAny()</code>
+
+<img width="647" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/5a8fb8b7-ec3c-4da7-8de8-dee5bd9b77d3">
+
+<br/>
+
+## 통계
+
+- <code>count()</code>,<code>min()</code>,<code>max()</code>
+
+<img width="461" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/3bd4c0cc-1d5c-42d8-ab27-1a0b77166e17">
+
+<br/>
+
+## 연산
+
+- <code>sum()</code>,<code>average()</code>
+
+<img width="516" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/901ee5cb-49f1-4307-bff2-1bfae418130d">
+
+<br/>
+
+## 수집
+
+- <code>collect()</code>
+
+<img width="639" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/3041a4f7-f26d-48fc-9c5d-e45dfd383423">
+
+
+
+<br/>
+
+
+
+
+
+
 
 
 
