@@ -36,7 +36,7 @@
 
 
 ## 필터링
-- '''filter()''','''distinct()'''
+- <code>filter()</code>,'''distinct()'''
 <img width="628" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/de157bf1-5aea-4e53-b5a7-f0d1fe83be7a">
 
 
