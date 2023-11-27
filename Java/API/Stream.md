@@ -1,6 +1,3 @@
-<img width="644" alt="image" src="https://github.com/inhoru/TIL/assets/126074577/367462f8-d85d-432d-8765-5e5f261a0abe">## stream
-
-<br/>
 
 > 스트림(Stream)은 자바 8 API에 새로 추가된 기능이다. 스트림을 이용하면 선언형(더 간결하고 가독성이 좋도록)으로 컬렉션 데이터를 처리할 수 있다.
 > 
