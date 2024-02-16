@@ -1,0 +1,36 @@
+## 특정 문자로 시작하거나 끝나는지 확인하기
+
+<br/>
+
+## startsWith()
+
+boolean startsWith(String prefix)
+
+- startsWith() 함수는 대상 문자열이 특정 문자 또는 문자열로 시작하는지 체크하는 함수이다.
+- 해당 문자열로 시작되는지 여부를 확인하고 boolean에 맞춰 true/false 값을 리턴한다.
+
+
+<br/>
+
+## endsWith()
+
+boolean endsWith(String suffix)
+
+- endsWith() 함수는 대상 문자열이 특정 문자 또는 문자열로 끝나는지 체크하는 함수이다.
+- 해당 문자열로 끝나는 여부를 확인하고 boolean에 맞춰 true/false 값을 리턴한다.
+
+
+```java
+public class EndsWithTest{
+    public static void main(String[] args){
+
+        String endsWithT = "자바 코딩 테스트 ";
+        System.out.println( endsWithT.endsWith("테스트") );  // false
+        System.out.println( endsWithT.endsWith("테스트 ") );// true
+        System.out.println( endsWithT.endsWith("트 ") );// true
+        System.out.println( endsWithT.endsWith(" 테") );// false
+
+    }
+}
+
+```
